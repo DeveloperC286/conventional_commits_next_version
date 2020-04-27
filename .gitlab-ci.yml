@@ -1,0 +1,45 @@
+image: archlinux/base
+
+
+stages:
+    - format
+    - builds
+    - tests
+
+
+rust-monkey-interpreter-format:
+    stage: format
+    before_script:
+        - pacman -Sy --noconfirm
+        - pacman -S rust diffutils gawk grep --noconfirm
+    script:
+        - for i in $( du -a ./src/ | awk '{print $2}' | grep -i "[.]rs$" ); do
+        - echo $i
+        - cp $i temp.txt
+        - rustfmt $i
+        - cmp $i temp.txt
+        - done
+    only:
+        - branches
+
+
+rust-monkey-interpreter-build:
+    stage: builds
+    before_script:
+        - pacman -Sy --noconfirm
+        - pacman -S base-devel libffi rust --noconfirm
+    script:
+        - cargo build
+    only:
+        - branches
+
+
+rust-monkey-interpreter-tests:
+    stage: tests
+    before_script:
+        - pacman -Sy --noconfirm
+        - pacman -S base-devel libffi rust --noconfirm
+    script:
+        - cargo test
+    only:
+        - branches
