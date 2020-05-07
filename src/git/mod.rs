@@ -22,6 +22,7 @@ pub fn get_commit_messages_from(from_commit_hash: &str) -> Vec<String> {
         }
     }
 
+    commit_messages.reverse();
     return commit_messages;
 }
 
