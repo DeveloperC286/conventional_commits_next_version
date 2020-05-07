@@ -12,7 +12,7 @@ def clone_remote_repository(context, remote_repository):
 
     context.temporary_directory = TemporaryDirectory()
     os.chdir(context.temporary_directory.name)
-    clone_command = "git clone "+remote_repository+" ."
+    clone_command = "git clone " + remote_repository + " ."
     execute_command(clone_command)
 
     os.chdir(current_directory)
@@ -23,7 +23,7 @@ def checkout_commit(context, commit_hash):
     current_directory = os.getcwd()
 
     os.chdir(context.temporary_directory.name)
-    checkout_command = "git checkout "+commit_hash
+    checkout_command = "git checkout " + commit_hash
     execute_command(checkout_command)
 
     os.chdir(current_directory)

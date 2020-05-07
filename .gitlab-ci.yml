@@ -9,7 +9,7 @@ stages:
     - tagging
 
 
-formatting:
+conventional-commits-next-version-formatting:
     stage: formatting
     before_script:
         - pacman -Sy --noconfirm
@@ -19,6 +19,22 @@ formatting:
         - echo $i
         - cp $i temp.txt
         - rustfmt $i
+        - cmp $i temp.txt
+        - done
+    only:
+        - branches
+
+
+end-to-end-tests-formatting:
+    stage: formatting
+    before_script:
+        - pacman -Sy --noconfirm
+        - pacman -S python autopep8 --noconfirm
+    script:
+        - for i in $( du -a ./end-to-end-tests/ | awk '{print $2}' | grep -i "[.]py$" ); do
+        - echo $i
+        - cp $i temp.txt
+        - autopep8 --in-place --aggressive --aggressive $i
         - cmp $i temp.txt
         - done
     only:
