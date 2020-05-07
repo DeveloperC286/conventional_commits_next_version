@@ -2,13 +2,14 @@ image: archlinux/base
 
 
 stages:
-    - format
+    - formatting
     - builds
-    - tests
+    - unit-tests
+    - end-to-end-tests
 
 
-rust-monkey-interpreter-format:
-    stage: format
+formatting:
+    stage: formatting
     before_script:
         - pacman -Sy --noconfirm
         - pacman -S rust diffutils gawk grep --noconfirm
@@ -23,7 +24,7 @@ rust-monkey-interpreter-format:
         - branches
 
 
-rust-monkey-interpreter-build:
+builds:
     stage: builds
     before_script:
         - pacman -Sy --noconfirm
@@ -34,12 +35,27 @@ rust-monkey-interpreter-build:
         - branches
 
 
-rust-monkey-interpreter-tests:
-    stage: tests
+unit-tests:
+    stage: unit-tests
     before_script:
         - pacman -Sy --noconfirm
         - pacman -S base-devel libffi rust --noconfirm
     script:
         - cargo test
+    only:
+        - branches
+
+
+end-to-end-tests:
+    stage: end-to-end-tests
+    before_script:
+        - pacman -Sy --noconfirm
+        - pacman -S base-devel libffi rust --noconfirm
+        - cargo build --release
+        - pacman -S git python python-pip --noconfirm
+        - cd end-to-end-tests/
+        - pip install -r requirements.txt
+    script:
+        - behave
     only:
         - branches
