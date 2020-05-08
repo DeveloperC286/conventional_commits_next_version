@@ -21,8 +21,8 @@ conventional-commits-next-version-formatting:
         - rustfmt $i
         - cmp $i temp.txt
         - done
-    only:
-        - branches
+    rules:
+        - if: $CI_COMMIT_BRANCH
 
 
 end-to-end-tests-formatting:
@@ -37,8 +37,8 @@ end-to-end-tests-formatting:
         - autopep8 --in-place --aggressive --aggressive $i
         - cmp $i temp.txt
         - done
-    only:
-        - branches
+    rules:
+        - if: $CI_COMMIT_BRANCH
 
 
 builds:
@@ -48,8 +48,8 @@ builds:
         - pacman -S base-devel libffi rust --noconfirm
     script:
         - cargo build
-    only:
-        - branches
+    rules:
+        - if: $CI_COMMIT_BRANCH
 
 
 unit-tests:
@@ -59,8 +59,8 @@ unit-tests:
         - pacman -S base-devel libffi rust --noconfirm
     script:
         - cargo test
-    only:
-        - branches
+    rules:
+        - if: $CI_COMMIT_BRANCH
 
 
 end-to-end-tests:
@@ -74,8 +74,8 @@ end-to-end-tests:
         - pip install -r requirements.txt
     script:
         - behave
-    only:
-        - branches
+    rules:
+        - if: $CI_COMMIT_BRANCH
 
 
 tagging:
@@ -102,5 +102,5 @@ tagging:
         - git remote add gitlab git@gitlab.com:DeveloperC/rust-monkey-interpreter.git
         - git tag $VERSION
         - git push gitlab $VERSION
-    only:
-        - master
+    rules:
+        - if: $CI_COMMIT_BRANCH == "master"
