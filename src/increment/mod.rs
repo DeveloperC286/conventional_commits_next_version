@@ -17,7 +17,7 @@ pub fn get_next_version_from_commits(
     for (_i, commit_message) in commit_messages.iter().enumerate() {
         if MAJOR_INCREMENT_REGEX.is_match(commit_message) {
             trace!(
-                "Incrementing major version because of commit '{}'.",
+                "Incrementing major version because of commit {:?}.",
                 commit_message
             );
             semantic_version.increment_major();
@@ -25,7 +25,7 @@ pub fn get_next_version_from_commits(
 
         if MINOR_INCREMENT_REGEX.is_match(commit_message) {
             trace!(
-                "Incrementing minor version because of commit '{}'.",
+                "Incrementing minor version because of commit {:?}.",
                 commit_message
             );
             semantic_version.increment_minor();
@@ -33,7 +33,7 @@ pub fn get_next_version_from_commits(
 
         if PATCH_INCREMENT_REGEX.is_match(commit_message) {
             trace!(
-                "Incrementing patch version because of commit '{}'.",
+                "Incrementing patch version because of commit {:?}.",
                 commit_message
             );
             semantic_version.increment_patch();

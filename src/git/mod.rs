@@ -12,7 +12,11 @@ pub fn get_commit_messages_from(from_commit_hash: &str) -> Vec<String> {
                 let commit_message_optional = get_commit_message(&repository, oid);
                 match commit_message_optional {
                     Some(commit_message) => {
-                        trace!("Found the commit '{}'.", commit_message);
+                        trace!(
+                            "For the commit id '{}' found the message {:?}.",
+                            oid,
+                            commit_message
+                        );
                         commit_messages.push(commit_message);
                     }
                     None => {
