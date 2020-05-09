@@ -11,7 +11,7 @@ from behave import *
 def execute_conventional_commits_next_version(context, commit_hash, version):
     current_directory = os.getcwd()
     conventional_commits_next_version_path = current_directory + \
-        "/../target/release/conventional_commits_next_version"
+        "/../target/debug/conventional_commits_next_version"
 
     conventional_commits_next_version_command = conventional_commits_next_version_path + \
         " --from-commit " + commit_hash + " --version " + version

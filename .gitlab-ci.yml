@@ -48,10 +48,11 @@ builds:
         - pacman -Sy --noconfirm
         - pacman -S base-devel libffi rust --noconfirm
     script:
-        - cargo build --release
+        - cargo build
     artifacts:
+        expire_in: 1 hrs
         paths:
-            - target/release/conventional_commits_next_version
+            - target/debug/conventional_commits_next_version
     rules:
         - if: $CI_COMMIT_BRANCH
 
