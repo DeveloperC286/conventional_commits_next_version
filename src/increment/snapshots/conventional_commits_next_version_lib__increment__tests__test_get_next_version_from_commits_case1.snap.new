@@ -1,5 +1,0 @@
----
-source: src/increment/tests.rs
-expression: returned_next_version.to_string()
----
-"1.0.0"
