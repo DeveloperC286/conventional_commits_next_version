@@ -27,3 +27,8 @@ Scenario: Non fix/feat conventional commit do not change the semantic version.
   Then the returned version should be "1.0.3".
 
 
+Scenario: One breaking change conventional commit increments major semantic version.
+  Given I clone the repository "https://github.com/yargs/yargs.git".
+  Given I checkout the commit "b9409da199ebca515a848489c206b807fab2e65d".
+  When I call conventional-commits-next-version with the from commit "6e4bc2aa0a6c5560928296f18e008a15b2aaf335" and version "1.1.3".
+  Then the returned version should be "2.0.0".
