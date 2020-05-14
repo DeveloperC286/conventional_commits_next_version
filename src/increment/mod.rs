@@ -3,6 +3,14 @@ use semver::Version;
 
 pub fn get_next_version_from_commits(
     commit_messages: Vec<String>,
+    semantic_version: Version,
+    batch_commits: bool,
+) -> Version {
+    return get_next_version_from_commits_consecutive(commit_messages, semantic_version);
+}
+
+fn get_next_version_from_commits_consecutive(
+    commit_messages: Vec<String>,
     mut semantic_version: Version,
 ) -> Version {
     lazy_static! {

@@ -10,12 +10,17 @@ extern crate regex;
 mod git;
 mod increment;
 
-pub fn get_next_version(from_commit: &str, version: &str) -> String {
+pub fn get_next_version(from_commit: &str, version: &str, batch_commits: bool) -> String {
     pretty_env_logger::init();
     let semantic_version = parse_semantic_version(version);
     let commit_messages = git::get_commit_messages_from(from_commit);
 
-    return increment::get_next_version_from_commits(commit_messages, semantic_version).to_string();
+    return increment::get_next_version_from_commits(
+        commit_messages,
+        semantic_version,
+        batch_commits,
+    )
+    .to_string();
 }
 
 fn parse_semantic_version(version: &str) -> Version {

@@ -73,7 +73,7 @@ dependencies = [
 
 [[package]]
 name = "conventional-commits-next-version"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "git2",
  "lazy_static",
