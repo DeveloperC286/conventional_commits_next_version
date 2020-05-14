@@ -1,4 +1,4 @@
-use conventional_commits_next_version_lib::get_next_version;
+use conventional_commits_next_version::get_next_version;
 use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
