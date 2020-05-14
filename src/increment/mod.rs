@@ -6,7 +6,52 @@ pub fn get_next_version_from_commits(
     semantic_version: Version,
     batch_commits: bool,
 ) -> Version {
-    return get_next_version_from_commits_consecutive(commit_messages, semantic_version);
+    if batch_commits {
+        return get_next_version_from_commits_batch(commit_messages, semantic_version);
+    } else {
+        return get_next_version_from_commits_consecutive(commit_messages, semantic_version);
+    }
+}
+
+fn get_next_version_from_commits_batch(
+    commit_messages: Vec<String>,
+    mut semantic_version: Version,
+) -> Version {
+    let mut major_commits_count = 0;
+    let mut minor_commits_count = 0;
+    let mut patch_commits_count = 0;
+
+    for (_i, commit_message) in commit_messages.iter().enumerate() {
+        if is_major_increment(commit_message) {
+            trace!(
+                "Incrementing major commits count because of commit {:?}.",
+                commit_message
+            );
+            major_commits_count += 1;
+        } else if is_minor_increment(commit_message) {
+            trace!(
+                "Incrementing minor commits count because of commit {:?}.",
+                commit_message
+            );
+            minor_commits_count += 1;
+        } else if is_patch_increment(commit_message) {
+            trace!(
+                "Incrementing patch commits count because of commit {:?}.",
+                commit_message
+            );
+            patch_commits_count += 1;
+        }
+    }
+
+    if major_commits_count > 0 {
+        semantic_version.increment_major();
+    } else if minor_commits_count > 0 {
+        semantic_version.increment_minor();
+    } else if patch_commits_count > 0 {
+        semantic_version.increment_patch();
+    }
+
+    return semantic_version;
 }
 
 fn get_next_version_from_commits_consecutive(
