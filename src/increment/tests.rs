@@ -94,7 +94,7 @@ fn test_is_patch_increment(commit_message: &str, expected: bool) {
         "4.0.0"
     ),
 )]
-fn test_get_next_version_from_commits_consecutive(
+fn get_next_version_from_commits_consecutive(
     commit_messages: Vec<String>,
     semantic_version: &str,
     expected_next_version: &str,
@@ -104,6 +104,63 @@ fn test_get_next_version_from_commits_consecutive(
         commit_messages,
         Version::parse(semantic_version).unwrap(),
         false,
+    )
+    .to_string();
+
+    //then
+    assert_eq!(expected_next_version, returned_next_version);
+}
+
+#[rstest(
+    commit_messages,
+    semantic_version,
+    expected_next_version,
+    case(
+        vec![
+            "fix(docs): update boolean description and examples in docs (#1474)\n\n".to_string(),
+            "feat: expose `Parser` from `require('yargs/yargs')` (#1477)\n\n".to_string(),
+            "fix: temporary fix for libraries that call Object.freeze() (#1483) \n\n".to_string(),
+            "fix: getCompletion() was not working for options (#1495)".to_string(),
+        ],
+        "3.1.7",
+        "3.2.0"
+    ),
+    case(
+        vec![
+            "feat(deps): introduce yargs-parser with support for unknown-options-as-args (#1440)\n\n".to_string(),
+            "fix: groups were not being maintained for nested commands (#1430)\n\n".to_string(),
+            "docs: update supported locales (#1425)".to_string(),
+            "fix: async middleware was called twice (#1422)\n\n".to_string(),
+            "chore: Minor refactor (#1396)".to_string(),
+            "fix: support merging deeply nested configuration (#1423)".to_string(),
+            "eat(deps): yargs-parser with support for collect-unknown-options (#1421)\n\n".to_string(),
+        ],
+        "17.1.3",
+        "17.2.0"
+    ),
+    case(
+        vec![
+            "docs: update supported locales (#1425)".to_string(),
+            "fix: support merging deeply nested configuration (#1423)".to_string(),
+            "feat(deps)!: yargs-parser now throws on invalid combinations of config (#1470)\n\n".to_string(),
+            "fix: groups were not being maintained for nested commands (#1430)\n\n".to_string(),
+            "feat: expose `Parser` from `require('yargs/yargs')` (#1477)\n\n".to_string(),
+            "feat(deps): introduce yargs-parser with support for unknown-options-as-args (#1440)\n\n".to_string(),
+        ],
+        "3.1.4",
+        "4.0.0"
+    ),
+)]
+fn get_next_version_from_commits_batch(
+    commit_messages: Vec<String>,
+    semantic_version: &str,
+    expected_next_version: &str,
+) {
+    //when
+    let returned_next_version = get_next_version_from_commits(
+        commit_messages,
+        Version::parse(semantic_version).unwrap(),
+        true,
     )
     .to_string();
 
