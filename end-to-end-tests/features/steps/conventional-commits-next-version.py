@@ -29,7 +29,7 @@ def execute_conventional_commits_next_version(context, commit_hash, version, bat
         conventional_commits_next_version_command += " --batch-commits "
 
     os.chdir(context.temporary_directory.name)
-    context.returned = execute_command(
+    context.returned_version = execute_command(
         conventional_commits_next_version_command)
 
     os.chdir(current_directory)
@@ -38,5 +38,5 @@ def execute_conventional_commits_next_version(context, commit_hash, version, bat
 
 @then('the returned version should be "{expected_version}".')
 def compare_returned_and_expected_versions(context, expected_version):
-    print(context.returned + " == " + expected_version)
-    assert context.returned == expected_version
+    print(context.returned_version + " == " + expected_version)
+    assert context.returned_version == expected_version
