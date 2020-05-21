@@ -3,6 +3,7 @@ image: archlinux/base
 
 stages:
     - formatting
+    - merge-request-conventional-commits-linting
     - merge-request-conventional-commits-next-version
     - builds
     - unit-tests
@@ -28,28 +29,6 @@ conventional-commits-next-version-formatting:
         - if: $CI_COMMIT_BRANCH == "master"
 
 
-merge-request-conventional-commits-next-version:
-    stage: merge-request-conventional-commits-next-version
-    before_script:
-        - pacman -Syu --noconfirm
-        - pacman -S diffutils unzip nettle wget git --noconfirm
-    script:
-        # Get latest tag commit hash.
-        - VERSION=`grep '^version = "[0-9].[0-9].[0-9]"$' Cargo.toml | cut -d '"' -f 2`
-        - LATEST_TAG=`git tag -l | sort -r | head -1`
-        - LATEST_TAG_HASH=`git rev-parse $LATEST_TAG`
-        # Download conventional-commits-next-version tag 0.4.0
-        - wget https://gitlab.com/DeveloperC/conventional-commits-next-version/-/jobs/artifacts/0.4.0/download?job=building-release
-        - unzip download\?job=building-release
-        # Compare current version vs expected.
-        - EXPECTED_VERSION=`./conventional_commits_next_version --batch-commits --from-commit $LATEST_TAG_HASH --version $LATEST_TAG`
-        - echo $VERSION
-        - echo $EXPECTED_VERSION
-        - test \"$VERSION\" = \"$EXPECTED_VERSION\"
-    rules:
-        - if: $CI_MERGE_REQUEST_ID
-
-
 end-to-end-tests-formatting:
     stage: formatting
     before_script:
@@ -65,6 +44,42 @@ end-to-end-tests-formatting:
     rules:
         - if: $CI_MERGE_REQUEST_ID
         - if: $CI_COMMIT_BRANCH == "master"
+
+
+
+merge-request-conventional-commits-linting:
+    stage: merge-request-conventional-commits-linting
+    image: node
+    before_script:
+        - npm install -g @commitlint/cli @commitlint/config-conventional
+    script:
+        # Get latest tag commit hash.
+        - LATEST_TAG=`git tag -l | sort -r | head -1`
+        - LATEST_TAG_HASH=`git rev-parse $LATEST_TAG`
+        # Lint all the commits in the PR.
+        - commitlint --from=$LATEST_TAG_HASH
+    rules:
+        - if: $CI_MERGE_REQUEST_ID
+
+
+merge-request-conventional-commits-next-version:
+    stage: merge-request-conventional-commits-next-version
+    before_script:
+        - pacman -Syu --noconfirm
+        - pacman -S diffutils unzip nettle wget git --noconfirm
+    script:
+        # Get latest tag commit hash.
+        - VERSION=`grep '^version = "[0-9].[0-9].[0-9]"$' Cargo.toml | cut -d '"' -f 2`
+        - LATEST_TAG=`git tag -l | sort -r | head -1`
+        - LATEST_TAG_HASH=`git rev-parse $LATEST_TAG`
+        # Download conventional-commits-next-version tag 0.4.0
+        - wget https://gitlab.com/DeveloperC/conventional-commits-next-version/-/jobs/artifacts/0.4.0/download?job=building-release
+        - unzip download\?job=building-release
+        # Compare current version vs expected.
+        - EXPECTED_VERSION=`./conventional_commits_next_version --batch-commits --from-commit $LATEST_TAG_HASH --version $LATEST_TAG`
+        - test \"$VERSION\" = \"$EXPECTED_VERSION\"
+    rules:
+        - if: $CI_MERGE_REQUEST_ID
 
 
 builds:
@@ -120,11 +135,11 @@ releasing:
         - VERSION_TAG_EXISTS=`git show-ref --tags -d | awk "/ refs\/tags\/$VERSION/" | wc -l`
         - test $VERSION_TAG_EXISTS -eq 1 && exit 0
         # Creating changelog.
-        - LATEST_EXISTING_TAG=`git tag -l | sort -r | head -1`
-        - LATEST_EXISTING_TAG_COMMIT=`git rev-list -n 1 $LATEST_EXISTING_TAG`
+        - LATEST_TAG=`git tag -l | sort -r | head -1`
+        - LATEST_TAG_HASH=`git rev-parse $LATEST_TAG`
         - wget https://github.com/clog-tool/clog-cli/releases/download/v0.9.3/clog-v0.9.3-x86_64-unknown-linux-musl.tar.gz
         - tar xvf clog-v0.9.3-x86_64-unknown-linux-musl.tar.gz
-        - RELEASE_DESCRIPTION=`./clog --from $LATEST_EXISTING_TAG_COMMIT --link-style Gitlab --subtitle $VERSION | tail -n +2`
+        - RELEASE_DESCRIPTION=`./clog --from $LATEST_TAG_HASH --link-style Gitlab --subtitle $VERSION | tail -n +2`
         # Create release/new tag.
         - release-cli create --name $VERSION --description "$RELEASE_DESCRIPTION" --tag-name $VERSION --ref $CI_COMMIT_SHA
     rules:
