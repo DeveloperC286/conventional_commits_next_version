@@ -73,7 +73,7 @@ merge-request-conventional-commits-next-version:
         - LATEST_TAG=`git tag -l | sort -r | head -1`
         - LATEST_TAG_HASH=`git rev-parse $LATEST_TAG`
         # Download conventional-commits-next-version tag 0.4.0
-        - wget https://gitlab.com/DeveloperC/conventional-commits-next-version/-/jobs/artifacts/0.4.0/download?job=building-release
+        - wget https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/artifacts/0.4.0/download?job=building-release
         - unzip download\?job=building-release
         # Compare current version vs expected.
         - EXPECTED_VERSION=`./conventional_commits_next_version --batch-commits --from-commit $LATEST_TAG_HASH --version $LATEST_TAG`
