@@ -3,6 +3,16 @@ name = "conventional_commits_next_version"
 version = "1.0.0"
 authors = ["C <DeveloperC@protonmail.com>"]
 edition = "2018"
+license = "GPL-3.0"
+repository = "https://gitlab.com/DeveloperC/conventional_commits_next_version"
+readme = "README.md"
+keywords = ["git", "conventional-commit", "commit", "conventional"]
+categories = ["command-line-utilities"]
+
+
+[badges]
+gitlab = { repository = "https://gitlab.com/DeveloperC/conventional_commits_next_version", branch = "master" }
+
 
 [dependencies]
 git2 = "0.13.6"
@@ -12,6 +22,7 @@ pretty_env_logger = "0.4.0"
 semver = "0.10.0"
 regex = "1.3.9"
 lazy_static = "1.4.0"
+
 
 [dev-dependencies]
 rstest = "0.6.3"
