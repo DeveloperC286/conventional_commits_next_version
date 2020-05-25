@@ -84,9 +84,7 @@ merge-request-conventional-commits-next-version:
 
 builds:
     stage: builds
-    before_script:
-        - pacman -Sy --noconfirm
-        - pacman -S base-devel libffi rust --noconfirm
+    image: rust
     script:
         - cargo build
     artifacts:
@@ -98,11 +96,20 @@ builds:
         - if: $CI_COMMIT_BRANCH == "master"
 
 
+builds-nightly:
+    stage: builds
+    image: rustlang/rust:nightly
+    script:
+        - cargo build
+    rules:
+        - if: $CI_MERGE_REQUEST_ID
+        - if: $CI_COMMIT_BRANCH == "master"
+    allow_failure: true
+
+
 unit-tests:
     stage: unit-tests
-    before_script:
-        - pacman -Sy --noconfirm
-        - pacman -S base-devel libffi rust --noconfirm
+    image: rust
     script:
         - cargo test
     rules:
@@ -148,9 +155,7 @@ releasing:
 
 building-release:
     stage: building-release
-    before_script:
-        - pacman -Sy --noconfirm
-        - pacman -S base-devel libffi rust --noconfirm
+    image: rust
     script:
         - cargo build --release
         - mv target/release/conventional_commits_next_version conventional_commits_next_version
