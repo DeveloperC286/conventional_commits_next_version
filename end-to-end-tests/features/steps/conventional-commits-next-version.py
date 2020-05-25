@@ -17,6 +17,7 @@ def execute_conventional_commits_next_version(context, commit_hash, version):
 def execute_batch_conventional_commits_next_version(context, commit_hash, version):
     execute_conventional_commits_next_version(context, commit_hash, version, True)
 
+
 def execute_conventional_commits_next_version(context, commit_hash, version, batch_commits):
     current_directory = os.getcwd()
     conventional_commits_next_version_path = current_directory + \
@@ -33,7 +34,6 @@ def execute_conventional_commits_next_version(context, commit_hash, version, bat
         conventional_commits_next_version_command)
 
     os.chdir(current_directory)
-
 
 
 @then('the returned version should be "{expected_version}".')

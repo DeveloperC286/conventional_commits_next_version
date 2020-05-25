@@ -7,7 +7,10 @@ def execute_command(command):
         shell=True,
         stdin=PIPE,
         stdout=PIPE,
-        stderr=STDOUT,
-        close_fds=True)
+        stderr=STDOUT)
     process.wait()
-    return process.stdout.read().decode('utf-8')
+
+    if process.returncode != 0:
+        raise RuntimeError('The command "'+command+'" failed.')
+    else:
+        return process.stdout.read().decode('utf-8')
