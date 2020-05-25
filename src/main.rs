@@ -13,28 +13,28 @@ mod increment;
 
 #[derive(Debug, StructOpt)]
 #[structopt(
-    name = "conventional-commits-next-version",
-    about = "A Rust utility to get the next semantic version based upon the current version supplied and the Git history in the conventional commit format."
+    name = "conventional_commits_next_version",
+    about = "conventional_commits_next_version is a utility to calculate the next Semantic Versioning 2.0.0 (https://semver.org/spec/v2.0.0.html) based upon the supplied version and the Git commit history in the Conventional Commits v1.0.0 format (https://www.conventionalcommits.org/en/v1.0.0/)."
 )]
 struct Args {
     #[structopt(
         long = "from-commit-hash",
-        help = "The commit hash from where to use the Git commit messages to calculate the next version."
+        help = "The Git commit hash in the current working directory from till HEAD to use to calculate the expected next Semantic versioning."
     )]
     from_commit_hash: String,
     #[structopt(
         long = "from-version",
-        help = "The semantic versioning at the commit hash provided by the --from-commit-hash arguement."
+        help = "The Semantic versioning at the Git commit hash provided by the --from-commit-hash argument."
     )]
     from_version: Version,
     #[structopt(
         long = "batch-commits",
-        help = "The commits between HEAD and from-commit are batched together, only incrementing the semantic version by the biggest increase."
+        help = "If the flag is set only the single largest incrementing determined by the Git commit history of the Semantic Versioning is applied i.e. with one feature commit and one fix commit only the minor Semantic Versioning is increased."
     )]
     batch_commits: bool,
     #[structopt(
         long = "current-version",
-        help = "Instead of printing the expected semantic versioning, the current semantic versioning provided is compared to ensure it is equal or larger. If it does not meet this assertion the utility exits with a non zero returncode."
+        help = "The Semantic Versioning at HEAD to assert it is equal to or larger than the calculated next Semantic Versioning. The calculated Semantic Versioning is not printed and if the assertion is not meet then it exits with a non zero exit code."
     )]
     current_version: Option<Version>,
 }

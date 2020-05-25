@@ -34,7 +34,7 @@ def execute_conventional_commits_next_version(context):
     conventional_commits_next_version_command = conventional_commits_next_version_path + context.arguments
 
     os.chdir(context.temporary_directory.name)
-    (context.returncode, context.returned_version) = execute_command(
+    (context.exit_code, context.returned_version) = execute_command(
         conventional_commits_next_version_command)
 
     os.chdir(current_directory)
@@ -42,10 +42,10 @@ def execute_conventional_commits_next_version(context):
 
 @then('the returned version should be "{expected_version}".')
 def compare_returned_and_expected_versions(context, expected_version):
-    assert context.returncode == 0
+    assert context.exit_code == 0
     assert context.returned_version == expected_version
 
 
-@then('the returncode should be "{expected_returncode}".')
-def compare_returned_and_expected_versions(context, expected_returncode):
-    assert int(context.returncode) == int(expected_returncode)
+@then('the exit code should be "{expected_exit_code}".')
+def compare_returned_and_expected_versions(context, expected_exit_code):
+    assert int(context.exit_code) == int(expected_exit_code)
