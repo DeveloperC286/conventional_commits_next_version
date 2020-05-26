@@ -86,7 +86,7 @@ builds:
     stage: builds
     image: rust
     script:
-        - cargo build
+        - cargo build --verbose
     artifacts:
         expire_in: 1 hrs
         paths:
@@ -96,14 +96,36 @@ builds:
         - if: $CI_COMMIT_BRANCH == "master"
 
 
+builds-nightly:
+    stage: builds
+    image: rustlang/rust:nightly
+    script:
+        - cargo build --verbose
+    rules:
+        - if: $CI_MERGE_REQUEST_ID
+        - if: $CI_COMMIT_BRANCH == "master"
+    allow_failure: true
+
+
 unit-tests:
     stage: unit-tests
     image: rust
     script:
-        - cargo test
+        - cargo test --verbose
     rules:
         - if: $CI_MERGE_REQUEST_ID
         - if: $CI_COMMIT_BRANCH == "master"
+
+
+unit-tests-nightly:
+    stage: unit-tests
+    image: rustlang/rust:nightly
+    script:
+        - cargo test --verbose
+    rules:
+        - if: $CI_MERGE_REQUEST_ID
+        - if: $CI_COMMIT_BRANCH == "master"
+    allow_failure: true
 
 
 end-to-end-tests:
