@@ -1,6 +1,3 @@
-image: archlinux/base
-
-
 stages:
     - formatting
     - merge-request-conventional-commits-linting
@@ -14,6 +11,7 @@ stages:
 
 conventional-commits-next-version-formatting:
     stage: formatting
+    image: archlinux/base
     before_script:
         - pacman -Sy --noconfirm
         - pacman -S rust diffutils gawk grep --noconfirm
@@ -31,6 +29,7 @@ conventional-commits-next-version-formatting:
 
 end-to-end-tests-formatting:
     stage: formatting
+    image: archlinux/base
     before_script:
         - pacman -Sy --noconfirm
         - pacman -S python autopep8 --noconfirm
@@ -64,6 +63,7 @@ merge-request-conventional-commits-linting:
 
 merge-request-conventional-commits-next-version:
     stage: merge-request-conventional-commits-next-version
+    image: archlinux/base
     before_script:
         - pacman -Syu --noconfirm
         - pacman -S diffutils unzip nettle wget git --noconfirm
@@ -96,17 +96,6 @@ builds:
         - if: $CI_COMMIT_BRANCH == "master"
 
 
-builds-nightly:
-    stage: builds
-    image: rustlang/rust:nightly
-    script:
-        - cargo build
-    rules:
-        - if: $CI_MERGE_REQUEST_ID
-        - if: $CI_COMMIT_BRANCH == "master"
-    allow_failure: true
-
-
 unit-tests:
     stage: unit-tests
     image: rust
@@ -119,9 +108,8 @@ unit-tests:
 
 end-to-end-tests:
     stage: end-to-end-tests
+    image: python
     before_script:
-        - pacman -Sy --noconfirm
-        - pacman -S git python python-pip --noconfirm
         - cd end-to-end-tests/
         - pip install -r requirements.txt
     script:
