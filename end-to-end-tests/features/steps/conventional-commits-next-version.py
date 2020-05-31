@@ -7,30 +7,34 @@ from behave import *
 
 
 @when(
-    'I call conventional-commits-next-version with the from commit "{commit_hash}" and version "{version}".')
-def execute_conventional_commits_next_version(context, commit_hash, version):
-    execute_conventional_commits_next_version(context, commit_hash, version, False)
+    'the --from-commit-hash and --from-version arguments are set as "{from_commit_hash}" and "{from_version}".')
+def set_from_commit_hash_and_from_version(context, from_commit_hash, from_version):
+    context.arguments = " --from-commit-hash " + from_commit_hash + " --from-version " + from_version + " "
 
 
 @when(
-    'I call conventional-commits-next-version with the from commit "{commit_hash}" and version "{version}" and batch-commits flag.')
-def execute_batch_conventional_commits_next_version(context, commit_hash, version):
-    execute_conventional_commits_next_version(context, commit_hash, version, True)
+    'the --batch-commits flag is set.')
+def set_batch_commits_flag(context):
+    context.arguments += " --batch-commits "
 
 
-def execute_conventional_commits_next_version(context, commit_hash, version, batch_commits):
+@when(
+    'the --current-version argument is set as "{current_version}".')
+def set_current_version(context, current_version):
+    context.arguments += " --current-version " + current_version + " "
+
+
+@when(
+    'conventional_commits_next_version is executed with the set arguments.')
+def execute_conventional_commits_next_version(context):
     current_directory = os.getcwd()
     conventional_commits_next_version_path = current_directory + \
         "/../target/debug/conventional_commits_next_version"
 
-    conventional_commits_next_version_command = conventional_commits_next_version_path + \
-        " --from-commit " + commit_hash + " --version " + version
-
-    if batch_commits:
-        conventional_commits_next_version_command += " --batch-commits "
+    conventional_commits_next_version_command = conventional_commits_next_version_path + context.arguments
 
     os.chdir(context.temporary_directory.name)
-    context.returned_version = execute_command(
+    (context.returncode, context.returned_version) = execute_command(
         conventional_commits_next_version_command)
 
     os.chdir(current_directory)
@@ -38,5 +42,10 @@ def execute_conventional_commits_next_version(context, commit_hash, version, bat
 
 @then('the returned version should be "{expected_version}".')
 def compare_returned_and_expected_versions(context, expected_version):
-    print(context.returned_version + " == " + expected_version)
+    assert context.returncode == 0
     assert context.returned_version == expected_version
+
+
+@then('the returncode should be "{expected_returncode}".')
+def compare_returned_and_expected_versions(context, expected_returncode):
+    assert int(context.returncode) == int(expected_returncode)

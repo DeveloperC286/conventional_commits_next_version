@@ -10,7 +10,4 @@ def execute_command(command):
         stderr=STDOUT)
     process.wait()
 
-    if process.returncode != 0:
-        raise RuntimeError('The command "'+command+'" failed.')
-    else:
-        return process.stdout.read().decode('utf-8')
+    return (process.returncode, process.stdout.read().decode('utf-8'))

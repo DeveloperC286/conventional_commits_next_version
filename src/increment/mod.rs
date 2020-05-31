@@ -3,19 +3,19 @@ use semver::Version;
 
 pub fn get_next_version_from_commits(
     commit_messages: Vec<String>,
-    semantic_version: Version,
+    version: Version,
     batch_commits: bool,
 ) -> Version {
     if batch_commits {
-        return get_next_version_from_commits_batch(commit_messages, semantic_version);
+        return get_next_version_from_commits_batch(commit_messages, version);
     } else {
-        return get_next_version_from_commits_consecutive(commit_messages, semantic_version);
+        return get_next_version_from_commits_consecutive(commit_messages, version);
     }
 }
 
 fn get_next_version_from_commits_batch(
     commit_messages: Vec<String>,
-    mut semantic_version: Version,
+    mut version: Version,
 ) -> Version {
     let mut major_commits_count = 0;
     let mut minor_commits_count = 0;
@@ -44,19 +44,19 @@ fn get_next_version_from_commits_batch(
     }
 
     if major_commits_count > 0 {
-        semantic_version.increment_major();
+        version.increment_major();
     } else if minor_commits_count > 0 {
-        semantic_version.increment_minor();
+        version.increment_minor();
     } else if patch_commits_count > 0 {
-        semantic_version.increment_patch();
+        version.increment_patch();
     }
 
-    return semantic_version;
+    return version;
 }
 
 fn get_next_version_from_commits_consecutive(
     commit_messages: Vec<String>,
-    mut semantic_version: Version,
+    mut version: Version,
 ) -> Version {
     for (_i, commit_message) in commit_messages.iter().enumerate() {
         if is_major_increment(commit_message) {
@@ -64,23 +64,23 @@ fn get_next_version_from_commits_consecutive(
                 "Incrementing major version because of commit {:?}.",
                 commit_message
             );
-            semantic_version.increment_major();
+            version.increment_major();
         } else if is_minor_increment(commit_message) {
             trace!(
                 "Incrementing minor version because of commit {:?}.",
                 commit_message
             );
-            semantic_version.increment_minor();
+            version.increment_minor();
         } else if is_patch_increment(commit_message) {
             trace!(
                 "Incrementing patch version because of commit {:?}.",
                 commit_message
             );
-            semantic_version.increment_patch();
+            version.increment_patch();
         }
     }
 
-    return semantic_version;
+    return version;
 }
 
 fn is_major_increment(commit_message: &str) -> bool {
