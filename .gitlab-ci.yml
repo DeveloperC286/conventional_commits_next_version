@@ -63,20 +63,16 @@ merge-request-conventional-commits-linting:
 
 merge-request-conventional-commits-next-version:
     stage: merge-request-conventional-commits-next-version
-    image: archlinux/base
-    before_script:
-        - pacman -Syu --noconfirm
-        - pacman -S diffutils unzip nettle wget git --noconfirm
+    image: rust
     script:
         # Get latest tag commit hash.
         - CURRENT_VERSION=`grep '^version = "[0-9].[0-9].[0-9]"$' Cargo.toml | cut -d '"' -f 2`
         - LATEST_TAG=`git tag -l | sort -r | head -1`
         - LATEST_TAG_HASH=`git rev-parse $LATEST_TAG`
-        # Download conventional-commits-next-version tag 0.4.0
-        - wget https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/artifacts/1.0.0/download?job=building-release
-        - unzip download\?job=building-release
+        # Download conventional_commits_next_version.
+        - cargo install conventional_commits_next_version
         # Compare current version vs expected.
-        - ./conventional_commits_next_version --batch-commits --from-commit-hash $LATEST_TAG_HASH --from-version $LATEST_TAG --current-version $CURRENT_VERSION
+        - $CARGO_HOME/bin/conventional_commits_next_version --batch-commits --from-commit-hash $LATEST_TAG_HASH --from-version $LATEST_TAG --current-version $CURRENT_VERSION
     rules:
         - if: $CI_MERGE_REQUEST_ID
 
@@ -146,10 +142,11 @@ releasing:
     before_script:
         - apk add git
     script:
-        # Test if tag already exists for version.
+        # Test if tag already exists.
         - VERSION=`grep '^version = "[0-9].[0-9].[0-9]"$' Cargo.toml | cut -d '"' -f 2`
         - VERSION_TAG_EXISTS=`git show-ref --tags -d | awk "/ refs\/tags\/$VERSION/" | wc -l`
         - test $VERSION_TAG_EXISTS -eq 1 && exit 0
+        # Tag does not exist so create it and release.
         # Creating changelog.
         - LATEST_TAG=`git tag -l | sort -r | head -1`
         - LATEST_TAG_HASH=`git rev-parse $LATEST_TAG`
