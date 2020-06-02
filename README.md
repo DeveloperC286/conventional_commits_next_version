@@ -7,6 +7,22 @@ conventional_commits_next_version is a utility to calculate the next Semantic Ve
 conventional_commits_next_version was created due to a lack of tooling not specific to and integrated with Node/NPM.
 Following the Unix philosophy of 'Make each program do one thing well.' combined with utilising command line arguments and standard out; conventional_commits_next_version is a versatile tool not tied to specific tooling or language.
 
+## Installing
+If you wish to simply download a binary you can either use cargo or pull the binary from GitLab.
+
+### Cargo
+```
+cargo install conventional_commits_next_version
+```
+
+###
+Update <VERSION> to the desired version you wish to download. The downloaded file is zipped, so make sure to unzip it and it produces a './conventional_commits_next_version' binary.
+
+```
+wget https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/artifacts/<VERSION>/download?job=building-release
+unzip download\?job=building-release
+```
+
 ## Running
 conventional_commits_next_version reads all the commit messages from HEAD in the current directory until the commit specified by the argument '--from-commit'.
 
