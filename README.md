@@ -7,8 +7,9 @@ conventional_commits_next_version is a utility to calculate the next Semantic Ve
 conventional_commits_next_version was created due to a lack of tooling not specific to and integrated with Node/NPM.
 Following the Unix philosophy of 'Make each program do one thing well.' combined with utilising command line arguments and standard out; conventional_commits_next_version is a versatile tool not tied to specific tooling or language.
 
+
 ## Downloading Binary
-For easy of use pre-compiled binaries are avaiable for download, so it can be easily used within CICD pipelines etc.
+For easy of use pre-compiled binaries are available for download, so it can be easily used within CICD pipelines etc.
 
 
 Each tag has its own binary built.
@@ -22,13 +23,99 @@ wget https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/arti
 unzip download\?job=building-release
 ```
 
-## Running
-conventional_commits_next_version reads all the commit messages from HEAD in the current directory until the commit specified by the argument '--from-commit'.
+
+## Usage
+Through the non-optional arguments `--from-commit-hash` and `--from-version` the commit messages from the current working directory are parsed against the Conventional Commits v1.0.0 specification.
+The Conventional Commits types of the commit messages are used to increment the Semantic Versioning provided via `--from-version` and is printed to standard out.
 
 
-### Consecutive
+The optional `--current-version` Semantic Versioning argument can be provided.
+The Semantic Versioning provided is asserted to be equal or larger than the calculated next Semantic Versioning.
+The calculated next Semantic Versioning is not printed to standard out and if the assertion is not meet then it exits with a non zero exit code.
 
-### Batch
+
+`pretty_env_logger` and `log` are used to provide logging.
+The environment variable `RUST_LOG` can be used to set the logging level.
+See https://crates.io/crates/pretty_env_logger for more detailed documentation.
+
+
+Two different modes can be used by conventional_commits_next_version when calculating the next Semantic Versioning, both are described below.
+
+
+### Usage - Consecutive Mode
+By default conventional_commits_next_version operates in a consecutive manner.
+Each commit Conventional Commits type in the order they were committed started at the commit hash at `--from-commit-hash` is used to increment the Semantic Versioning provided via `--from-version`.
+
+e.g.
+
+```
+git clone https://github.com/yargs/yargs.git
+cd yargs
+git checkout 3af7f04cdbfcbd4b3f432aca5144d43f21958c39
+RUST_LOG=trace conventional_commits_next_version --from-commit-hash a5edc328ecb3f90d1ba09cfe70a0040f68adf50a --from-version 1.13.2
+```
+
+Using the environment variable `RUST_LOG` we can enable more detailed logging, so we can see the internal logic.
+
+```
+DEBUG conventional_commits_next_version::increment > Incrementing semantic versioning patch because of commit "fix: address ambiguity between nargs of 1 and requiresArg (#1572)\n\n".
+```
+
+From the logs we can see that the commit `a5edc328ecb3f90d1ba09cfe70a0040f68adf50a` has the Conventional Commits type of `fix`.
+The fix type will cause the increment of the initial Semantic Versioning provided via `--from-version` from `1.13.2` to `1.13.3`.
+
+```
+DEBUG conventional_commits_next_version::increment > Incrementing semantic versioning minor because of commit "feat(yargs-parser): introduce single-digit boolean aliases (#1576)\n\n".
+```
+
+From the logs we can see that the commit `3af7f04cdbfcbd4b3f432aca5144d43f21958c39` has the Conventional Commits type of `feat`.
+The feat type encountered will increment the minor Semantic Versioning from `1.13.3` to `1.14.0`.
+
+```
+DEBUG conventional_commits_next_version::increment > Incrementing semantic versioning minor because of commit "feat: add usage for single-digit boolean aliases (#1580)\n\n".
+```
+
+From the logs we can see that the commit `6014e39bca3a1e8445aa0fb2a435f6181e344c451` has the Conventional Commits type of `feat`.
+The feat type will increment the minor Semantic Versioning from `1.14.0` to `1.15.0`.
+All the other commits will be parsed and the next Semantic Versioning  will be printed the standard out and can then be used as input for other tools.
+
+```
+> 1.15.0
+```
+
+
+### Usage - Batch Mode
+conventional_commits_next_version can be told to batching together the commits with the addition of the `--batch-commits` flag on the command line.
+This causes only the single largest Semantic Versioning to be applied.
+i.e. with one feature commit and one fix commit only the minor Semantic Versioning is increased.
+This is useful for when a merge is not being compressed into a singular commit, but the branch's being merged commits are being rebased onto master.
+
+e.g.
+
+```
+git clone https://github.com/yargs/yargs.git
+cd yargs
+git checkout 3af7f04cdbfcbd4b3f432aca5144d43f21958c39
+RUST_LOG=trace conventional_commits_next_version --from-commit-hash a5edc328ecb3f90d1ba09cfe70a0040f68adf50a --from-version 1.13.2 --batch-commits
+```
+
+Using the same example but with the `--batch-commits` flag appended, we can see how batch behaves differently.
+
+```
+DEBUG conventional_commits_next_version::increment > Incrementing semantic versioning minor because of commit "feat(yargs-parser): introduce single-digit boolean aliases (#1576)\n\n".
+DEBUG conventional_commits_next_version::increment > Incrementing semantic versioning minor because of commit "feat: add usage for single-digit boolean aliases (#1580)\n\n".
+```
+
+We can that the two largest Conventional Commits types found were `feat`.
+The feat type encountered will increment the minor Semantic Versioning from `1.13  to `1.14.0`.
+The order does not matter, nor do any of the other commits types.
+You can see the commit with the type `fix` has been ignored.
+The next Semantic Versioning  will be printed the standard out and can then be used as input for other tools.
+
+```
+> 1.14.0
+```
+
 
 ## CICD Examples
 ### .gitlab-ci.yml stage for a Rust project.
@@ -49,8 +136,9 @@ merge-request-conventional-commits-next-version:
         - if: $CI_MERGE_REQUEST_ID
 ```
 
+
 ## Compiling via Local Repository
-Checkout the code repositroy locally, change into the repository's directory and then build via cargo.
+Checkout the code repository locally, change into the repository's directory and then build via cargo.
 Using the `--release` flag produces an optimised binary but takes longer to compile.
 
 ```
@@ -61,20 +149,23 @@ cargo build --release
 
 The compiled binary is present in `target/release/conventional_commits_next_version`.
 
+
 ## Compiling via Cargo
 Cargo is the Rust package manager, using the `install` sub-command it pulls the crate from `crates.io` and then compiles the binary locally.
-Cargo install places the produced binary in `$HOME/.cargo/bin/conventional_commits_next_version`.
+`cargo install` places the produced binary at `$HOME/.cargo/bin/conventional_commits_next_version`.
 
 ```
 cargo install conventional_commits_next_version
 ```
 
+
 ## Unit Testing
-The unit test suite has a number parametized tests testing the Conventional Commits v1.0.0 format parsing, cargo can be used to setup and run all the unit tests.
+The unit test suite has a number parameterised tests testing the Conventional Commits v1.0.0 format parsing, cargo can be used to setup and run all the unit tests.
 
 ```
 cargo test
 ```
+
 
 ## End-to-End Testing
 To ensure correctness as there are a variety of out of process dependencies the project has an End-to-End test suite.

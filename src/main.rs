@@ -19,22 +19,22 @@ mod increment;
 struct Args {
     #[structopt(
         long = "from-commit-hash",
-        help = "The Git commit hash in the current working directory from till HEAD to use to calculate the expected next Semantic versioning."
+        help = "The Git commit hash from where to start using the commit messages till HEAD."
     )]
     from_commit_hash: String,
     #[structopt(
         long = "from-version",
-        help = "The Semantic versioning at the Git commit hash provided by the --from-commit-hash argument."
+        help = "The Semantic Versioning at the Git commit hash provided by the --from-commit-hash argument."
     )]
     from_version: Version,
     #[structopt(
         long = "batch-commits",
-        help = "If the flag is set only the single largest incrementing determined by the Git commit history of the Semantic Versioning is applied i.e. with one feature commit and one fix commit only the minor Semantic Versioning is increased."
+        help = "If the flag is set only the single largest increment determined by the Git commit history of the Semantic Versioning is applied i.e. with one feature commit and one fix commit only the minor Semantic Versioning is increased."
     )]
     batch_commits: bool,
     #[structopt(
         long = "current-version",
-        help = "The Semantic Versioning at HEAD to assert it is equal to or larger than the calculated next Semantic Versioning. The calculated Semantic Versioning is not printed and if the assertion is not meet then it exits with a non zero exit code."
+        help = "The provided Semantic Versioning is asserted to be equal or larger than the calculated next Semantic Versioning. The calculated next Semantic Versioning is not printed to standard out and if the assertion is not meet then it exits with a non zero exit code."
     )]
     current_version: Option<Version>,
 }

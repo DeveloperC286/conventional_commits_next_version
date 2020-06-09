@@ -27,16 +27,43 @@ fn get_next_version_from_commits_batch(
         .iter()
         .any(|commit_message| is_major_increment(commit_message))
     {
+        for commit_message in commit_messages
+            .iter()
+            .filter(|commit_message| is_major_increment(commit_message))
+        {
+            debug!(
+                "Incrementing semantic versioning major because of commit message '{:?}'.",
+                commit_message
+            )
+        }
         version.increment_major();
     } else if commit_messages
         .iter()
         .any(|commit_message| is_minor_increment(commit_message))
     {
+        for commit_message in commit_messages
+            .iter()
+            .filter(|commit_message| is_minor_increment(commit_message))
+        {
+            debug!(
+                "Incrementing semantic versioning minor because of commit message '{:?}'.",
+                commit_message
+            )
+        }
         version.increment_minor();
     } else if commit_messages
         .iter()
         .any(|commit_message| is_patch_increment(commit_message))
     {
+        for commit_message in commit_messages
+            .iter()
+            .filter(|commit_message| is_patch_increment(commit_message))
+        {
+            debug!(
+                "Incrementing semantic versioning patch because of commit message '{:?}'.",
+                commit_message
+            );
+        }
         version.increment_patch();
     }
 
