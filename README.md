@@ -7,19 +7,18 @@ conventional_commits_next_version is a utility to calculate the next Semantic Ve
 conventional_commits_next_version was created due to a lack of tooling not specific to and integrated with Node/NPM.
 Following the Unix philosophy of 'Make each program do one thing well.' combined with utilising command line arguments and standard out; conventional_commits_next_version is a versatile tool not tied to specific tooling or language.
 
-## Installing
-If you wish to simply download a binary you can either use cargo or pull the binary from GitLab.
+## Downloading Binary
+For easy of use pre-compiled binaries are avaiable for download, so it can be easily used within CICD pipelines etc.
 
-### Cargo
-```
-cargo install conventional_commits_next_version
-```
 
-###
-Update <VERSION> to the desired version you wish to download. The downloaded file is zipped, so make sure to unzip it and it produces a './conventional_commits_next_version' binary.
+Each tag has its own binary built.
+The downloaded file is zipped, unzip it and it produces a './conventional_commits_next_version' binary.
+Update `<TAG>` to the desired tag you wish to download.
+
+#### Note - You can find all the tags at `https://gitlab.com/DeveloperC/conventional_commits_next_version/-/tags`.
 
 ```
-wget https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/artifacts/<VERSION>/download?job=building-release
+wget https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/artifacts/<TAG>/download?job=building-release
 unzip download\?job=building-release
 ```
 
@@ -41,15 +40,28 @@ e.g. GitLab CI for Rust
 
 ```
 
-## Building
-The binary and library can be built via cargo.
+## Compiling via Local Repository
+Checkout the code repositroy locally, change into the repository's directory and then build via cargo.
+Using the `--release` flag produces an optimised binary but takes longer to compile.
 
 ```
-cargo build
+git clone git@gitlab.com:DeveloperC/conventional_commits_next_version.git
+cd conventional_commits_next_version/
+cargo build --release
+```
+
+The compiled binary is present in `target/release/conventional_commits_next_version`.
+
+## Compiling via Cargo
+Cargo is the Rust package manager, using the `install` sub-command it pulls the crate from `crates.io` and then compiles the binary locally.
+Cargo install places the produced binary in `$HOME/.cargo/bin/conventional_commits_next_version`.
+
+```
+cargo install conventional_commits_next_version
 ```
 
 ## Unit Testing
-There are a number of unit tests in the project, they can be ran via cargo.
+The unit test suite has a number parametized tests testing the Conventional Commits v1.0.0 format parsing, cargo can be used to setup and run all the unit tests.
 
 ```
 cargo test
@@ -58,7 +70,9 @@ cargo test
 ## End-to-End Testing
 To ensure correctness as there are a variety of out of process dependencies the project has an End-to-End test suite.
 The End-to-End suite uses the behave framework (https://github.com/behave/behave).
-To execute the tests you need to first build the binary, install behave and then execute behave.
+To run the test suite you need to first build a binary, install behave and then execute behave.
+
+#### Note - You can't use --release as the End-to-End test suite uses `target/debug/conventional_commits_next_version`.
 
 ```
 cargo build
