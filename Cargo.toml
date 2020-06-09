@@ -11,10 +11,6 @@ keywords = ["git", "conventional-commit", "commit", "conventional"]
 categories = ["command-line-utilities"]
 
 
-[badges]
-gitlab = { repository = "https://gitlab.com/DeveloperC/conventional_commits_next_version", branch = "master" }
-
-
 [dependencies]
 git2 = "0.13.6"
 structopt = "0.3.14"
