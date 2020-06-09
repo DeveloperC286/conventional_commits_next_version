@@ -30,14 +30,23 @@ conventional_commits_next_version reads all the commit messages from HEAD in the
 
 ### Batch
 
-## CICD
-conventional_commits_next_version was designed to be used in a CICD pipeline.
-Rust compiles to statically linked binaries, so you can download the latest version for your architecture from https://gitlab.com/DeveloperC/conventional_commits_next_version/, without needing to download additional dependencies.
-
-e.g. GitLab CI for Rust
-
+## CICD Examples
+### .gitlab-ci.yml stage for a Rust project.
 ```
-
+merge-request-conventional-commits-next-version:
+    stage: merge-request-conventional-commits-next-version
+    image: rust
+    script:
+        # Get latest tag commit hash.
+        - CURRENT_VERSION=`grep '^version = "[0-9].[0-9].[0-9]"$' Cargo.toml | cut -d '"' -f 2`
+        - LATEST_TAG=`git tag -l | sort -r | head -1`
+        - LATEST_TAG_HASH=`git rev-parse $LATEST_TAG`
+        # Download conventional_commits_next_version.
+        - cargo install conventional_commits_next_version
+        # Compare current version vs expected.
+        - $CARGO_HOME/bin/conventional_commits_next_version --batch-commits --from-commit-hash $LATEST_TAG_HASH --from-version $LATEST_TAG --current-version $CURRENT_VERSION
+    rules:
+        - if: $CI_MERGE_REQUEST_ID
 ```
 
 ## Compiling via Local Repository
