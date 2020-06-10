@@ -6,8 +6,8 @@ stages:
     - unit-tests
     - end-to-end-tests
     - releasing
-    - building-release
     - crates-io-publishing
+    - building-release-binary
 
 
 conventional-commits-next-version-formatting:
@@ -160,8 +160,17 @@ releasing:
         - if: $CI_COMMIT_BRANCH == "master"
 
 
-building-release:
-    stage: building-release
+crates-io-publishing:
+    stage: crates-io-publishing
+    image: rust
+    script:
+        - cargo publish --token $GITLAB_CRATES_IO_TOKEN
+    rules:
+        - if: $CI_COMMIT_TAG
+
+
+building-release-binary-linux:
+    stage: building-release-binary
     image: rust
     script:
         - cargo build --release
@@ -169,14 +178,5 @@ building-release:
     artifacts:
         paths:
             - conventional_commits_next_version
-    rules:
-        - if: $CI_COMMIT_TAG
-
-
-crates-io-publishing:
-    stage: crates-io-publishing
-    image: rust
-    script:
-        - cargo publish --token $GITLAB_CRATES_IO_TOKEN
     rules:
         - if: $CI_COMMIT_TAG
