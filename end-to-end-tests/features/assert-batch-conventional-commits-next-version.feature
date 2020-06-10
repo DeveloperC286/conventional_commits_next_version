@@ -17,3 +17,4 @@ Examples:
     | https://github.com/yargs/yargs.git | 2fed2a7c58de1d7c60858c0e8ff24421609e0dc4 |   6014e39bca3a1e8445aa0fb2a435f6181e344c45   |    1.0.3     |       1.0.3     |          0         |
     | https://github.com/yargs/yargs.git | b9409da199ebca515a848489c206b807fab2e65d |   6e4bc2aa0a6c5560928296f18e008a15b2aaf335   |    1.1.3     |       1.1.4     |          1         |
     | https://github.com/yargs/yargs.git | 0aaa68bf36d35c697426de4dfe2e4e12128c2dc0 |   927810c7615912fb77a160273b2d6a946e9737b8   |    9.4.0     |       9.5.0     |          1         |
+    | https://github.com/yargs/yargs.git | 3af7f04cdbfcbd4b3f432aca5144d43f21958c39 |   c36c571e4e15dfe26be1d919e4991fb6ab6ed9fd   |    3.0.0     |       3.1.0     |          0         |

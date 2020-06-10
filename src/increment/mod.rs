@@ -1,6 +1,10 @@
 use regex::Regex;
 use semver::Version;
 
+lazy_static! {
+    static ref SCOPE_REGEX: String = "([[:digit:]]|[[:alpha:]]|_|-| )*".to_string();
+}
+
 pub fn get_next_version_from_commits(
     commit_messages: Vec<String>,
     version: Version,
@@ -86,9 +90,9 @@ fn get_next_version_from_commits_consecutive(
 fn is_major_increment(commit_message: &str) -> bool {
     lazy_static! {
         static ref MAJOR_TITLE_INCREMENT_REGEX: Regex =
-            Regex::new(r"(?i)^([[:word:]]*)(!(\([[:word:]]*\))?|(\([[:word:]]*\))?!):").unwrap();
+            Regex::new(format!(r"(?i)^({})(!(\({}\))?|(\({}\))?!):", &*SCOPE_REGEX, &*SCOPE_REGEX, &*SCOPE_REGEX).as_str()).unwrap();
         static ref MAJOR_FOOTER_INCREMENT_REGEX: Regex =
-            Regex::new(r"(?i)^([[:word:]]*)(\([[:word:]]*\))?:(.)*(\n)*BREAKING CHANGE:").unwrap();
+            Regex::new(format!(r"(?i)^({})(\({}\))?:(.)*(\n)*BREAKING CHANGE:", &*SCOPE_REGEX, &*SCOPE_REGEX).as_str()).unwrap();
     }
 
     return MAJOR_TITLE_INCREMENT_REGEX.is_match(commit_message)
@@ -98,7 +102,7 @@ fn is_major_increment(commit_message: &str) -> bool {
 fn is_minor_increment(commit_message: &str) -> bool {
     lazy_static! {
         static ref MINOR_INCREMENT_REGEX: Regex =
-            Regex::new(r"(?i)^feat(\([[:word:]]*\))?:").unwrap();
+            Regex::new(format!(r"(?i)^feat(\({}\))?:", &*SCOPE_REGEX).as_str()).unwrap();
     }
 
     return MINOR_INCREMENT_REGEX.is_match(commit_message);
@@ -107,7 +111,7 @@ fn is_minor_increment(commit_message: &str) -> bool {
 fn is_patch_increment(commit_message: &str) -> bool {
     lazy_static! {
         static ref PATCH_INCREMENT_REGEX: Regex =
-            Regex::new(r"(?i)^fix(\([[:word:]]*\))?:").unwrap();
+            Regex::new(format!(r"(?i)^fix(\({}\))?:", &*SCOPE_REGEX).as_str()).unwrap();
     }
 
     return PATCH_INCREMENT_REGEX.is_match(commit_message);

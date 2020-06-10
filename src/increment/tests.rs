@@ -14,6 +14,9 @@ use rstest::rstest;
     case("chore(ts): tsify lib/middleware (#1636)\n\n", false),
     case("fix(i18n): Japanese translation phrasing (#1619)\n\n", false),
     case("feat: add usage for single-digit boolean aliases (#1580)\n\n", false),
+    case("feat(yargs-parser)!: introduce single-digit boolean aliases (#1576)\n\n", true),
+    case("feat(yargs parser)!: introduce single-digit boolean aliases (#1576)\n\n", true),
+    case("feat(yargs_parser)!: introduce single-digit boolean aliases (#1576)\n\n", true),
 )]
 fn test_is_major_increment(commit_message: &str, expected: bool) {
     assert_eq!(expected, is_major_increment(commit_message));
@@ -30,7 +33,10 @@ fn test_is_major_increment(commit_message: &str, expected: bool) {
         false
     ),
     case("chore: release 15.2.0 (#1558)", false),
-    case("feat(deps)!: pull in yargs-parser@17.0.0 (#1553)", false)
+    case("feat(deps)!: pull in yargs-parser@17.0.0 (#1553)", false),
+    case("feat(yargs-parser): introduce single-digit boolean aliases (#1576)\n\n", true),
+    case("feat(yargs parser): introduce single-digit boolean aliases (#1576)\n\n", true),
+    case("feat(yargs_parser): introduce single-digit boolean aliases (#1576)\n\n", true),
 )]
 fn test_is_minor_increment(commit_message: &str, expected: bool) {
     assert_eq!(expected, is_minor_increment(commit_message));
@@ -56,7 +62,20 @@ fn test_is_minor_increment(commit_message: &str, expected: bool) {
     case(
         "docs: state limitations of using command handlers returning promises\n\n",
         false
-    )
+    ),
+    case(
+        "fix(deps-updated): fix enumeration for normalized path arguments (#1567)\n\n",
+        true
+    ),
+    case(
+        "fix(deps updated): fix enumeration for normalized path arguments (#1567)\n\n",
+        true
+    ),
+    case(
+        "fix(deps_updated): fix enumeration for normalized path arguments (#1567)\n\n",
+        true
+    ),
+
 )]
 fn test_is_patch_increment(commit_message: &str, expected: bool) {
     assert_eq!(expected, is_patch_increment(commit_message));
