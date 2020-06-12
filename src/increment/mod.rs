@@ -21,38 +21,28 @@ fn get_next_version_from_commits_batch(
     commit_messages: Vec<String>,
     mut version: Version,
 ) -> Version {
-    let mut major_commits_count = 0;
-    let mut minor_commits_count = 0;
-    let mut patch_commits_count = 0;
-
-    for (_i, commit_message) in commit_messages.iter().enumerate() {
-        if is_major_increment(commit_message) {
-            trace!(
-                "Incrementing major commits count because of commit {:?}.",
-                commit_message
-            );
-            major_commits_count += 1;
-        } else if is_minor_increment(commit_message) {
-            trace!(
-                "Incrementing minor commits count because of commit {:?}.",
-                commit_message
-            );
-            minor_commits_count += 1;
-        } else if is_patch_increment(commit_message) {
-            trace!(
-                "Incrementing patch commits count because of commit {:?}.",
-                commit_message
-            );
-            patch_commits_count += 1;
-        }
+    if commit_messages
+        .iter()
+        .any(|commit_message| is_major_increment(commit_message))
+    {
+        version.increment_major();
+        return version;
     }
 
-    if major_commits_count > 0 {
-        version.increment_major();
-    } else if minor_commits_count > 0 {
+    if commit_messages
+        .iter()
+        .any(|commit_message| is_minor_increment(commit_message))
+    {
         version.increment_minor();
-    } else if patch_commits_count > 0 {
+        return version;
+    }
+
+    if commit_messages
+        .iter()
+        .any(|commit_message| is_patch_increment(commit_message))
+    {
         version.increment_patch();
+        return version;
     }
 
     return version;
@@ -62,7 +52,7 @@ fn get_next_version_from_commits_consecutive(
     commit_messages: Vec<String>,
     mut version: Version,
 ) -> Version {
-    for (_i, commit_message) in commit_messages.iter().enumerate() {
+    commit_messages.iter().for_each(|commit_message| {
         if is_major_increment(commit_message) {
             trace!(
                 "Incrementing major version because of commit {:?}.",
@@ -82,17 +72,29 @@ fn get_next_version_from_commits_consecutive(
             );
             version.increment_patch();
         }
-    }
+    });
 
     return version;
 }
 
 fn is_major_increment(commit_message: &str) -> bool {
     lazy_static! {
-        static ref MAJOR_TITLE_INCREMENT_REGEX: Regex =
-            Regex::new(format!(r"(?i)^({})(!(\({}\))?|(\({}\))?!):", &*SCOPE_REGEX, &*SCOPE_REGEX, &*SCOPE_REGEX).as_str()).unwrap();
-        static ref MAJOR_FOOTER_INCREMENT_REGEX: Regex =
-            Regex::new(format!(r"(?i)^({})(\({}\))?:(.)*(\n)*BREAKING CHANGE:", &*SCOPE_REGEX, &*SCOPE_REGEX).as_str()).unwrap();
+        static ref MAJOR_TITLE_INCREMENT_REGEX: Regex = Regex::new(
+            format!(
+                r"(?i)^({})(!(\({}\))?|(\({}\))?!):",
+                &*SCOPE_REGEX, &*SCOPE_REGEX, &*SCOPE_REGEX
+            )
+            .as_str()
+        )
+        .unwrap();
+        static ref MAJOR_FOOTER_INCREMENT_REGEX: Regex = Regex::new(
+            format!(
+                r"(?i)^({})(\({}\))?:(.)*(\n)*BREAKING CHANGE:",
+                &*SCOPE_REGEX, &*SCOPE_REGEX
+            )
+            .as_str()
+        )
+        .unwrap();
     }
 
     return MAJOR_TITLE_INCREMENT_REGEX.is_match(commit_message)
