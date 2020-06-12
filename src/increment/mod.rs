@@ -11,8 +11,10 @@ pub fn get_next_version_from_commits(
     batch_commits: bool,
 ) -> Version {
     if batch_commits {
+        debug!("Operating in batch mode.");
         return get_next_version_from_commits_batch(commit_messages, version);
     } else {
+        debug!("Operating in consecutive mode.");
         return get_next_version_from_commits_consecutive(commit_messages, version);
     }
 }
@@ -26,23 +28,16 @@ fn get_next_version_from_commits_batch(
         .any(|commit_message| is_major_increment(commit_message))
     {
         version.increment_major();
-        return version;
-    }
-
-    if commit_messages
+    } else if commit_messages
         .iter()
         .any(|commit_message| is_minor_increment(commit_message))
     {
         version.increment_minor();
-        return version;
-    }
-
-    if commit_messages
+    } else if commit_messages
         .iter()
         .any(|commit_message| is_patch_increment(commit_message))
     {
         version.increment_patch();
-        return version;
     }
 
     return version;
@@ -54,20 +49,20 @@ fn get_next_version_from_commits_consecutive(
 ) -> Version {
     commit_messages.iter().for_each(|commit_message| {
         if is_major_increment(commit_message) {
-            trace!(
-                "Incrementing major version because of commit {:?}.",
+            debug!(
+                "Incrementing semantic versioning major because of commit message '{:?}'.",
                 commit_message
             );
             version.increment_major();
         } else if is_minor_increment(commit_message) {
-            trace!(
-                "Incrementing minor version because of commit {:?}.",
+            debug!(
+                "Incrementing semantic versioning minor because of commit '{:?}'.",
                 commit_message
             );
             version.increment_minor();
         } else if is_patch_increment(commit_message) {
-            trace!(
-                "Incrementing patch version because of commit {:?}.",
+            debug!(
+                "Incrementing semantic versioning patch because of commit '{:?}'.",
                 commit_message
             );
             version.increment_patch();

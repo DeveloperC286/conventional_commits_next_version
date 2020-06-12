@@ -8,7 +8,7 @@ pub fn get_commit_messages_from(from_commit_hash: &str) -> Vec<String> {
         match revwalk.next() {
             Some(Ok(oid)) => match get_commit_message(&repository, oid) {
                 Some(commit_message) => {
-                    trace!("Adding commit '{}'s message {:?}.", oid, commit_message);
+                    trace!("Found commit '{}'s message '{:?}'.", oid, commit_message);
                     commit_messages.push(commit_message);
                 }
                 None => {
@@ -24,6 +24,10 @@ pub fn get_commit_messages_from(from_commit_hash: &str) -> Vec<String> {
         }
     }
 
+    debug!(
+        "Found '{}' commit message between HEAD and --from-commit.",
+        commit_messages.len()
+    );
     commit_messages.reverse();
     return commit_messages;
 }
@@ -42,7 +46,10 @@ fn get_revwalk(repository: &git2::Repository, from_commit_hash: git2::Oid) -> gi
             match revwalk.hide(from_commit_hash) {
                 Ok(_result) => {}
                 Err(_error) => {
-                    error!("Can not find commit '{}' on the revwalk.", from_commit_hash);
+                    error!(
+                        "Can not find --from-commit '{}' on the revwalk.",
+                        from_commit_hash
+                    );
                     std::process::exit(1);
                 }
             }
@@ -72,8 +79,9 @@ fn get_commit_message(repository: &git2::Repository, oid: git2::Oid) -> Option<S
 fn get_local_repository() -> git2::Repository {
     match git2::Repository::open(std::path::PathBuf::from(".")) {
         Ok(repository) => return repository,
-        Err(_error) => {
-            error!("Current directory is not a Git repository.");
+        Err(error) => {
+            error!("Unable to open the Git repository.");
+            error!("{:?}", error);
             std::process::exit(1);
         }
     }

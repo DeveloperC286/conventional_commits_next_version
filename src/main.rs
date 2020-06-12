@@ -42,6 +42,7 @@ struct Args {
 fn main() {
     pretty_env_logger::init();
     let args = Args::from_args();
+    debug!("The command line arguemetns provided are {:?}.", args);
 
     let commit_messages = git::get_commit_messages_from(&args.from_commit_hash);
     let expected_version = increment::get_next_version_from_commits(
