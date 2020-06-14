@@ -7,8 +7,8 @@ edition = "2018"
 license = "GPL-3.0"
 repository = "https://gitlab.com/DeveloperC/conventional_commits_next_version"
 readme = "README.md"
-keywords = ["git", "conventional-commit", "commit", "conventional"]
-categories = ["command-line-utilities"]
+keywords = ["git", "conventional-commit", "conventional-commits", "commits", "commit", "conventional", "parser", "git2", "semantic", "versioning", "release", "semver"]
+categories = ["command-line-utilities", "development-tools"]
 
 
 [dependencies]
