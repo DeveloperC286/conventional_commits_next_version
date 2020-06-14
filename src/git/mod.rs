@@ -1,7 +1,7 @@
 pub fn get_commit_messages_from(from_commit_hash: &str) -> Vec<String> {
     let mut commit_messages = vec![];
 
-    let repository = get_local_repository();
+    let repository = get_repository();
     let mut revwalk = get_revwalk(&repository, get_oid(from_commit_hash));
 
     loop {
@@ -76,8 +76,8 @@ fn get_commit_message(repository: &git2::Repository, oid: git2::Oid) -> Option<S
     }
 }
 
-fn get_local_repository() -> git2::Repository {
-    match git2::Repository::open(std::path::PathBuf::from(".")) {
+fn get_repository() -> git2::Repository {
+    match git2::Repository::open_from_env() {
         Ok(repository) => return repository,
         Err(error) => {
             error!("Unable to open the Git repository.");

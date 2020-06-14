@@ -28,9 +28,9 @@ def set_current_version(context, current_version):
     'conventional_commits_next_version is executed with the set arguments.')
 def execute_conventional_commits_next_version(context):
     current_directory = os.getcwd()
+
     conventional_commits_next_version_path = current_directory + \
         "/../target/debug/conventional_commits_next_version"
-
     conventional_commits_next_version_command = conventional_commits_next_version_path + context.arguments
 
     os.chdir(context.temporary_directory.name)

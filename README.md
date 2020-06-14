@@ -31,8 +31,12 @@ unzip download\?job=building-release
 
 
 ## Usage
-Through the non-optional arguments `--from-commit-hash` and `--from-version` the commit messages from the current working directory are parsed against the Conventional Commits v1.0.0 specification.
+Through the non-optional arguments `--from-commit-hash` and `--from-version` the commit messages are parsed against the Conventional Commits v1.0.0 specification.
 The Conventional Commits types of the commit messages are used to increment the Semantic Versioning provided via `--from-version` and is printed to standard out.
+
+
+conventional_commits_next_version finds and open an existing repository, respecting git environment variables.
+With $GIT_DIR unset, this will search for a repository starting in the current directory.
 
 
 The optional `--current-version` Semantic Versioning argument can be provided.
@@ -184,6 +188,7 @@ To run the test suite you need to first build a binary, install behave and then 
 cargo build
 cd end-to-end-tests/
 virtualenv -p python3 .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 behave
 ```
