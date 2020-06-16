@@ -171,13 +171,11 @@ crates-io-publishing:
 
 building-release-binary-linux-musl:
     stage: building-release-binary
-    image: rust
+    image: ekidd/rust-musl-builder
     script:
-        - rustup target add x86_64-unknown-linux-musl
-        - cargo build --release --target=x86_64-unknown-linux-musl
+        - cargo build --release
         - mv target/x86_64-unknown-linux-musl/release/conventional_commits_next_version conventional_commits_next_version
     artifacts:
-        name: "$CI_COMMIT_TAG-linux-musl"
         paths:
             - conventional_commits_next_version
     rules:
