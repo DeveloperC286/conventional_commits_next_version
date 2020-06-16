@@ -160,15 +160,6 @@ releasing:
         - if: $CI_COMMIT_BRANCH == "master"
 
 
-crates-io-publishing:
-    stage: crates-io-publishing
-    image: rust
-    script:
-        - cargo publish --token $GITLAB_CRATES_IO_TOKEN
-    rules:
-        - if: $CI_COMMIT_TAG
-
-
 building-release-binary-linux-musl:
     stage: building-release-binary
     image: ekidd/rust-musl-builder
