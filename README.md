@@ -25,8 +25,8 @@ Update `<TAG>` to the desired tag you wish to download.
 #### Note - You can find all the tags at `https://gitlab.com/DeveloperC/conventional_commits_next_version/-/tags`.
 
 ```
-wget https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/artifacts/<TAG>/download?job=building-release
-unzip download\?job=building-release
+wget https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/artifacts/<TAG>/download?job=building-release-binary-linux-musl
+unzip download\?job=building-release-binary-linux-musl
 ```
 
 
