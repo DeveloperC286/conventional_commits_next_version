@@ -12,10 +12,10 @@ pub fn get_next_version_from_commits(
 ) -> Version {
     if batch_commits {
         debug!("Operating in batch mode.");
-        return get_next_version_from_commits_batch(commit_messages, version);
+        get_next_version_from_commits_batch(commit_messages, version)
     } else {
         debug!("Operating in consecutive mode.");
-        return get_next_version_from_commits_consecutive(commit_messages, version);
+        get_next_version_from_commits_consecutive(commit_messages, version)
     }
 }
 
@@ -67,7 +67,7 @@ fn get_next_version_from_commits_batch(
         version.increment_patch();
     }
 
-    return version;
+    version
 }
 
 fn get_next_version_from_commits_consecutive(
@@ -96,7 +96,7 @@ fn get_next_version_from_commits_consecutive(
         }
     });
 
-    return version;
+    version
 }
 
 fn is_major_increment(commit_message: &str) -> bool {
@@ -119,8 +119,8 @@ fn is_major_increment(commit_message: &str) -> bool {
         .unwrap();
     }
 
-    return MAJOR_TITLE_INCREMENT_REGEX.is_match(commit_message)
-        || MAJOR_FOOTER_INCREMENT_REGEX.is_match(commit_message);
+    MAJOR_TITLE_INCREMENT_REGEX.is_match(commit_message)
+        || MAJOR_FOOTER_INCREMENT_REGEX.is_match(commit_message)
 }
 
 fn is_minor_increment(commit_message: &str) -> bool {
@@ -129,7 +129,7 @@ fn is_minor_increment(commit_message: &str) -> bool {
             Regex::new(format!(r"(?i)^feat(\({}\))?:", &*SCOPE_REGEX).as_str()).unwrap();
     }
 
-    return MINOR_INCREMENT_REGEX.is_match(commit_message);
+    MINOR_INCREMENT_REGEX.is_match(commit_message)
 }
 
 fn is_patch_increment(commit_message: &str) -> bool {
@@ -138,7 +138,7 @@ fn is_patch_increment(commit_message: &str) -> bool {
             Regex::new(format!(r"(?i)^fix(\({}\))?:", &*SCOPE_REGEX).as_str()).unwrap();
     }
 
-    return PATCH_INCREMENT_REGEX.is_match(commit_message);
+    PATCH_INCREMENT_REGEX.is_match(commit_message)
 }
 
 #[cfg(test)]

@@ -1,3 +1,5 @@
+use git2::{Oid, Repository, Revwalk};
+
 pub fn get_commit_messages_from(from_commit_hash: &str) -> Vec<String> {
     let mut commit_messages = vec![];
 
@@ -29,10 +31,10 @@ pub fn get_commit_messages_from(from_commit_hash: &str) -> Vec<String> {
         commit_messages.len()
     );
     commit_messages.reverse();
-    return commit_messages;
+    commit_messages
 }
 
-fn get_revwalk(repository: &git2::Repository, from_commit_hash: git2::Oid) -> git2::Revwalk {
+fn get_revwalk(repository: &Repository, from_commit_hash: Oid) -> Revwalk {
     match repository.revwalk() {
         Ok(mut revwalk) => {
             match revwalk.push_head() {
@@ -54,21 +56,20 @@ fn get_revwalk(repository: &git2::Repository, from_commit_hash: git2::Oid) -> gi
                 }
             }
 
-            return revwalk;
+            revwalk
         }
         Err(error) => {
             error!("Unable to get revwalk from local repository.");
             error!("{:?}", error);
             std::process::exit(1);
         }
-    };
+    }
 }
 
-fn get_commit_message(repository: &git2::Repository, oid: git2::Oid) -> Option<String> {
+fn get_commit_message(repository: &Repository, oid: Oid) -> Option<String> {
     match repository.find_commit(oid) {
-        Ok(commit) => {
-            return commit.message().map(|m| m.to_string());
-        }
+        Ok(commit) => commit.message().map(|m| m.to_string()),
+
         Err(_error) => {
             error!("Can not find commit '{}' in current repository.", oid);
             std::process::exit(1);
@@ -76,9 +77,9 @@ fn get_commit_message(repository: &git2::Repository, oid: git2::Oid) -> Option<S
     }
 }
 
-fn get_repository() -> git2::Repository {
-    match git2::Repository::open_from_env() {
-        Ok(repository) => return repository,
+fn get_repository() -> Repository {
+    match Repository::open_from_env() {
+        Ok(repository) => repository,
         Err(error) => {
             error!("Unable to open the Git repository.");
             error!("{:?}", error);
@@ -87,9 +88,9 @@ fn get_repository() -> git2::Repository {
     }
 }
 
-fn get_oid(oid_string: &str) -> git2::Oid {
-    match git2::Oid::from_str(oid_string) {
-        Ok(oid) => return oid,
+fn get_oid(oid_string: &str) -> Oid {
+    match Oid::from_str(oid_string) {
+        Ok(oid) => oid,
         Err(_error) => {
             error!("'{}' is not a valid commit id.", oid_string);
             std::process::exit(1);

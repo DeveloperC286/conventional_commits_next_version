@@ -58,7 +58,7 @@ fn main() {
                 current_version.to_string(),
                 expected_version.to_string()
             );
-            if !(current_version >= expected_version) {
+            if current_version < expected_version {
                 std::process::exit(1);
             }
         }
