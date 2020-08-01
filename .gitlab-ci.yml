@@ -12,11 +12,11 @@ stages:
 
 conventional-commits-next-version-formatting:
     stage: formatting
-    image: archlinux/base
+    image: rust
     before_script:
-        - pacman -Sy --noconfirm
-        - pacman -S rust diffutils gawk grep --noconfirm
+        - rustup component add clippy rustfmt
     script:
+        - cargo clippy -- -D warnings
         - for i in $( du -a ./src/ | awk '{print $2}' | grep -i "[.]rs$" ); do
         - echo $i
         - cp $i temp.txt
@@ -44,7 +44,6 @@ end-to-end-tests-formatting:
     rules:
         - if: $CI_MERGE_REQUEST_ID
         - if: $CI_COMMIT_BRANCH == "master"
-
 
 
 merge-request-conventional-commits-linting:
