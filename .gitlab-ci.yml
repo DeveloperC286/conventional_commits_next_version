@@ -17,11 +17,7 @@ conventional-commits-next-version-formatting:
     before_script:
         - rustup component add rustfmt
     script:
-        - for i in $( du -a . | awk '{print $2}' | grep -i "[.]rs$" ); do
-        -   cp $i temp.txt
-        -   rustfmt $i
-        -   cmp $i temp.txt
-        - done
+        - cargo fmt --all -- --check
     rules:
         - if: $CI_MERGE_REQUEST_ID
 
