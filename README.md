@@ -1,7 +1,9 @@
 # Conventional Commits Next Version
 [![crates.io](https://img.shields.io/crates/v/conventional_commits_next_version)](https://crates.io/crates/conventional_commits_next_version) [![pipeline status](https://gitlab.com/DeveloperC/conventional_commits_next_version/badges/master/pipeline.svg)](https://gitlab.com/DeveloperC/conventional_commits_next_version/commits/master) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
-conventional_commits_next_version is a utility to calculate the next Semantic Versioning 2.0.0 (https://semver.org/spec/v2.0.0.html) based upon the supplied version and the Git commit history in the Conventional Commits v1.0.0 format (https://www.conventionalcommits.org/en/v1.0.0/).
+
+A utility to calculate the next Semantic Versioning based upon the Conventional Commits Git commit messages since the last version.
+
 
 ## Why?
 conventional_commits_next_version was created due to a lack of tooling not specific to and integrated with Node/NPM.

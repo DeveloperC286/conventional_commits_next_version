@@ -14,7 +14,7 @@ mod increment;
 #[derive(Debug, StructOpt)]
 #[structopt(
     name = "conventional_commits_next_version",
-    about = "conventional_commits_next_version is a utility to calculate the next Semantic Versioning 2.0.0 (https://semver.org/spec/v2.0.0.html) based upon the supplied version and the Git commit history in the Conventional Commits v1.0.0 format (https://www.conventionalcommits.org/en/v1.0.0/)."
+    about = "A utility to calculate the next Semantic Versioning based upon the Conventional Commits Git commit messages since the last version."
 )]
 struct Args {
     #[structopt(
