@@ -144,19 +144,8 @@ merge-request-conventional-commits-next-version:
 
 
 ## Downloading Binary
-For easy of use pre-compiled binaries are available for download, so it can be easily used within CICD pipelines etc.
-
-
-Each tag has its own binary built.
-The downloaded file is zipped, unzip it and it produces a './conventional_commits_next_version' binary.
-Update `<TAG>` to the desired tag you wish to download.
-
-#### Note - You can find all the tags at `https://gitlab.com/DeveloperC/conventional_commits_next_version/-/tags`.
-
-```
-wget https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/artifacts/<TAG>/download?job=building-release-binary-linux-musl
-unzip download\?job=building-release-binary-linux-musl
-```
+Statically linked compiled binaries are available for download.
+Visit the releases page at [https://gitlab.com/DeveloperC/conventional_commits_next_version/-/releases](https://gitlab.com/DeveloperC/conventional_commits_next_version/-/releases) to see all the releases, the release notes contains links to binary downloads for various architectures.
 
 
 ## Compiling via Local Repository
