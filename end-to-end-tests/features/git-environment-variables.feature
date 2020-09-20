@@ -4,8 +4,9 @@ Feature: Git environment variables are respected and used instead of using the c
 Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     And the GIT_DIR environment variable is set to the cloned repository.
-    When the --from-commit-hash and --from-version arguments are set as "<from_commit_hash>" and "<from_version>".
-    And conventional_commits_next_version is executed with the set arguments.
+    When the argument --from-version is provided as "<from_version>".
+    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And conventional_commits_next_version is executed with the provided arguments.
     Then the returned version should be "<expected_version>".
 
 

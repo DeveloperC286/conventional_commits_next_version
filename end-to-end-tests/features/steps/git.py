@@ -21,6 +21,8 @@ def clone_remote_repository_and_checkout_commit(context, remote_repository, comm
     (exit_code, stdout) = execute_command("git checkout " + commit_hash)
     assert exit_code == 0
 
+    context.arguments = ""
+
     os.chdir(current_directory)
 
 

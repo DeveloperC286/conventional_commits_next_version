@@ -3,10 +3,11 @@ Feature: The current version argument supplied is asserted to be equal or greate
 
 Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the --from-commit-hash and --from-version arguments are set as "<from_commit_hash>" and "<from_version>".
-    And the --current-version argument is set as "<current_version>".
+    When the argument --from-version is provided as "<from_version>".
+    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --current-version is provided as "<current_version>".
     And the --batch-commits flag is set.
-    And conventional_commits_next_version is executed with the set arguments.
+    And conventional_commits_next_version is executed with the provided arguments.
     Then the conventional_commits_next_version assertion fails.
 
 Examples:
@@ -18,10 +19,11 @@ Examples:
 
 Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the --from-commit-hash and --from-version arguments are set as "<from_commit_hash>" and "<from_version>".
-    And the --current-version argument is set as "<current_version>".
+    When the argument --from-version is provided as "<from_version>".
+    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --current-version is provided as "<current_version>".
     And the --batch-commits flag is set.
-    And conventional_commits_next_version is executed with the set arguments.
+    And conventional_commits_next_version is executed with the provided arguments.
     Then the conventional_commits_next_version assertion passes.
 
 Examples:
@@ -33,9 +35,10 @@ Examples:
 
 Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the --from-commit-hash and --from-version arguments are set as "<from_commit_hash>" and "<from_version>".
-    And the --current-version argument is set as "<current_version>".
-    And conventional_commits_next_version is executed with the set arguments.
+    When the argument --from-version is provided as "<from_version>".
+    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --current-version is provided as "<current_version>".
+    And conventional_commits_next_version is executed with the provided arguments.
     Then the conventional_commits_next_version assertion fails.
 
 Examples:
@@ -46,9 +49,10 @@ Examples:
 
 Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the --from-commit-hash and --from-version arguments are set as "<from_commit_hash>" and "<from_version>".
-    And the --current-version argument is set as "<current_version>".
-    And conventional_commits_next_version is executed with the set arguments.
+    When the argument --from-version is provided as "<from_version>".
+    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --current-version is provided as "<current_version>".
+    And conventional_commits_next_version is executed with the provided arguments.
     Then the conventional_commits_next_version assertion passes.
 
 Examples:
