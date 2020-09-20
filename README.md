@@ -33,10 +33,8 @@ A utility to calculate the next Semantic Versioning based upon the Conventional 
 Through the non-optional arguments `--from-commit-hash` and `--from-version` the commit messages are parsed against the Conventional Commits v1.0.0 specification.
 The Conventional Commits types of the commit messages are used to increment the Semantic Versioning provided via `--from-version` and is printed to standard out.
 
-
 conventional_commits_next_version finds and open an existing repository, respecting git environment variables.
 With $GIT_DIR unset, this will search for a repository starting in the current directory.
-
 
 The optional `--current-version` Semantic Versioning argument can be provided.
 The Semantic Versioning provided is asserted to be equal or larger than the calculated next Semantic Versioning.
@@ -151,7 +149,27 @@ conventional-commits-next-version-checking:
 
 
 #### Via Binary Download
+The two differences are minor, the first is the step installing from Cargo is replaced with downloading and unzipping the binary and the secound is changing the path the bianry is called from.
 
+```
+conventional-commits-next-version-checking:
+    stage: conventional-commits-next-version-checking
+    image: rust
+    before_script:
+        - wget -q -O tmp.zip "https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/artifacts/1.1.0/download?job=building-release-binary-linux-musl" && unzip tmp.zip && rm tmp.zip
+    script:
+        # Get current version and latest tag.
+        - CURRENT_VERSION=`grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2`
+        # Get latest tag.
+        - LATEST_TAG=`git describe --tags | cut -d '-' -f 1`
+        - LATEST_TAG_HASH=`git rev-parse $LATEST_TAG`
+        # Check latest tag is in semantic versioning.
+        - echo $LATEST_TAG | grep "^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*$"
+        # Check current vs expected.
+        - ./conventional_commits_next_version --batch-commits --from-commit-hash $LATEST_TAG_HASH --from-version $LATEST_TAG --current-version $CURRENT_VERSION
+    rules:
+        - if: $CI_MERGE_REQUEST_ID
+```
 
 
 ## Downloading Binary
