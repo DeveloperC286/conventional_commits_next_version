@@ -10,6 +10,20 @@ conventional_commits_next_version was created due to a lack of tooling not speci
 Following the Unix philosophy of 'Make each program do one thing well.' combined with utilising command line arguments and standard out; conventional_commits_next_version is a versatile tool not tied to specific tooling or language.
 
 
+## Content
+ * [Usage](#usage)
+   + [Usage - Consecutive Mode](#usage-consecutive-mode)
+   + [Usage - Batch Mode](#usage-batch-mode)
+   + [Usage - Logging](#usage-logging)
+ * [CICD Examples](#cicd-examples)
+ * [Downloading Binary](#downloading-binary)
+ * [Compiling via Local Repository](#compiling-via-local-repository)
+ * [Compiling via Cargo](#compiling-via-cargo)
+ * [Unit Testing](#unit-testing)
+ * [End-to-End Testing](#end-to-end-testing)
+ * [Issues/Feature Requests](#issuesfeature-requests)
+
+
 ## Usage
 Through the non-optional arguments `--from-commit-hash` and `--from-version` the commit messages are parsed against the Conventional Commits v1.0.0 specification.
 The Conventional Commits types of the commit messages are used to increment the Semantic Versioning provided via `--from-version` and is printed to standard out.
