@@ -18,6 +18,9 @@ A utility to calculate the next Semantic Versioning based upon the Conventional 
    + [Usage - Batch Mode](#usage-batch-mode)
    + [Usage - Logging](#usage-logging)
  * [CICD Examples](#cicd-examples)
+   + [GitLab CI Rust Project Example](#gitlab-ci-rust-project-example)
+     + [Via Cargo](#via-cargo)
+     + [Via Binary Download](#via-binary-download)
  * [Downloading Binary](#downloading-binary)
  * [Compiling via Local Repository](#compiling-via-local-repository)
  * [Compiling via Cargo](#compiling-via-cargo)
@@ -124,23 +127,31 @@ See [https://crates.io/crates/pretty_env_logger](https://crates.io/crates/pretty
 
 
 ## CICD Examples
-### .gitlab-ci.yml stage for a Rust project.
+### GitLab CI Rust Project Example
+#### Via Cargo
 ```
-merge-request-conventional-commits-next-version:
-    stage: merge-request-conventional-commits-next-version
+conventional-commits-next-version-checking:
+    stage: conventional-commits-next-version-checking
     image: rust
-    script:
-        # Get latest tag commit hash.
-        - CURRENT_VERSION=`grep '^version = "[0-9].[0-9].[0-9]"$' Cargo.toml | cut -d '"' -f 2`
-        - LATEST_TAG=`git tag -l | sort -r | head -1`
-        - LATEST_TAG_HASH=`git rev-parse $LATEST_TAG`
-        # Download conventional_commits_next_version.
+    before_script:
         - cargo install conventional_commits_next_version
-        # Compare current version vs expected.
-        - $CARGO_HOME/bin/conventional_commits_next_version --batch-commits --from-commit-hash $LATEST_TAG_HASH --from-version $LATEST_TAG --current-version $CURRENT_VERSION
+    script:
+        # Get current version and latest tag.
+        - CURRENT_VERSION=`grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2`
+        # Get latest tag.
+        - LATEST_TAG=`git describe --tags | cut -d '-' -f 1`
+        - LATEST_TAG_HASH=`git rev-parse $LATEST_TAG`
+        # Check latest tag is in semantic versioning.
+        - echo $LATEST_TAG | grep "^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*$"
+        # Check current vs expected.
+        - /usr/local/cargo/bin/conventional_commits_next_version --batch-commits --from-commit-hash $LATEST_TAG_HASH --from-version $LATEST_TAG --current-version $CURRENT_VERSION
     rules:
         - if: $CI_MERGE_REQUEST_ID
 ```
+
+
+#### Via Binary Download
+
 
 
 ## Downloading Binary
