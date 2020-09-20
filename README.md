@@ -10,28 +10,6 @@ conventional_commits_next_version was created due to a lack of tooling not speci
 Following the Unix philosophy of 'Make each program do one thing well.' combined with utilising command line arguments and standard out; conventional_commits_next_version is a versatile tool not tied to specific tooling or language.
 
 
-## Issues/Feature Requests
-To create feature requests or create an alert about a bug/issue.
-Use GitLab Issues on the project repository.
-https://gitlab.com/DeveloperC/conventional_commits_next_version/-/issues
-
-
-## Downloading Binary
-For easy of use pre-compiled binaries are available for download, so it can be easily used within CICD pipelines etc.
-
-
-Each tag has its own binary built.
-The downloaded file is zipped, unzip it and it produces a './conventional_commits_next_version' binary.
-Update `<TAG>` to the desired tag you wish to download.
-
-#### Note - You can find all the tags at `https://gitlab.com/DeveloperC/conventional_commits_next_version/-/tags`.
-
-```
-wget https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/artifacts/<TAG>/download?job=building-release-binary-linux-musl
-unzip download\?job=building-release-binary-linux-musl
-```
-
-
 ## Usage
 Through the non-optional arguments `--from-commit-hash` and `--from-version` the commit messages are parsed against the Conventional Commits v1.0.0 specification.
 The Conventional Commits types of the commit messages are used to increment the Semantic Versioning provided via `--from-version` and is printed to standard out.
@@ -44,12 +22,6 @@ With $GIT_DIR unset, this will search for a repository starting in the current d
 The optional `--current-version` Semantic Versioning argument can be provided.
 The Semantic Versioning provided is asserted to be equal or larger than the calculated next Semantic Versioning.
 The calculated next Semantic Versioning is not printed to standard out and if the assertion is not meet then it exits with a non zero exit code.
-
-
-`pretty_env_logger` and `log` are used to provide logging.
-The environment variable `RUST_LOG` can be used to set the logging level.
-See https://crates.io/crates/pretty_env_logger for more detailed documentation.
-
 
 Two different modes can be used by conventional_commits_next_version when calculating the next Semantic Versioning, both are described below.
 
@@ -129,6 +101,12 @@ The next Semantic Versioning  will be printed the standard out and can then be u
 ```
 
 
+### Usage - Logging
+The crates `pretty_env_logger` and `log` are used to provide logging.
+The environment variable `RUST_LOG` can be used to set the logging level.
+See [https://crates.io/crates/pretty_env_logger](https://crates.io/crates/pretty_env_logger) for more detailed documentation.
+
+
 ## CICD Examples
 ### .gitlab-ci.yml stage for a Rust project.
 ```
@@ -146,6 +124,22 @@ merge-request-conventional-commits-next-version:
         - $CARGO_HOME/bin/conventional_commits_next_version --batch-commits --from-commit-hash $LATEST_TAG_HASH --from-version $LATEST_TAG --current-version $CURRENT_VERSION
     rules:
         - if: $CI_MERGE_REQUEST_ID
+```
+
+
+## Downloading Binary
+For easy of use pre-compiled binaries are available for download, so it can be easily used within CICD pipelines etc.
+
+
+Each tag has its own binary built.
+The downloaded file is zipped, unzip it and it produces a './conventional_commits_next_version' binary.
+Update `<TAG>` to the desired tag you wish to download.
+
+#### Note - You can find all the tags at `https://gitlab.com/DeveloperC/conventional_commits_next_version/-/tags`.
+
+```
+wget https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/artifacts/<TAG>/download?job=building-release-binary-linux-musl
+unzip download\?job=building-release-binary-linux-musl
 ```
 
 
@@ -194,3 +188,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 behave
 ```
+
+
+## Issues/Feature Requests
+To report an issue or request a new feature use [https://gitlab.com/DeveloperC/conventional_commits_next_version/-/issues](https://gitlab.com/DeveloperC/conventional_commits_next_version/-/issues).
