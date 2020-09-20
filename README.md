@@ -2,11 +2,11 @@
 [![crates.io](https://img.shields.io/crates/v/conventional_commits_next_version)](https://crates.io/crates/conventional_commits_next_version) [![pipeline status](https://gitlab.com/DeveloperC/conventional_commits_next_version/badges/master/pipeline.svg)](https://gitlab.com/DeveloperC/conventional_commits_next_version/commits/master) [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 
-A utility to calculate the next Semantic Versioning based upon the Conventional Commits Git commit messages since the last version.
+A tooling/language agnostic utility to calculate the next Semantic Versioning based upon the Conventional Commits Git commit messages since the last version.
 
 
 ## Why use Conventional Commits Next Version?
- * __Not Tooling/Language Specific__ - Only command line arguments are utilised for input, no inbuilt functionality parses tooling/lanuage specfic files to obtain information.
+ * __Tooling/Language Agnostic__ - Only command line arguments are utilised for input, no inbuilt functionality parses tooling/lanuage specfic files to obtain information.
  * __No Dependencies__ - A binary download is provided, removing dependencies on downloading tools or interpreter languages.
  * __Not A Linter__ - Minor deviations from the Conventional Commits format are still accepted as valid input because this is not a linter (but we suggest you use [Conventional Commits Linter](https://gitlab.com/DeveloperC/conventional_commits_linter)).
  * __Invalid Commits Are Ignored__ - Only warnings are logged when Non Conventional Commits are encountered, the calculation continues performing.
