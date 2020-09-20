@@ -46,6 +46,10 @@ def compare_returned_and_expected_versions(context, expected_version):
     assert context.returned_version == expected_version
 
 
-@then('the exit code should be "{expected_exit_code}".')
-def compare_returned_and_expected_versions(context, expected_exit_code):
-    assert int(context.exit_code) == int(expected_exit_code)
+@then('the conventional_commits_next_version assertion passes.')
+def compare_returned_and_expected_versions(context):
+    assert int(context.exit_code) == 0
+
+@then('the conventional_commits_next_version assertion fails.')
+def compare_returned_and_expected_versions(context):
+    assert int(context.exit_code) != 0
