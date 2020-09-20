@@ -5,9 +5,11 @@
 A utility to calculate the next Semantic Versioning based upon the Conventional Commits Git commit messages since the last version.
 
 
-## Why?
-conventional_commits_next_version was created due to a lack of tooling not specific to and integrated with Node/NPM.
-Following the Unix philosophy of 'Make each program do one thing well.' combined with utilising command line arguments and standard out; conventional_commits_next_version is a versatile tool not tied to specific tooling or language.
+## Why use Conventional Commits Next Version?
+ * __Not Tooling/Language Specific__ - Only command line arguments are utilised for input, no inbuilt functionality parses tooling/lanuage specfic files to obtain information.
+ * __No Dependencies__ - A binary download is provided, removing dependencies on downloading tools or interpreter languages.
+ * __Not A Linter__ - Minor deviations from the Conventional Commits format are still accepted as valid input because this is not a linter (but we suggest you use [Conventional Commits Linter](https://gitlab.com/DeveloperC/conventional_commits_linter)).
+ * __Invalid Commits Are Ignored__ - Only warnings are logged when Non Conventional Commits are encountered, the calculation continues performing.
 
 
 ## Content
