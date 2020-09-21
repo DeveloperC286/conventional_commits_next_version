@@ -6,7 +6,6 @@ Scenario Outline:
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the --batch-commits flag is set.
-    And conventional_commits_next_version is executed with the provided arguments.
     Then the returned version should be "<expected_version>".
 
 

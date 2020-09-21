@@ -6,7 +6,6 @@ Scenario Outline: You can not provide both --from-tag and --from-commit-hash.
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --from-tag is provided as "<from_tag>".
-    And conventional_commits_next_version is executed with the provided arguments.
     Then the error message is either "error: The argument '--from-tag <from-tag>' cannot be used with one or more of the other specified arguments" or "error: The argument '--from-commit-hash <from-commit-hash>' cannot be used with one or more of the other specified arguments".
 
 
@@ -18,7 +17,6 @@ Examples:
 Scenario Outline: You must provide either --from-tag or --from-commit-hash.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     When the argument --from-version is provided as "<from_version>".
-    And conventional_commits_next_version is executed with the provided arguments.
     Then the error message is "error: The following required arguments were not provided:".
 
 
@@ -32,7 +30,6 @@ Scenario Outline: You can use the --from-tag argument instead of the --from-comm
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-tag is provided as "<from_tag>".
     And the argument --current-version is provided as "<current_version>".
-    And conventional_commits_next_version is executed with the provided arguments.
     Then the conventional_commits_next_version assertion passes.
 
 Examples:
@@ -45,7 +42,6 @@ Scenario Outline: When you provide an invalid tag a relevant error message is re
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-tag is provided as "<from_tag>".
     And the argument --current-version is provided as "<current_version>".
-    And conventional_commits_next_version is executed with the provided arguments.
     Then the error message is "ERROR conventional_commits_next_version::git > Could not find tag with the name '16-0-3'.".
 
 Examples:

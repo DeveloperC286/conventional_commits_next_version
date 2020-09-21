@@ -31,7 +31,6 @@ def set_from_tag(context, from_tag):
     context.arguments += " --from-tag " + from_tag
 
 
-@when('conventional_commits_next_version is executed with the provided arguments.')
 def execute_conventional_commits_next_version(context):
     current_directory = os.getcwd()
 
@@ -47,27 +46,32 @@ def execute_conventional_commits_next_version(context):
 
 @then('the returned version should be "{expected_version}".')
 def compare_returned_and_expected_versions(context, expected_version):
+    execute_conventional_commits_next_version(context)
     assert context.exit_code == 0
     assert context.stdout == expected_version
 
 
 @then('the conventional_commits_next_version assertion passes.')
 def compare_returned_and_expected_versions(context):
+    execute_conventional_commits_next_version(context)
     assert int(context.exit_code) == 0
 
 
 @then('the conventional_commits_next_version assertion fails.')
 def compare_returned_and_expected_versions(context):
+    execute_conventional_commits_next_version(context)
     assert int(context.exit_code) != 0
 
 
 @then('the error message is "{error_message}".')
 def then_the_error_message_is(context, error_message):
+    execute_conventional_commits_next_version(context)
     assert starts_with(context.stdout, error_message)
 
 
 @then('the error message is either "{error_message}" or "{error_message2}".')
 def then_the_error_message_is_either(context, error_message, error_message2):
+    execute_conventional_commits_next_version(context)
     assert starts_with(context.stdout, error_message) or starts_with(context.stdout, error_message2)
 
 
