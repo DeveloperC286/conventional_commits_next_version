@@ -1,17 +1,25 @@
 use semver::Version;
-use structopt::StructOpt;
+use structopt::{clap::ArgGroup, StructOpt};
 
 #[derive(Debug, StructOpt)]
 #[structopt(
     name = "conventional_commits_next_version",
-    about = "A tooling/language agnostic utility to calculate the next Semantic Versioning based upon the Conventional Commits Git commit messages since the last version."
+    about = "A tooling/language agnostic utility to calculate the next Semantic Versioning based upon the Conventional Commits Git commit messages since the last version.",
+    group = ArgGroup::with_name("from").required(true)
 )]
 pub struct Arguments {
     #[structopt(
+        group = "from",
         long = "from-commit-hash",
         help = "The Git commit hash from where to start using the commit messages till HEAD."
     )]
-    pub from_commit_hash: String,
+    pub from_commit_hash: Option<git2::Oid>,
+    #[structopt(
+        group = "from",
+        long = "from-tag",
+        help = "The Git tag from where to take the range of commits from till HEAD to lint. The range is inclusive of HEAD and exclusive of the provided tag."
+    )]
+    pub from_tag: Option<String>,
     #[structopt(
         long = "from-version",
         help = "The Semantic Versioning at the Git commit hash provided by the --from-commit-hash argument."

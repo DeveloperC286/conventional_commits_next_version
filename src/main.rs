@@ -13,17 +13,19 @@ mod increment;
 
 fn main() {
     pretty_env_logger::init();
-    let args = cli::Arguments::from_args();
-    debug!("The command line arguemetns provided are {:?}.", args);
+    let arguments = cli::Arguments::from_args();
+    debug!("The command line arguments provided are {:?}.", arguments);
 
-    let commit_messages = git::get_commit_messages_from(&args.from_commit_hash);
+    let commit_messages =
+        git::get_commit_messages_till_head_from(arguments.from_commit_hash, arguments.from_tag);
+
     let expected_version = increment::get_next_version_from_commits(
         commit_messages,
-        args.from_version,
-        args.batch_commits,
+        arguments.from_version,
+        arguments.batch_commits,
     );
 
-    match args.current_version {
+    match arguments.current_version {
         Some(current_version) => {
             debug!(
                 "Comparing current_version {} >= expected_version {}.",

@@ -1,10 +1,34 @@
 use git2::{Oid, Repository, Revwalk};
 
-pub fn get_commit_messages_from(from_commit_hash: &str) -> Vec<String> {
+pub fn get_commit_messages_till_head_from(
+    from_commit_hash: Option<git2::Oid>,
+    from_tag: Option<String>,
+) -> Vec<String> {
+    if let Some(oid) = from_commit_hash {
+        return get_commit_messages_till_head_from_oid(oid);
+    }
+
+    if let Some(tag_name) = from_tag {
+        match get_tag_oid(&tag_name) {
+            Some(oid) => {
+                return get_commit_messages_till_head_from_oid(oid);
+            }
+            None => {
+                error!("Could not find tag with the name '{}'.", tag_name);
+                std::process::exit(1);
+            }
+        }
+    }
+
+    error!("Provide either the --from-tag or --from-commit-hash argument.");
+    std::process::exit(1);
+}
+
+fn get_commit_messages_till_head_from_oid(from_commit_hash: Oid) -> Vec<String> {
     let mut commit_messages = vec![];
 
     let repository = get_repository();
-    let mut revwalk = get_revwalk(&repository, get_oid(from_commit_hash));
+    let mut revwalk = get_revwalk(&repository, from_commit_hash);
 
     loop {
         match revwalk.next() {
@@ -14,7 +38,7 @@ pub fn get_commit_messages_from(from_commit_hash: &str) -> Vec<String> {
                     commit_messages.push(commit_message);
                 }
                 None => {
-                    warn!("Commit '{}' has no message.", oid);
+                    warn!("Commit hash '{}' has no message.", oid);
                 }
             },
             Some(Err(error)) => {
@@ -26,10 +50,7 @@ pub fn get_commit_messages_from(from_commit_hash: &str) -> Vec<String> {
         }
     }
 
-    debug!(
-        "Found '{}' commit message between HEAD and --from-commit.",
-        commit_messages.len()
-    );
+    debug!("'{}' commit messages in the vector.", commit_messages.len());
     commit_messages.reverse();
     commit_messages
 }
@@ -88,12 +109,36 @@ fn get_repository() -> Repository {
     }
 }
 
-fn get_oid(oid_string: &str) -> Oid {
-    match Oid::from_str(oid_string) {
-        Ok(oid) => oid,
-        Err(_error) => {
-            error!("'{}' is not a valid commit id.", oid_string);
+fn get_tag_oid(matching: &str) -> Option<Oid> {
+    let mut oid: Option<Oid> = None;
+    let repository = get_repository();
+    let matching = format!("refs/tags/{}", matching);
+
+    match repository.tag_foreach(|tag_oid: Oid, tag_name: &[u8]| -> bool {
+        match std::str::from_utf8(tag_name) {
+            Ok(tag_name) => {
+                if tag_name == matching {
+                    debug!("Matching '{}' at commit id '{}'.", tag_name, tag_oid);
+                    oid = Some(tag_oid);
+                    return false;
+                }
+            }
+            Err(error) => {
+                error!("Unable to parse String from tag's name.");
+                error!("{:?}", error);
+                std::process::exit(1);
+            }
+        }
+
+        true
+    }) {
+        Ok(_) => {}
+        Err(error) => {
+            error!("Unable to perform function on all tags.");
+            error!("{:?}", error);
             std::process::exit(1);
         }
     }
+
+    oid
 }
