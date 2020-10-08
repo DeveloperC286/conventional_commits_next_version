@@ -2,7 +2,7 @@ use regex::Regex;
 use semver::Version;
 
 pub const OPTIONAL_PRECEDING_WHITESPACE: &str = "^([[:space:]])*";
-pub const SCOPE_REGEX: &str = "([[:digit:]]|[[:alpha:]]|_|-| )*";
+pub const SCOPE_REGEX: &str = "([[:digit:]]|[[:alpha:]]|_|-|[[:space:]])*";
 
 lazy_static! {
     static ref MAJOR_TITLE_INCREMENT_REGEX: Regex = Regex::new(
