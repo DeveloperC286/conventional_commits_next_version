@@ -21,8 +21,14 @@ lazy_static! {
         .as_str()
     )
     .unwrap();
-    static ref PATCH_INCREMENT_REGEX: Regex =
-        Regex::new(format!(r"(?i)^fix(\({}\))?:", &*SCOPE_REGEX).as_str()).unwrap();
+    static ref PATCH_INCREMENT_REGEX: Regex = Regex::new(
+        format!(
+            r"(?i){}fix(\({}\))?:",
+            &*OPTIONAL_PRECEDING_WHITESPACE, &*SCOPE_REGEX
+        )
+        .as_str()
+    )
+    .unwrap();
     static ref MINOR_INCREMENT_REGEX: Regex = Regex::new(
         format!(
             r"(?i){}feat(\({}\))?:",
