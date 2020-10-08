@@ -47,3 +47,23 @@ fn test_is_major_increment_footer(commit_message: &str) {
 fn test_is_not_major_increment(commit_message: &str) {
     assert_eq!(false, is_major_increment(commit_message));
 }
+
+#[rstest(
+    commit_message,
+    case(" refactor!: drop support for Node 6"),
+    case("\tfeat(deps)!: pull in yargs-parser@17.0.0 (#1553)\n\n")
+)]
+fn test_is_major_increment_preceding_whitespace(commit_message: &str) {
+    assert_eq!(true, is_major_increment(commit_message));
+}
+
+#[rstest(
+    commit_message,
+    case("\n\rbuild: switch to action for release-please (#1657)"),
+    case(" chore(ts): tsify lib/middleware (#1636)\n\n"),
+    case("  fix(i18n): Japanese translation phrasing (#1619)\n\n"),
+    case("\tfeat: add usage for single-digit boolean aliases (#1580)\n\n")
+)]
+fn test_is_not_major_increment_preceding_whitespace(commit_message: &str) {
+    assert_eq!(false, is_major_increment(commit_message));
+}
