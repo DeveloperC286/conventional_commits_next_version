@@ -67,3 +67,22 @@ fn test_is_major_increment_preceding_whitespace(commit_message: &str) {
 fn test_is_not_major_increment_preceding_whitespace(commit_message: &str) {
     assert_eq!(false, is_major_increment(commit_message));
 }
+
+#[rstest(
+    commit_message,
+    case("refactor(  )!: drop support for Node 6"),
+    case("feat()!: pull in yargs-parser@17.0.0 (#1553)\n\n")
+)]
+fn test_is_major_increment_empty_scope(commit_message: &str) {
+    assert_eq!(true, is_major_increment(commit_message));
+}
+
+#[rstest(
+    commit_message,
+    case("build( ): switch to action for release-please (#1657)"),
+    case("chore(): tsify lib/middleware (#1636)\n\n"),
+    case("fix(  ): Japanese translation phrasing (#1619)\n\n")
+)]
+fn test_is_not_major_increment_empty_scope(commit_message: &str) {
+    assert_eq!(false, is_major_increment(commit_message));
+}
