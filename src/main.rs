@@ -14,7 +14,7 @@ mod increment;
 fn main() {
     pretty_env_logger::init();
     let arguments = cli::Arguments::from_args();
-    debug!("The command line arguments provided are {:?}.", arguments);
+    trace!("The command line arguments provided are {:?}.", arguments);
 
     let commit_messages =
         git::get_commit_messages_till_head_from(arguments.from_commit_hash, arguments.from_tag);
@@ -27,8 +27,8 @@ fn main() {
 
     match arguments.current_version {
         Some(current_version) => {
-            debug!(
-                "Comparing current_version {} >= expected_version {}.",
+            trace!(
+                "Comparing {} < {}.",
                 current_version.to_string(),
                 expected_version.to_string()
             );

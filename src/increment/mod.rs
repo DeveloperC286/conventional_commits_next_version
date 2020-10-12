@@ -47,10 +47,10 @@ pub fn get_next_version_from_commits(
     batch_commits: bool,
 ) -> Version {
     if batch_commits {
-        debug!("Operating in batch mode.");
+        trace!("Operating in batch mode.");
         get_next_version_from_commits_batch(commit_messages, version)
     } else {
-        debug!("Operating in consecutive mode.");
+        trace!("Operating in consecutive mode.");
         get_next_version_from_commits_consecutive(commit_messages, version)
     }
 }

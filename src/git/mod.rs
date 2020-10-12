@@ -4,17 +4,19 @@ pub fn get_commit_messages_till_head_from(
     from_commit_hash: Option<git2::Oid>,
     from_tag: Option<String>,
 ) -> Vec<String> {
+    let repository = get_repository();
+
     if let Some(oid) = from_commit_hash {
-        return get_commit_messages_till_head_from_oid(oid);
+        return get_commit_messages_till_head_from_oid(&repository, oid);
     }
 
     if let Some(tag_name) = from_tag {
-        match get_tag_oid(&tag_name) {
+        match get_tag_oid(&repository, &tag_name) {
             Some(oid) => {
-                return get_commit_messages_till_head_from_oid(oid);
+                return get_commit_messages_till_head_from_oid(&repository, oid);
             }
             None => {
-                error!("Could not find tag with the name '{}'.", tag_name);
+                error!("Could not find a tag with the name '{}'.", tag_name);
                 std::process::exit(1);
             }
         }
@@ -24,15 +26,12 @@ pub fn get_commit_messages_till_head_from(
     std::process::exit(1);
 }
 
-fn get_commit_messages_till_head_from_oid(from_commit_hash: Oid) -> Vec<String> {
+fn get_commit_messages_till_head_from_oid(repository: &Repository, from_commit_hash: Oid) -> Vec<String> {
     let mut commit_messages = vec![];
 
-    let repository = get_repository();
-    let mut revwalk = get_revwalk(&repository, from_commit_hash);
-
-    loop {
-        match revwalk.next() {
-            Some(Ok(oid)) => match get_commit_message(&repository, oid) {
+    for oid in get_commit_oids(repository, from_commit_hash).next() {
+        match oid {
+            Ok(oid) => match get_commit_message(&repository, oid) {
                 Some(commit_message) => {
                     trace!("Found commit '{}'s message '{:?}'.", oid, commit_message);
                     commit_messages.push(commit_message);
@@ -40,47 +39,44 @@ fn get_commit_messages_till_head_from_oid(from_commit_hash: Oid) -> Vec<String> 
                 None => {
                     warn!("Commit hash '{}' has no message.", oid);
                 }
-            },
-            Some(Err(error)) => {
-                error!("Revwalk threw error while walking the commits.");
+            }
+            Err(error) => {
                 error!("{:?}", error);
                 std::process::exit(1);
             }
-            None => break,
         }
     }
 
-    debug!("'{}' commit messages in the vector.", commit_messages.len());
+    debug!("{} commit messages found.", commit_messages.len());
     commit_messages.reverse();
     commit_messages
 }
 
-fn get_revwalk(repository: &Repository, from_commit_hash: Oid) -> Revwalk {
+fn get_commit_oids(repository: &Repository, from_commit_hash: Oid) -> Revwalk {
     match repository.revwalk() {
-        Ok(mut revwalk) => {
-            match revwalk.push_head() {
-                Ok(_result) => {}
-                Err(_error) => {
-                    error!("Unable to push HEAD onto the revwalk.");
+        Ok(mut commits) => {
+            match commits.push_head() {
+                Ok(_) => {}
+                Err(_) => {
+                    error!("Unable to push HEAD onto the revision walker.");
                     std::process::exit(1);
                 }
             }
 
-            match revwalk.hide(from_commit_hash) {
-                Ok(_result) => {}
-                Err(_error) => {
+            match commits.hide(from_commit_hash) {
+                Ok(_) => {}
+                Err(_) => {
                     error!(
-                        "Can not find --from-commit '{}' on the revwalk.",
+                        "Can not find commit hash '{}' on the revision walker.",
                         from_commit_hash
                     );
                     std::process::exit(1);
                 }
             }
 
-            revwalk
+            commits
         }
         Err(error) => {
-            error!("Unable to get revwalk from local repository.");
             error!("{:?}", error);
             std::process::exit(1);
         }
@@ -90,9 +86,8 @@ fn get_revwalk(repository: &Repository, from_commit_hash: Oid) -> Revwalk {
 fn get_commit_message(repository: &Repository, oid: Oid) -> Option<String> {
     match repository.find_commit(oid) {
         Ok(commit) => commit.message().map(|m| m.to_string()),
-
-        Err(_error) => {
-            error!("Can not find commit '{}' in current repository.", oid);
+        Err(_) => {
+            error!("Can not find commit hash '{}'.", oid);
             std::process::exit(1);
         }
     }
@@ -102,16 +97,14 @@ fn get_repository() -> Repository {
     match Repository::open_from_env() {
         Ok(repository) => repository,
         Err(error) => {
-            error!("Unable to open the Git repository.");
             error!("{:?}", error);
             std::process::exit(1);
         }
     }
 }
 
-fn get_tag_oid(matching: &str) -> Option<Oid> {
+fn get_tag_oid(repository: &Repository, matching: &str) -> Option<Oid> {
     let mut oid: Option<Oid> = None;
-    let repository = get_repository();
     let matching = format!("refs/tags/{}", matching);
 
     match repository.tag_foreach(|tag_oid: Oid, tag_name: &[u8]| -> bool {
@@ -124,7 +117,6 @@ fn get_tag_oid(matching: &str) -> Option<Oid> {
                 }
             }
             Err(error) => {
-                error!("Unable to parse String from tag's name.");
                 error!("{:?}", error);
                 std::process::exit(1);
             }
@@ -134,7 +126,6 @@ fn get_tag_oid(matching: &str) -> Option<Oid> {
     }) {
         Ok(_) => {}
         Err(error) => {
-            error!("Unable to perform function on all tags.");
             error!("{:?}", error);
             std::process::exit(1);
         }
