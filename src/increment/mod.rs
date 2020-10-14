@@ -61,48 +61,52 @@ fn get_next_version_from_commits_batch(
     commit_messages: Vec<String>,
     mut version: Version,
 ) -> Version {
-    if commit_messages
+    let major_commits_count = commit_messages
         .iter()
-        .any(|commit_message| is_major_increment(commit_message))
-    {
-        for commit_message in commit_messages
-            .iter()
-            .filter(|commit_message| is_major_increment(commit_message))
-        {
-            debug!(
-                "Incrementing semantic versioning major because of commit message '{:?}'.",
-                commit_message
-            )
-        }
+        .filter(|commit_message| match is_major_increment(commit_message) {
+            true => {
+                log_major_increment(commit_message);
+                true
+            }
+            false => false,
+        })
+        .count();
+
+    if major_commits_count > 0 {
         version.increment_major();
-    } else if commit_messages
+        return version;
+    }
+
+    let minor_commits_count = commit_messages
         .iter()
-        .any(|commit_message| is_minor_increment(commit_message))
-    {
-        for commit_message in commit_messages
-            .iter()
-            .filter(|commit_message| is_minor_increment(commit_message))
-        {
-            debug!(
-                "Incrementing semantic versioning minor because of commit message '{:?}'.",
-                commit_message
-            )
-        }
+        .filter(|commit_message| match is_minor_increment(commit_message) {
+            true => {
+                log_minor_increment(commit_message);
+                true
+            }
+            false => false,
+        })
+        .count();
+
+    if minor_commits_count > 0 {
         version.increment_minor();
-    } else if commit_messages
+        return version;
+    }
+
+    let patch_commits_count = commit_messages
         .iter()
-        .any(|commit_message| is_patch_increment(commit_message))
-    {
-        for commit_message in commit_messages
-            .iter()
-            .filter(|commit_message| is_patch_increment(commit_message))
-        {
-            debug!(
-                "Incrementing semantic versioning patch because of commit message '{:?}'.",
-                commit_message
-            );
-        }
+        .filter(|commit_message| match is_patch_increment(commit_message) {
+            true => {
+                log_patch_increment(commit_message);
+                true
+            }
+            false => false,
+        })
+        .count();
+
+    if patch_commits_count > 0 {
         version.increment_patch();
+        return version;
     }
 
     version
@@ -114,27 +118,39 @@ fn get_next_version_from_commits_consecutive(
 ) -> Version {
     commit_messages.iter().for_each(|commit_message| {
         if is_major_increment(commit_message) {
-            debug!(
-                "Incrementing semantic versioning major because of commit message '{:?}'.",
-                commit_message
-            );
+            log_major_increment(commit_message);
             version.increment_major();
         } else if is_minor_increment(commit_message) {
-            debug!(
-                "Incrementing semantic versioning minor because of commit '{:?}'.",
-                commit_message
-            );
+            log_minor_increment(commit_message);
             version.increment_minor();
         } else if is_patch_increment(commit_message) {
-            debug!(
-                "Incrementing semantic versioning patch because of commit '{:?}'.",
-                commit_message
-            );
+            log_patch_increment(commit_message);
             version.increment_patch();
         }
     });
 
     version
+}
+
+fn log_major_increment(commit_message: &str) {
+    debug!(
+        "Incrementing semantic versioning major because of commit message '{:?}'.",
+        commit_message
+    );
+}
+
+fn log_minor_increment(commit_message: &str) {
+    debug!(
+        "Incrementing semantic versioning minor because of commit '{:?}'.",
+        commit_message
+    );
+}
+
+fn log_patch_increment(commit_message: &str) {
+    debug!(
+        "Incrementing semantic versioning patch because of commit '{:?}'.",
+        commit_message
+    );
 }
 
 fn is_major_increment(commit_message: &str) -> bool {

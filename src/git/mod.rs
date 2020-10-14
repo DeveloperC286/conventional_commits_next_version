@@ -30,8 +30,7 @@ fn get_commit_messages_till_head_from_oid(
     repository: &Repository,
     from_commit_hash: Oid,
 ) -> Vec<String> {
-    get_commit_oids(repository, from_commit_hash)
-        .into_iter()
+    let mut commit_messages: Vec<String> = get_commit_oids(repository, from_commit_hash)
         .map(|oid| match oid {
             Ok(oid) => match get_commit_message(&repository, oid) {
                 Some(commit_message) => {
@@ -50,8 +49,10 @@ fn get_commit_messages_till_head_from_oid(
         })
         .filter(|commit_message| commit_message.is_some())
         .map(|commit_message| commit_message.unwrap())
-        .collect()
-        .reverse()
+        .collect();
+
+    commit_messages.reverse();
+    commit_messages
 }
 
 fn get_commit_oids(repository: &Repository, from_commit_hash: Oid) -> Revwalk {
