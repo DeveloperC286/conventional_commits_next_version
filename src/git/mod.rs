@@ -27,29 +27,29 @@ pub fn get_commit_messages_till_head_from(
 }
 
 fn get_commit_messages_till_head_from_oid(repository: &Repository, from_commit_hash: Oid) -> Vec<String> {
-    let mut commit_messages = vec![];
-
-    for oid in get_commit_oids(repository, from_commit_hash).next() {
-        match oid {
-            Ok(oid) => match get_commit_message(&repository, oid) {
-                Some(commit_message) => {
-                    trace!("Found commit '{}'s message '{:?}'.", oid, commit_message);
-                    commit_messages.push(commit_message);
+    get_commit_oids(repository, from_commit_hash).into_iter()
+        .map(|oid| {
+            match oid {
+                Ok(oid) => match get_commit_message(&repository, oid) {
+                    Some(commit_message) => {
+                        trace!("Found commit '{}'s message '{:?}'.", oid, commit_message);
+                        Some(commit_message)
+                    }
+                    None => {
+                        warn!("Commit hash '{}' has no message.", oid);
+                        None
+                    }
                 }
-                None => {
-                    warn!("Commit hash '{}' has no message.", oid);
+                Err(error) => {
+                    error!("{:?}", error);
+                    std::process::exit(crate::ERROR_EXIT_CODE);
                 }
             }
-            Err(error) => {
-                error!("{:?}", error);
-                std::process::exit(crate::ERROR_EXIT_CODE);
-            }
-        }
-    }
-
-    debug!("{} commit messages found.", commit_messages.len());
-    commit_messages.reverse();
-    commit_messages
+        })
+        .filter(|commit_message| commit_message.is_some())
+        .map(|commit_message| commit_message.unwrap())
+        .collect()
+        .reverse()
 }
 
 fn get_commit_oids(repository: &Repository, from_commit_hash: Oid) -> Revwalk {
