@@ -6,11 +6,13 @@ pub const ANY_REGEX: &str = "([[:digit:]]|[[:alpha:]]|_|-|[[:space:]])*";
 
 lazy_static! {
     static ref OPTIONAL_SCOPE_REGEX: String = format!(r"(\({}\))?", ANY_REGEX);
-
     static ref MAJOR_TITLE_INCREMENT_REGEX: Regex = Regex::new(
         format!(
             r"(?i){}({})(!{}|{}!):",
-            &*OPTIONAL_PRECEDING_WHITESPACE, &*ANY_REGEX, &*OPTIONAL_SCOPE_REGEX, &*OPTIONAL_SCOPE_REGEX
+            &*OPTIONAL_PRECEDING_WHITESPACE,
+            &*ANY_REGEX,
+            &*OPTIONAL_SCOPE_REGEX,
+            &*OPTIONAL_SCOPE_REGEX
         )
         .as_str()
     )

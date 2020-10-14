@@ -26,24 +26,26 @@ pub fn get_commit_messages_till_head_from(
     std::process::exit(crate::ERROR_EXIT_CODE);
 }
 
-fn get_commit_messages_till_head_from_oid(repository: &Repository, from_commit_hash: Oid) -> Vec<String> {
-    get_commit_oids(repository, from_commit_hash).into_iter()
-        .map(|oid| {
-            match oid {
-                Ok(oid) => match get_commit_message(&repository, oid) {
-                    Some(commit_message) => {
-                        trace!("Found commit '{}'s message '{:?}'.", oid, commit_message);
-                        Some(commit_message)
-                    }
-                    None => {
-                        warn!("Commit hash '{}' has no message.", oid);
-                        None
-                    }
+fn get_commit_messages_till_head_from_oid(
+    repository: &Repository,
+    from_commit_hash: Oid,
+) -> Vec<String> {
+    get_commit_oids(repository, from_commit_hash)
+        .into_iter()
+        .map(|oid| match oid {
+            Ok(oid) => match get_commit_message(&repository, oid) {
+                Some(commit_message) => {
+                    trace!("Found commit '{}'s message '{:?}'.", oid, commit_message);
+                    Some(commit_message)
                 }
-                Err(error) => {
-                    error!("{:?}", error);
-                    std::process::exit(crate::ERROR_EXIT_CODE);
+                None => {
+                    warn!("Commit hash '{}' has no message.", oid);
+                    None
                 }
+            },
+            Err(error) => {
+                error!("{:?}", error);
+                std::process::exit(crate::ERROR_EXIT_CODE);
             }
         })
         .filter(|commit_message| commit_message.is_some())
