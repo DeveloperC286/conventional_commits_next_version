@@ -11,6 +11,8 @@ mod cli;
 mod git;
 mod increment;
 
+const ERROR_EXIT_CODE: i32 = 1;
+
 fn main() {
     pretty_env_logger::init();
     let arguments = cli::Arguments::from_args();
@@ -33,7 +35,7 @@ fn main() {
                 expected_version.to_string()
             );
             if current_version < expected_version {
-                std::process::exit(1);
+                std::process::exit(ERROR_EXIT_CODE);
             }
         }
         None => {

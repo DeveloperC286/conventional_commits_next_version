@@ -17,13 +17,13 @@ pub fn get_commit_messages_till_head_from(
             }
             None => {
                 error!("Could not find a tag with the name '{}'.", tag_name);
-                std::process::exit(1);
+                std::process::exit(crate::ERROR_EXIT_CODE);
             }
         }
     }
 
     error!("Provide either the --from-tag or --from-commit-hash argument.");
-    std::process::exit(1);
+    std::process::exit(crate::ERROR_EXIT_CODE);
 }
 
 fn get_commit_messages_till_head_from_oid(repository: &Repository, from_commit_hash: Oid) -> Vec<String> {
@@ -42,7 +42,7 @@ fn get_commit_messages_till_head_from_oid(repository: &Repository, from_commit_h
             }
             Err(error) => {
                 error!("{:?}", error);
-                std::process::exit(1);
+                std::process::exit(crate::ERROR_EXIT_CODE);
             }
         }
     }
@@ -59,7 +59,7 @@ fn get_commit_oids(repository: &Repository, from_commit_hash: Oid) -> Revwalk {
                 Ok(_) => {}
                 Err(_) => {
                     error!("Unable to push HEAD onto the revision walker.");
-                    std::process::exit(1);
+                    std::process::exit(crate::ERROR_EXIT_CODE);
                 }
             }
 
@@ -70,7 +70,7 @@ fn get_commit_oids(repository: &Repository, from_commit_hash: Oid) -> Revwalk {
                         "Can not find commit hash '{}' on the revision walker.",
                         from_commit_hash
                     );
-                    std::process::exit(1);
+                    std::process::exit(crate::ERROR_EXIT_CODE);
                 }
             }
 
@@ -78,7 +78,7 @@ fn get_commit_oids(repository: &Repository, from_commit_hash: Oid) -> Revwalk {
         }
         Err(error) => {
             error!("{:?}", error);
-            std::process::exit(1);
+            std::process::exit(crate::ERROR_EXIT_CODE);
         }
     }
 }
@@ -88,7 +88,7 @@ fn get_commit_message(repository: &Repository, oid: Oid) -> Option<String> {
         Ok(commit) => commit.message().map(|m| m.to_string()),
         Err(_) => {
             error!("Can not find commit hash '{}'.", oid);
-            std::process::exit(1);
+            std::process::exit(crate::ERROR_EXIT_CODE);
         }
     }
 }
@@ -98,7 +98,7 @@ fn get_repository() -> Repository {
         Ok(repository) => repository,
         Err(error) => {
             error!("{:?}", error);
-            std::process::exit(1);
+            std::process::exit(crate::ERROR_EXIT_CODE);
         }
     }
 }
@@ -118,7 +118,7 @@ fn get_tag_oid(repository: &Repository, matching: &str) -> Option<Oid> {
             }
             Err(error) => {
                 error!("{:?}", error);
-                std::process::exit(1);
+                std::process::exit(crate::ERROR_EXIT_CODE);
             }
         }
 
@@ -127,7 +127,7 @@ fn get_tag_oid(repository: &Repository, matching: &str) -> Option<Oid> {
         Ok(_) => {}
         Err(error) => {
             error!("{:?}", error);
-            std::process::exit(1);
+            std::process::exit(crate::ERROR_EXIT_CODE);
         }
     }
 
