@@ -42,7 +42,7 @@ Scenario Outline: When you provide an invalid tag a relevant error message is re
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-tag is provided as "<from_tag>".
     And the argument --current-version is provided as "<current_version>".
-    Then the error message is "ERROR conventional_commits_next_version::git > Could not find tag with the name '16-0-3'.".
+    Then the error message is "ERROR conventional_commits_next_version::git > Could not find a tag with the name '16-0-3'.".
 
 Examples:
     | repository                                 | checkout_commit                          | from_tag | from_version | current_version |

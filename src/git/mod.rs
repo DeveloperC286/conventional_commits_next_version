@@ -114,7 +114,10 @@ fn get_tag_oid(repository: &Repository, matching: &str) -> Option<Oid> {
         match std::str::from_utf8(tag_name) {
             Ok(tag_name) => {
                 if tag_name == matching {
-                    debug!("Matching '{}' at commit id '{}'.", tag_name, tag_oid);
+                    debug!(
+                        "Matching tag with the name '{}' at commit id '{}'.",
+                        tag_name, tag_oid
+                    );
                     oid = Some(tag_oid);
                     return false;
                 }
