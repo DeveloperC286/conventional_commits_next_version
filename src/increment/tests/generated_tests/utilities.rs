@@ -113,7 +113,11 @@ fn get_scope_variations(should_generate_empty_scope: bool) -> Vec<String> {
             "()".to_string(),
             "( )".to_string(),
         ],
-        false => vec!["".to_string()],
+        false => vec![
+            "".to_string(),
+            "(parser)".to_string(),
+            "(strict mode)".to_string(),
+        ],
     }
 }
 
