@@ -15,11 +15,11 @@ pub fn generate_major_commits(
     should_generate_no_space_after_type: bool,
 ) -> Vec<String> {
     generate_commits(
+        get_preceding_whitespace_variations(should_generate_preceding_whitespace),
         get_major_commit_types(),
-        should_generate_preceding_whitespace,
-        should_generate_empty_scope,
-        should_generate_no_description,
+        get_scope_variations(should_generate_empty_scope),
         should_generate_no_space_after_type,
+        get_description_variations(should_generate_no_description),
     )
 }
 
@@ -30,11 +30,11 @@ pub fn generate_minor_commits(
     should_generate_no_space_after_type: bool,
 ) -> Vec<String> {
     generate_commits(
+        get_preceding_whitespace_variations(should_generate_preceding_whitespace),
         get_minor_commit_types(),
-        should_generate_preceding_whitespace,
-        should_generate_empty_scope,
-        should_generate_no_description,
+        get_scope_variations(should_generate_empty_scope),
         should_generate_no_space_after_type,
+        get_description_variations(should_generate_no_description),
     )
 }
 
@@ -45,43 +45,22 @@ pub fn generate_patch_commits(
     should_generate_no_space_after_type: bool,
 ) -> Vec<String> {
     generate_commits(
+        get_preceding_whitespace_variations(should_generate_preceding_whitespace),
         get_patch_commit_types(),
-        should_generate_preceding_whitespace,
-        should_generate_empty_scope,
-        should_generate_no_description,
+        get_scope_variations(should_generate_empty_scope),
         should_generate_no_space_after_type,
+        get_description_variations(should_generate_no_description),
     )
 }
 
 fn generate_commits(
+    preceding_whitespace_variations: Vec<String>,
     commit_types: Vec<String>,
-    should_generate_preceding_whitespace: bool,
-    should_generate_empty_scope: bool,
-    should_generate_no_description: bool,
+    scope_variations: Vec<String>,
     should_generate_no_space_after_type: bool,
+    description_variations: Vec<String>,
 ) -> Vec<String> {
     let mut commits = vec![];
-
-    let scope_variations = match should_generate_empty_scope {
-        true => {
-            get_empty_scope_variations()
-        }
-        false => vec!["".to_string()],
-    };
-
-    let preceding_variations = match should_generate_preceding_whitespace {
-        true => {
-            get_preceding_whitespace_variations()
-        }
-        false => vec!["".to_string()],
-    };
-
-    let description_variations = match should_generate_no_description {
-        true => {
-            get_no_description_variations()
-        }
-        false => get_description_variations(),
-    };
 
     let space_after_type = match should_generate_no_space_after_type {
         true => {
@@ -90,7 +69,7 @@ fn generate_commits(
         false => " ",
     };
 
-    for preceding in &preceding_variations {
+    for preceding in &preceding_whitespace_variations {
         for commit_type in &commit_types {
             for scope in &scope_variations {
                 for description in &description_variations {
@@ -107,37 +86,43 @@ fn generate_commits(
     commits
 }
 
-fn get_no_description_variations() -> Vec<String> {
-    return vec![
-        "".to_string(),
-        "\t".to_string(),
-        "\n\n".to_string(),
-        "\n\r".to_string(),
-    ];
+fn get_preceding_whitespace_variations(should_generate_preceding_whitespace: bool) -> Vec<String> {
+    match should_generate_preceding_whitespace {
+        true => vec![
+            "  ".to_string(),
+            " ".to_string(),
+            "\t".to_string(),
+            "\n\r".to_string(),
+        ],
+        false => vec!["".to_string()],
+    }
 }
 
-fn get_description_variations() -> Vec<String> {
-    return vec![
-        "this is a description".to_string(),
-        "this is a description\n\n".to_string(),
-    ];
+fn get_scope_variations(should_generate_empty_scope: bool) -> Vec<String> {
+    match should_generate_empty_scope {
+        true => vec![
+            "()".to_string(),
+            "( )".to_string(),
+        ],
+        false => vec!["".to_string()],
+    }
 }
 
-fn get_preceding_whitespace_variations() -> Vec<String> {
-    return vec![
-        "  ".to_string(),
-        " ".to_string(),
-        "\t".to_string(),
-        "\n\r".to_string(),
-    ];
+fn get_description_variations(should_generate_no_description: bool) -> Vec<String> {
+    match should_generate_no_description {
+        true => vec![
+            "".to_string(),
+            "\t".to_string(),
+            "\n\n".to_string(),
+            "\n\r".to_string(),
+        ],
+        false => vec![
+            "this is a description".to_string(),
+            "this is a description\n\n".to_string(),
+        ]
+    }
 }
 
-fn get_empty_scope_variations() -> Vec<String> {
-    return vec![
-        "()".to_string(),
-        "( )".to_string(),
-    ];
-}
 
 fn get_major_commit_types() -> Vec<String> {
     return vec![
