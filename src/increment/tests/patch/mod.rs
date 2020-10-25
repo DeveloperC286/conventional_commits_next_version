@@ -1,5 +1,6 @@
-use crate::increment::*;
 use rstest::rstest;
+
+use crate::increment::*;
 
 #[rstest(
     commit_message,

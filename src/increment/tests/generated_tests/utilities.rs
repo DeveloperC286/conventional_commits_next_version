@@ -22,7 +22,9 @@ pub fn generate_major_commits(
         get_scope_variations(should_generate_empty_scope),
         should_generate_space_after_type,
         get_description_variations(should_generate_description),
-        get_description_termination_variations(should_generate_description_termination || should_generate_body),
+        get_description_termination_variations(
+            should_generate_description_termination || should_generate_body,
+        ),
         get_body_variations(should_generate_body),
     )
 }
@@ -58,7 +60,9 @@ pub fn generate_minor_commits(
         get_scope_variations(should_generate_empty_scope),
         should_generate_space_after_type,
         get_description_variations(should_generate_description),
-        get_description_termination_variations(should_generate_description_termination || should_generate_body),
+        get_description_termination_variations(
+            should_generate_description_termination || should_generate_body,
+        ),
         get_body_variations(should_generate_body),
     )
 }
@@ -77,7 +81,9 @@ pub fn generate_patch_commits(
         get_scope_variations(should_generate_empty_scope),
         should_generate_space_after_type,
         get_description_variations(should_generate_description),
-        get_description_termination_variations(should_generate_description_termination || should_generate_body),
+        get_description_termination_variations(
+            should_generate_description_termination || should_generate_body,
+        ),
         get_body_variations(should_generate_body),
     )
 }
@@ -94,9 +100,7 @@ fn generate_commits(
     let mut commits = vec![];
 
     let space_after_type = match should_generate_space_after_type {
-        true => {
-            " "
-        }
+        true => " ",
         false => "",
     };
 
@@ -108,7 +112,13 @@ fn generate_commits(
                         for body in &body_variations {
                             let generated_commit = format!(
                                 "{}{}{}:{}{}{}{}",
-                                preceding, commit_type, scope, space_after_type, description, description_termination, body
+                                preceding,
+                                commit_type,
+                                scope,
+                                space_after_type,
+                                description,
+                                description_termination,
+                                body
                             );
                             commits.push(generated_commit);
                         }
@@ -143,19 +153,11 @@ fn get_major_commit_types() -> Vec<String> {
 }
 
 fn get_minor_commit_types() -> Vec<String> {
-    return vec![
-        "feat".to_string(),
-        "FEAT".to_string(),
-        "Feat".to_string(),
-    ];
+    return vec!["feat".to_string(), "FEAT".to_string(), "Feat".to_string()];
 }
 
 fn get_patch_commit_types() -> Vec<String> {
-    return vec![
-        "fix".to_string(),
-        "FIX".to_string(),
-        "Fix".to_string(),
-    ];
+    return vec!["fix".to_string(), "FIX".to_string(), "Fix".to_string()];
 }
 
 fn get_commit_types_variations() -> Vec<String> {
@@ -171,10 +173,7 @@ fn get_commit_types_variations() -> Vec<String> {
 
 fn get_scope_variations(should_generate_empty_scope: bool) -> Vec<String> {
     match should_generate_empty_scope {
-        true => vec![
-            "()".to_string(),
-            "( )".to_string(),
-        ],
+        true => vec!["()".to_string(), "( )".to_string()],
         false => vec![
             "".to_string(),
             "(parser)".to_string(),
@@ -190,22 +189,16 @@ fn get_description_variations(should_generate_description: bool) -> Vec<String> 
             "release 16.1.0 (#1779)".to_string(),
             "update types for deno ^1.4.0".to_string(),
         ],
-        false => vec![
-            "".to_string(),
-            "\t".to_string(),
-            "      ".to_string(),
-        ]
+        false => vec!["".to_string(), "\t".to_string(), "      ".to_string()],
     }
 }
 
-fn get_description_termination_variations(should_generate_description_termination: bool) -> Vec<String> {
+fn get_description_termination_variations(
+    should_generate_description_termination: bool,
+) -> Vec<String> {
     match should_generate_description_termination {
-        true => vec![
-            "\n\n".to_string(),
-        ],
-        false => vec![
-            "".to_string(),
-        ]
+        true => vec!["\n\n".to_string()],
+        false => vec!["".to_string()],
     }
 }
 
