@@ -24,10 +24,9 @@ conventional-commits-next-version-formatting:
 
 end-to-end-tests-formatting:
     stage: formatting
-    image: archlinux/base
+    image: python:3-slim
     before_script:
-        - pacman -Sy --noconfirm
-        - pacman -S python autopep8 --noconfirm
+        - pip3 install autopep8
     script:
         - for i in $( du -a ./end-to-end-tests/ | awk '{print $2}' | grep -i "[.]py$" ); do
         -   cp $i temp.txt
@@ -110,10 +109,12 @@ unit-testing:
 
 end-to-end-testing:
     stage: end-to-end-testing
-    image: python
+    image: python:3-slim
     before_script:
+        - apt update
+        - apt install git -y 
         - cd end-to-end-tests/
-        - pip install -r requirements.txt
+        - pip3 install -r requirements.txt
     script:
         - behave
     rules:
