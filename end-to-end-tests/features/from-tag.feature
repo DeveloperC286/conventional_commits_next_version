@@ -10,8 +10,8 @@ Scenario Outline: You can not provide both --from-tag and --from-commit-hash.
 
 
 Examples:
-    | repository                         | checkout_commit                          | from_commit_hash                         | from_tag | from_version |
-    | https://github.com/yargs/yargs.git | 0f810245494ccf13a35b7786d021b30fc95ecad5 | 028b50d5ced3b41a8dccf74107dbfc7065052a5d | v15.4.0  | 1.0.0 |
+    | repository | checkout_commit | from_commit_hash | from_tag | from_version |
+    | https://github.com/yargs/yargs.git | 0f810245494ccf13a35b7786d021b30fc95ecad5 | 028b50d5ced3b41a8dccf74107dbfc7065052a5d | v15.4.0 | 1.0.0 |
 
 
 Scenario Outline: You must provide either --from-tag or --from-commit-hash.
@@ -21,8 +21,8 @@ Scenario Outline: You must provide either --from-tag or --from-commit-hash.
 
 
 Examples:
-    | repository                                    | checkout_commit                          | from_version |
-    | https://github.com/yargs/yargs.git            | 0f810245494ccf13a35b7786d021b30fc95ecad5 | 1.0.0 |
+    | repository | checkout_commit | from_version |
+    | https://github.com/yargs/yargs.git | 0f810245494ccf13a35b7786d021b30fc95ecad5 | 1.0.0 |
 
 
 Scenario Outline: You can use the --from-tag argument instead of the --from-commit-hash argument.
@@ -33,8 +33,8 @@ Scenario Outline: You can use the --from-tag argument instead of the --from-comm
     Then the conventional_commits_next_version assertion passes.
 
 Examples:
-    | repository                                 | checkout_commit                          | from_tag | from_version | current_version |
-    | https://github.com/yargs/yargs.git         | 95a4a0ac573cfe158e6e4bc8c8682ebd1644a198 | v16.0.3  | 16.0.3       | 16.0.5 |
+    | repository | checkout_commit | from_tag | from_version | current_version |
+    | https://github.com/yargs/yargs.git | 95a4a0ac573cfe158e6e4bc8c8682ebd1644a198 | v16.0.3 | 16.0.3 | 16.0.5 |
 
 
 Scenario Outline: When you provide an invalid tag a relevant error message is returned.
@@ -45,5 +45,5 @@ Scenario Outline: When you provide an invalid tag a relevant error message is re
     Then the error message is "ERROR conventional_commits_next_version::git > Could not find a tag with the name '16-0-3'.".
 
 Examples:
-    | repository                                 | checkout_commit                          | from_tag | from_version | current_version |
-    | https://github.com/yargs/yargs.git         | 95a4a0ac573cfe158e6e4bc8c8682ebd1644a198 | 16-0-3   | 16.0.3       | 16.0.5 |
+    | repository | checkout_commit | from_tag | from_version | current_version |
+    | https://github.com/yargs/yargs.git | 95a4a0ac573cfe158e6e4bc8c8682ebd1644a198 | 16-0-3 | 16.0.3 | 16.0.5 |
