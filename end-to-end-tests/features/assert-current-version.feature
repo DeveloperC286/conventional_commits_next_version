@@ -3,11 +3,13 @@ Feature: The current version argument supplied is asserted to be equal or greate
 
 Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --current-version is provided as "<current_version>".
     And the --batch-commits flag is set.
     Then the conventional_commits_next_version assertion fails.
+
 
 Examples:
     | repository | checkout_commit | from_commit_hash | from_version | current_version |
@@ -18,11 +20,13 @@ Examples:
 
 Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --current-version is provided as "<current_version>".
     And the --batch-commits flag is set.
     Then the conventional_commits_next_version assertion passes.
+
 
 Examples:
     | repository | checkout_commit | from_commit_hash | from_version | current_version |
@@ -33,10 +37,12 @@ Examples:
 
 Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --current-version is provided as "<current_version>".
     Then the conventional_commits_next_version assertion fails.
+
 
 Examples:
     | repository | checkout_commit | from_commit_hash | from_version | current_version |
@@ -46,10 +52,12 @@ Examples:
 
 Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --current-version is provided as "<current_version>".
     Then the conventional_commits_next_version assertion passes.
+
 
 Examples:
     | repository | checkout_commit | from_commit_hash | from_version | current_version |

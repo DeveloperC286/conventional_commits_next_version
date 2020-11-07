@@ -3,6 +3,7 @@ Feature: The commit message's increments are batched together and the largest in
 
 Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
+    And the directory is changed to the cloned repository.
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the --batch-commits flag is set.
