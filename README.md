@@ -6,7 +6,7 @@ A tooling/language agnostic utility to calculate the next Semantic Versioning ba
 
 
 ## Why use Conventional Commits Next Version?
- * __Tooling/Language Agnostic__ - Only command line arguments are utilised for input, no inbuilt functionality parses tooling/lanuage specfic files to obtain information.
+ * __Tooling/Language Agnostic__ - Only command line arguments are utilised for input, no inbuilt functionality parses tooling/language specific files to obtain information.
  * __No Dependencies__ - A binary download is provided, removing dependencies on downloading tools or interpreter languages.
  * __Not A Linter__ - Minor deviations from the Conventional Commits format are still accepted as valid input because this is not a linter (but we suggest you use [Conventional Commits Linter](https://gitlab.com/DeveloperC/conventional_commits_linter)).
  * __Invalid Commits Are Ignored__ - Only warnings are logged when Non Conventional Commits are encountered, the calculation continues performing.
@@ -149,7 +149,7 @@ conventional-commits-next-version-checking:
 
 
 #### Via Binary Download
-The two differences are minor, the first is the step installing from Cargo is replaced with downloading and unzipping the binary and the secound is changing the path the bianry is called from.
+The two differences are minor, the first is the step installing from Cargo is replaced with downloading and unzipping the binary and the second is changing the path the binary is called from.
 
 ```
 conventional-commits-next-version-checking:
@@ -208,8 +208,8 @@ cargo test
 
 
 ## End-to-End Testing
-To ensure correctness as there are a variety of out of process dependencies the project has an End-to-End behavior driven test suite using the behave framework (https://github.com/behave/behave).
-To run the test suite you need to first build a binary, install Python3, install behave and then execute behave to run the behavior driven test suite.
+To ensure correctness as there are a variety of out of process dependencies the project has an End-to-End behaviour driven test suite using the behave framework (https://github.com/behave/behave).
+To run the test suite you need to first build a binary, install Python3, install behave and then execute behave to run the behaviour driven test suite.
 
 
 
