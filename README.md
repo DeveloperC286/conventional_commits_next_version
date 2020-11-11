@@ -138,11 +138,10 @@ conventional-commits-next-version-checking:
         - CURRENT_VERSION=`grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2`
         # Get latest tag.
         - LATEST_TAG=`git describe --tags | cut -d '-' -f 1`
-        - LATEST_TAG_HASH=`git rev-parse $LATEST_TAG`
         # Check latest tag is in semantic versioning.
         - echo $LATEST_TAG | grep "^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*$"
         # Check current vs expected.
-        - /usr/local/cargo/bin/conventional_commits_next_version --batch-commits --from-commit-hash $LATEST_TAG_HASH --from-version $LATEST_TAG --current-version $CURRENT_VERSION
+        - /usr/local/cargo/bin/conventional_commits_next_version --batch-commits --from-tag $LATEST_TAG --from-version $LATEST_TAG --current-version $CURRENT_VERSION
     rules:
         - if: $CI_MERGE_REQUEST_ID
 ```
@@ -162,11 +161,10 @@ conventional-commits-next-version-checking:
         - CURRENT_VERSION=`grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2`
         # Get latest tag.
         - LATEST_TAG=`git describe --tags | cut -d '-' -f 1`
-        - LATEST_TAG_HASH=`git rev-parse $LATEST_TAG`
         # Check latest tag is in semantic versioning.
         - echo $LATEST_TAG | grep "^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*$"
         # Check current vs expected.
-        - ./conventional_commits_next_version --batch-commits --from-commit-hash $LATEST_TAG_HASH --from-version $LATEST_TAG --current-version $CURRENT_VERSION
+        - ./conventional_commits_next_version --batch-commits --from-tag $LATEST_TAG --from-version $LATEST_TAG --current-version $CURRENT_VERSION
     rules:
         - if: $CI_MERGE_REQUEST_ID
 ```
@@ -210,8 +208,6 @@ cargo test
 ## End-to-End Testing
 To ensure correctness as there are a variety of out of process dependencies the project has an End-to-End behaviour driven test suite using the behave framework (https://github.com/behave/behave).
 To run the test suite you need to first build a binary, install Python3, install behave and then execute behave to run the behaviour driven test suite.
-
-
 
 #### Note - You can't use --release as the End-to-End test suite uses `target/debug/conventional_commits_next_version`.
 
