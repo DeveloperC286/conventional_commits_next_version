@@ -16,6 +16,7 @@ A tooling/language agnostic utility to calculate the next Semantic Versioning ba
  * [Usage](#usage)
    + [Usage - Consecutive Mode](#usage-consecutive-mode)
    + [Usage - Batch Mode](#usage-batch-mode)
+   + [Usage - Git Environment Variables](#usage-git-environment-variables)
    + [Usage - Logging](#usage-logging)
  * [CICD Examples](#cicd-examples)
    + [GitLab CI Rust Project Example](#gitlab-ci-rust-project-example)
@@ -30,22 +31,24 @@ A tooling/language agnostic utility to calculate the next Semantic Versioning ba
 
 
 ## Usage
-Through the non-optional arguments `--from-commit-hash` and `--from-version` the commit messages are parsed against the Conventional Commits v1.0.0 specification.
-The Conventional Commits types of the commit messages are used to increment the Semantic Versioning provided via `--from-version` and is printed to standard out.
+conventional_commits_next_version collects Git commits directly from a Git repository(See [Usage - Git Environment Variables](#usage-git-environment-variables)).
+You specify from where exclusively to begin collecting using either `--from-commit-hash` or `--from-tag`.
 
-conventional_commits_next_version finds and open an existing repository, respecting git environment variables.
-With $GIT_DIR unset, this will search for a repository starting in the current directory.
+Any Git commits meeting the Conventional Commits v1.0.0 specification are then used to calculate the next Semantic Versioning.
+The initial Semantic Versioning to begin calculations from is provided via `--from-version`.
 
-The optional `--current-version` Semantic Versioning argument can be provided.
-The Semantic Versioning provided is asserted to be equal or larger than the calculated next Semantic Versioning.
-The calculated next Semantic Versioning is not printed to standard out and if the assertion is not meet then it exits with a non zero exit code.
+By default the next calculate version is printed to standard out.
+However if you provide the optional `--current-version` Semantic Versioning argument.
+The `--current-version` Semantic Versioning is asserted to be equal or larger than the calculated Semantic Versioning.
+The calculated Semantic Versioning is not printed to standard out, if the assertion is meet then it exits with a zero exit code, otherwise it is a non zero exit code.
 
-Two different modes can be used by conventional_commits_next_version when calculating the next Semantic Versioning, both are described below.
+There are two modes of calculating the next Semantic Versioning Consecutive mode and Batch mode.
+By default Consecutive mode is used.
 
 
 ### Usage - Consecutive Mode
 By default conventional_commits_next_version operates in a consecutive manner.
-Each commit Conventional Commits type in the order they were committed started at the commit hash at `--from-commit-hash` is used to increment the Semantic Versioning provided via `--from-version`.
+Each commit Conventional Commits type is applied in order to increment the Semantic Versioning provided via `--from-version`.
 
 e.g.
 
@@ -86,10 +89,9 @@ All the other commits will be parsed and the next Semantic Versioning  will be p
 
 
 ### Usage - Batch Mode
-conventional_commits_next_version can be told to batching together the commits with the addition of the `--batch-commits` flag on the command line.
+conventional_commits_next_version can be told to batching together the commits through the `--batch-commits` flag.
 This causes only the single largest Semantic Versioning to be applied.
 i.e. with one feature commit and one fix commit only the minor Semantic Versioning is increased.
-This is useful for when a merge is not being compressed into a singular commit, but the branch's being merged commits are being rebased onto master.
 
 e.g.
 
@@ -116,6 +118,12 @@ The next Semantic Versioning  will be printed the standard out and can then be u
 ```
 > 1.14.0
 ```
+
+
+### Usage - Git Environment Variables
+When looking for a repository the Git environment variables are respected. 
+When `$GIT_DIR` is set then it takes precedence and Conventional Commits Next Version begins searching for a repository in the directory specified in `$GIT_DIR`.
+When `$GIT_DIR` is not set then Conventional Commits Next Version searches for a repository begins in the current directory.
 
 
 ### Usage - Logging
