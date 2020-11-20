@@ -1,7 +1,5 @@
 import os
-
 from behave import when, then
-
 from util import execute_command
 
 
