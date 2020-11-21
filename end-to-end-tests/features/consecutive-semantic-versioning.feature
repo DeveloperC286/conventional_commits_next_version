@@ -1,4 +1,4 @@
-Feature: The commit message's increments are applied consecutively to calcaulte the next Semantic Versioning.
+Feature: The increments are applied consecutively to calculate the next Semantic Versioning.
 
 
   Scenario Outline:

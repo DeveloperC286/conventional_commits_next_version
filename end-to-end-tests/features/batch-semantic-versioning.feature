@@ -1,4 +1,4 @@
-Feature: The commit message's increments are batched together and the largest increment determines the next calculated Semantic Versioning.
+Feature: The increments are batched together and the largest increment determines the next calculated Semantic Versioning.
 
 
   Scenario Outline:

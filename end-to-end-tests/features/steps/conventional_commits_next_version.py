@@ -41,14 +41,14 @@ def compare_returned_and_expected_versions(context, expected_version):
     assert context.stdout == expected_version
 
 
-@then('the conventional_commits_next_version assertion passes.')
-def conventional_commits_next_version_assertion_passes(context):
+@then('the current version assertion passes.')
+def current_version_assertion_passes(context):
     execute_conventional_commits_next_version(context)
     assert int(context.exit_code) == 0
 
 
-@then('the conventional_commits_next_version assertion fails.')
-def conventional_commits_next_version_assertion_fails(context):
+@then('the current version assertion fails.')
+def current_version_assertion_fails(context):
     execute_conventional_commits_next_version(context)
     assert int(context.exit_code) != 0
 
