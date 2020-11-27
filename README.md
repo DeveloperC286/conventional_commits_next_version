@@ -121,7 +121,7 @@ The next Semantic Versioning  will be printed the standard out and can then be u
 
 
 ### Usage - Git Environment Variables
-When looking for a repository the Git environment variables are respected. 
+When looking for a repository the Git environment variables are respected.
 When `$GIT_DIR` is set then it takes precedence and Conventional Commits Next Version begins searching for a repository in the directory specified in `$GIT_DIR`.
 When `$GIT_DIR` is not set then Conventional Commits Next Version searches for a repository begins in the current directory.
 
@@ -135,6 +135,10 @@ See [https://crates.io/crates/pretty_env_logger](https://crates.io/crates/pretty
 ## CICD Examples
 ### GitLab CI Rust Project Example
 #### Via Cargo
+See [Compiling via Cargo](#compiling-via-cargo) for more details about installing via Cargo.
+
+##### Note this example downloads the latest version at the time of execution.
+
 ```
 conventional-commits-next-version-checking:
     stage: conventional-commits-next-version-checking
@@ -156,14 +160,16 @@ conventional-commits-next-version-checking:
 
 
 #### Via Binary Download
-The two differences are minor, the first is the step installing from Cargo is replaced with downloading and unzipping the binary and the second is changing the path the binary is called from.
+See [Downloading Binary](#downloading-binary) for more details about Binary downloads.
+
+##### Note this example downloads version `1.4.0`.
 
 ```
 conventional-commits-next-version-checking:
     stage: conventional-commits-next-version-checking
     image: rust
     before_script:
-        - wget -q -O tmp.zip "https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/artifacts/1.1.0/download?job=building-release-binary-linux-musl" && unzip tmp.zip && rm tmp.zip
+        - wget -q -O tmp.zip "https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/artifacts/1.4.0/download?job=release-binary-compiling-x86_64-linux-musl" && unzip tmp.zip && rm tmp.zip
     script:
         # Get current version and latest tag.
         - CURRENT_VERSION=`grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2`
@@ -182,9 +188,11 @@ conventional-commits-next-version-checking:
 Statically linked compiled binaries are available for download.
 Visit the releases page at [https://gitlab.com/DeveloperC/conventional_commits_next_version/-/releases](https://gitlab.com/DeveloperC/conventional_commits_next_version/-/releases) to see all the releases, the release notes contains links to binary downloads for various architectures.
 
+If you do not trust the provided binaries another option is to compile your own and then make it available for remote download, so your CICD etc can then download it.
+
 
 ## Compiling via Local Repository
-Checkout the code repository locally, change into the repository's directory and then build via cargo.
+Checkout the code repository locally, change into the repository's directory and then build via Cargo.
 Using the `--release` flag produces an optimised binary but takes longer to compile.
 
 ```
@@ -197,11 +205,19 @@ The compiled binary is present in `target/release/conventional_commits_next_vers
 
 
 ## Compiling via Cargo
-Cargo is the Rust package manager, using the `install` sub-command it pulls the crate from `crates.io` and then compiles the binary locally.
+Cargo is the Rust package manager, using the `install` sub-command it pulls the Conventional Commits Next Version from `crates.io` and then compiles the binary locally.
 `cargo install` places the produced binary at `$HOME/.cargo/bin/conventional_commits_next_version`.
 
 ```
 cargo install conventional_commits_next_version
+```
+
+You can specify a specific version to install using the `--version` argument.
+Otherwise it installs the latest version at the time of execution.
+
+e.g.
+```
+cargo install --version 1.0.0 conventional_commits_next_version
 ```
 
 
