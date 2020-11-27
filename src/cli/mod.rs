@@ -27,7 +27,7 @@ pub struct Arguments {
     pub from_version: Version,
     #[structopt(
         long,
-        help = "If the flag is set only the single largest increment determined by the Git commit history of the Semantic Versioning is applied i.e. with one feature commit and one fix commit only the minor Semantic Versioning is increased."
+        help = "In batch mode the single largest increment across all the Git commits in the Conventional Commits specification increments the Semantic Versioning."
     )]
     pub batch_commits: bool,
     #[structopt(

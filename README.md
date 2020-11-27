@@ -42,13 +42,12 @@ However if you provide the optional `--current-version` Semantic Versioning argu
 The `--current-version` Semantic Versioning is asserted to be equal or larger than the calculated Semantic Versioning.
 The calculated Semantic Versioning is not printed to standard out, if the assertion is not met then it exits with a non zero exit code.
 
-There are two modes of calculating the next Semantic Versioning Consecutive mode and Batch mode.
+There are two modes of calculating the next Semantic Versioning consecutive mode and batch mode.
 By default Consecutive mode is used.
 
 
 ### Usage - Consecutive Mode
-By default conventional_commits_next_version operates in a consecutive manner.
-Each commit Conventional Commits type is applied in order to increment the Semantic Versioning provided via `--from-version`.
+In consecutive mode each Git commit in the Conventional Commits specification is applied to Semantic Versioning calculation in chronological order.
 
 e.g.
 
@@ -81,7 +80,8 @@ DEBUG conventional_commits_next_version::increment > Incrementing semantic versi
 
 From the logs we can see that the commit `6014e39bca3a1e8445aa0fb2a435f6181e344c451` has the Conventional Commits type of `feat`.
 The feat type will increment the minor Semantic Versioning from `1.14.0` to `1.15.0`.
-All the other commits will be parsed and the next Semantic Versioning  will be printed the standard out and can then be used as input for other tools.
+
+There are no more Conventional Commits which will increment the Semantic Versioning, so the calculated Semantic Versioning is printed to standard out.
 
 ```
 > 1.15.0
@@ -89,9 +89,11 @@ All the other commits will be parsed and the next Semantic Versioning  will be p
 
 
 ### Usage - Batch Mode
-conventional_commits_next_version can be told to batching together the commits through the `--batch-commits` flag.
-This causes only the single largest Semantic Versioning to be applied.
-i.e. with one feature commit and one fix commit only the minor Semantic Versioning is increased.
+In batch mode the single largest increment across all the Git commits in the Conventional Commits specification increments the Semantic Versioning.
+
+Batch mode is enabled via the `--batch-commits` flag.
+
+Batch mode is useful for feature branches, if it has multiple fixes or a mixture of fixes and features being merged.
 
 e.g.
 
@@ -102,18 +104,17 @@ git checkout 3af7f04cdbfcbd4b3f432aca5144d43f21958c39
 RUST_LOG=trace conventional_commits_next_version --from-commit-hash a5edc328ecb3f90d1ba09cfe70a0040f68adf50a --from-version 1.13.2 --batch-commits
 ```
 
-Using the same example but with the `--batch-commits` flag appended, we can see how batch behaves differently.
+Using the same example we can see how batch mode behaves differently.
 
 ```
 DEBUG conventional_commits_next_version::increment > Incrementing semantic versioning minor because of commit "feat(yargs-parser): introduce single-digit boolean aliases (#1576)\n\n".
 DEBUG conventional_commits_next_version::increment > Incrementing semantic versioning minor because of commit "feat: add usage for single-digit boolean aliases (#1580)\n\n".
 ```
 
-We can that the two largest Conventional Commits types found were `feat`.
-The feat type encountered will increment the minor Semantic Versioning from `1.13  to `1.14.0`.
-The order does not matter, nor do any of the other commits types.
-You can see the commit with the type `fix` has been ignored.
-The next Semantic Versioning  will be printed the standard out and can then be used as input for other tools.
+The largest increment is a minor Semantic Versioning increment, because of the two Conventional Commits with `feat` as the type.
+The minor Semantic Versioning increment increases the initial Semantic Versioning from `1.13.0` to `1.14.0`.
+
+The calculated Semantic Versioning is then printed to standard out.
 
 ```
 > 1.14.0
