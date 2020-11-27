@@ -40,7 +40,7 @@ The initial Semantic Versioning to begin calculations from is provided via `--fr
 By default the next calculate version is printed to standard out.
 However if you provide the optional `--current-version` Semantic Versioning argument.
 The `--current-version` Semantic Versioning is asserted to be equal or larger than the calculated Semantic Versioning.
-The calculated Semantic Versioning is not printed to standard out, if the assertion is meet then it exits with a zero exit code, otherwise it is a non zero exit code.
+The calculated Semantic Versioning is not printed to standard out, if the assertion is not met then it exits with a non zero exit code.
 
 There are two modes of calculating the next Semantic Versioning Consecutive mode and Batch mode.
 By default Consecutive mode is used.
