@@ -137,7 +137,7 @@ See [https://crates.io/crates/pretty_env_logger](https://crates.io/crates/pretty
 #### Via Cargo
 See [Compiling via Cargo](#compiling-via-cargo) for more details about installing via Cargo.
 
-##### Note this example downloads the latest version at the time of execution.
+__Note - This example downloads the latest version at the time of execution.__
 
 ```
 conventional-commits-next-version-checking:
@@ -162,7 +162,7 @@ conventional-commits-next-version-checking:
 #### Via Binary Download
 See [Downloading Binary](#downloading-binary) for more details about Binary downloads.
 
-##### Note this example downloads version `1.4.0`.
+__Note - This example downloads version `1.4.0`.__
 
 ```
 conventional-commits-next-version-checking:
@@ -233,7 +233,7 @@ cargo test
 To ensure correctness as there are a variety of out of process dependencies the project has an End-to-End behaviour driven test suite using the behave framework (https://github.com/behave/behave).
 To run the test suite you need to first build a binary, install Python3, install behave and then execute behave to run the behaviour driven test suite.
 
-#### Note - You can't use --release as the End-to-End test suite uses `target/debug/conventional_commits_next_version`.
+__Note - You can't use --release as the test suite uses `target/debug/conventional_commits_next_version`.__
 
 ```
 cargo build
