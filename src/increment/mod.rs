@@ -95,21 +95,21 @@ fn get_next_version_from_commits_consecutive(
 
 fn log_major_increment(commit_message: &str) {
     debug!(
-        "Incrementing semantic versioning major because of commit message '{:?}'.",
+        "Incrementing semantic versioning major because of commit message {:?}.",
         commit_message
     );
 }
 
 fn log_minor_increment(commit_message: &str) {
     debug!(
-        "Incrementing semantic versioning minor because of commit '{:?}'.",
+        "Incrementing semantic versioning minor because of commit {:?}.",
         commit_message
     );
 }
 
 fn log_patch_increment(commit_message: &str) {
     debug!(
-        "Incrementing semantic versioning patch because of commit '{:?}'.",
+        "Incrementing semantic versioning patch because of commit {:?}.",
         commit_message
     );
 }
