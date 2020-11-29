@@ -115,8 +115,15 @@ fn log_patch_increment(commit_message: &str) {
 }
 
 fn is_major_increment(commit_message: &str) -> bool {
+    is_major_title_increment(commit_message) || is_major_footer_increment(commit_message)
+}
+
+fn is_major_title_increment(commit_message: &str) -> bool {
     MAJOR_TITLE_INCREMENT_REGEX.is_match(commit_message)
-        || MAJOR_FOOTER_INCREMENT_REGEX.is_match(commit_message)
+}
+
+fn is_major_footer_increment(commit_message: &str) -> bool {
+    MAJOR_FOOTER_INCREMENT_REGEX.is_match(commit_message)
 }
 
 fn is_minor_increment(commit_message: &str) -> bool {

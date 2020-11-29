@@ -16,14 +16,8 @@ lazy_static! {
         .as_str()
     )
     .unwrap();
-    pub(super) static ref MAJOR_FOOTER_INCREMENT_REGEX: Regex = Regex::new(
-        format!(
-            r"(?i)^({}){}:(.)*(\n)*BREAKING CHANGE:",
-            &*ANY_REGEX, &*OPTIONAL_SCOPE_REGEX
-        )
-        .as_str()
-    )
-    .unwrap();
+    pub(super) static ref MAJOR_FOOTER_INCREMENT_REGEX: Regex =
+        Regex::new("(?i)\nBREAKING CHANGE:").unwrap();
     pub(super) static ref PATCH_INCREMENT_REGEX: Regex = Regex::new(
         format!(
             r"(?i){}fix{}:",
