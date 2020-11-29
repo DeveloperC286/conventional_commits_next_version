@@ -8,7 +8,7 @@ use crate::increment::*;
     case("feat(completion): takes negated flags into account when")
 )]
 fn test_is_minor_increment(commit_message: &str) {
-    assert_eq!(true, is_minor_increment(commit_message));
+    assert!(is_minor_increment(commit_message));
 }
 
 #[rstest(
@@ -16,7 +16,7 @@ fn test_is_minor_increment(commit_message: &str) {
     case("FEAT: add usage for single-digit boolean aliases (#1580)\n\n")
 )]
 fn test_is_minor_increment_case_sensitivity(commit_message: &str) {
-    assert_eq!(true, is_minor_increment(commit_message));
+    assert!(is_minor_increment(commit_message));
 }
 
 #[rstest(
@@ -26,7 +26,7 @@ fn test_is_minor_increment_case_sensitivity(commit_message: &str) {
     case("feat(yargs_parser): introduce single-digit boolean aliases (#1576)\n\n")
 )]
 fn test_is_minor_increment_invalid_scope(commit_message: &str) {
-    assert_eq!(true, is_minor_increment(commit_message));
+    assert!(is_minor_increment(commit_message));
 }
 
 #[rstest(
@@ -45,7 +45,7 @@ fn test_is_not_minor_increment(commit_message: &str) {
     case(" feat(completion): takes negated flags into account when")
 )]
 fn test_is_minor_increment_preceding_whitespace(commit_message: &str) {
-    assert_eq!(true, is_minor_increment(commit_message));
+    assert!(is_minor_increment(commit_message));
 }
 
 #[rstest(
@@ -64,7 +64,7 @@ fn test_is_not_minor_increment_preceding_whitespace(commit_message: &str) {
     case("feat(): takes negated flags into account when")
 )]
 fn test_is_minor_increment_empty_scope(commit_message: &str) {
-    assert_eq!(true, is_minor_increment(commit_message));
+    assert!(is_minor_increment(commit_message));
 }
 
 #[rstest(

@@ -8,7 +8,7 @@ use crate::increment::*;
     case("fix(deps): fix enumeration for normalized path arguments (#1567)\n\n")
 )]
 fn test_is_patch_increment(commit_message: &str) {
-    assert_eq!(true, is_patch_increment(commit_message));
+    assert!(is_patch_increment(commit_message));
 }
 
 #[rstest(
@@ -16,7 +16,7 @@ fn test_is_patch_increment(commit_message: &str) {
     case("FIX: __proto__ will now be replaced with ___proto___ in parse (#1591)")
 )]
 fn test_is_patch_increment_case_sensitivity(commit_message: &str) {
-    assert_eq!(true, is_patch_increment(commit_message));
+    assert!(is_patch_increment(commit_message));
 }
 
 #[rstest(
@@ -26,7 +26,7 @@ fn test_is_patch_increment_case_sensitivity(commit_message: &str) {
     case("fix(deps_updated): fix enumeration for normalized path arguments (#1567)\n\n")
 )]
 fn test_is_patch_increment_invalid_scope(commit_message: &str) {
-    assert_eq!(true, is_patch_increment(commit_message));
+    assert!(is_patch_increment(commit_message));
 }
 
 #[rstest(
@@ -45,7 +45,7 @@ fn test_is_not_patch_increment(commit_message: &str) {
     case("\tfix(deps): fix enumeration for normalized path arguments (#1567)\n\n")
 )]
 fn test_is_patch_increment_preceding_whitespace(commit_message: &str) {
-    assert_eq!(true, is_patch_increment(commit_message));
+    assert!(is_patch_increment(commit_message));
 }
 
 #[rstest(
@@ -64,7 +64,7 @@ fn test_is_not_patch_increment_preceding_whitespace(commit_message: &str) {
     case("fix(): fix enumeration for normalized path arguments (#1567)\n\n")
 )]
 fn test_is_patch_increment_empty_scope(commit_message: &str) {
-    assert_eq!(true, is_patch_increment(commit_message));
+    assert!(is_patch_increment(commit_message));
 }
 
 #[rstest(

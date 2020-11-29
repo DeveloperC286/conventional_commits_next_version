@@ -22,7 +22,7 @@ fn test_generate_major_commits() {
         for commit_message in commits {
             //When/Then
             println!("{}", commit_message);
-            assert_eq!(true, is_major_increment(&*commit_message));
+            assert!(is_major_increment(&*commit_message));
         }
     }
 }
@@ -45,7 +45,7 @@ fn test_generate_major_body_commits() {
         for commit_message in commits {
             //When/Then
             println!("{}", commit_message);
-            assert_eq!(true, is_major_increment(&*commit_message));
+            assert!(is_major_increment(&*commit_message));
         }
     }
 }
@@ -70,7 +70,7 @@ fn test_generate_minor_commits() {
         for commit_message in commits {
             //When/Then
             println!("{}", commit_message);
-            assert_eq!(true, is_minor_increment(&*commit_message));
+            assert!(is_minor_increment(&*commit_message));
         }
     }
 }
@@ -95,7 +95,7 @@ fn test_generate_patch_commits() {
         for commit_message in commits {
             //When/Then
             println!("{}", commit_message);
-            assert_eq!(true, is_patch_increment(&*commit_message));
+            assert!(is_patch_increment(&*commit_message));
         }
     }
 }
