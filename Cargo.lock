@@ -67,7 +67,7 @@ dependencies = [
 
 [[package]]
 name = "conventional_commits_next_version"
-version = "1.4.1"
+version = "1.4.2"
 dependencies = [
  "git2",
  "lazy_static",
