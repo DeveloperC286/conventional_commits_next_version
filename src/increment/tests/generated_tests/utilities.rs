@@ -229,5 +229,7 @@ fn get_major_body_variations() -> Vec<String> {
     vec![
         "BREAKING CHANGE:\r\n\r\nremoved undocumented `defaults` alias for `default`.".to_string(),
         "BREAKING CHANGE: find-up replaced with escalade; export map added (limits importable files in Node >= 12); yarser-parser@19.x.x (new decamelize/camelcase implementation).".to_string(),
+        "* chore: upgrade yargs-parser\r\nBREAKING-CHANGE: coerce is now applied as a final step after other parsing is complete\r\n\r\n* add documentation for breaking changes in yargs-parser@4\r\n\r\n* fix: a few small editing nits\r\n\r\n* fix: bump yargs-parser again\r\n".to_string(),
+        "BREAKING-CHANGE: fail is now applied globally.\r\nBREAKING-CHANGE: we now default to an empty builder function when command is executed with no builder.".to_string(),
     ]
 }
