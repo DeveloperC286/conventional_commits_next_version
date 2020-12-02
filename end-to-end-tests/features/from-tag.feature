@@ -10,8 +10,9 @@ Feature: The input argument tag can be used instead of the commit hash.
 
 
     Examples:
-      | repository                         | checkout_commit                          | from_tag | from_version | expected_version |
-      | https://github.com/yargs/yargs.git | 95a4a0ac573cfe158e6e4bc8c8682ebd1644a198 | v16.0.3  | 16.0.3       | 16.0.5           |
+      | repository                             | checkout_commit                          | from_tag          | from_version | expected_version |
+      | https://github.com/yargs/yargs.git     | 95a4a0ac573cfe158e6e4bc8c8682ebd1644a198 | v16.0.3           | 16.0.3       | 16.0.5           |
+      | https://github.com/tinacms/tinacms.git | e4bb0aac1e16e9423ec9caac701077a732bcd98e | refs/tags/v0.34.0 | 0.34.0       | 0.35.0           |
 
 
   Scenario Outline: You can not provide both a tag and a commit hash.
@@ -45,7 +46,7 @@ Feature: The input argument tag can be used instead of the commit hash.
     And the directory is changed to the cloned repository.
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-tag is provided as "<from_tag>".
-    Then the error message is "ERROR conventional_commits_next_version::git > Could not find a tag with the name '16-0-3'.".
+    Then the error message is "ERROR conventional_commits_next_version::git > Could not find a tag with the name ".
 
 
     Examples:
