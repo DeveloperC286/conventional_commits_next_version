@@ -1,6 +1,6 @@
 [package]
 name = "conventional_commits_next_version"
-version = "1.4.3"
+version = "2.0.0"
 description = "A tooling/language agnostic utility to calculate the next Semantic Versioning based upon the Conventional Commits Git commit messages since the last version."
 authors = ["C <DeveloperC@protonmail.com>"]
 edition = "2018"

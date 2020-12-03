@@ -18,8 +18,10 @@ fn main() {
     let arguments = cli::Arguments::from_args();
     trace!("The command line arguments provided are {:?}.", arguments);
 
-    let commit_messages =
-        git::get_commit_messages_till_head_from(arguments.from_commit_hash, arguments.from_tag);
+    let commit_messages = git::get_commit_messages_till_head_from(
+        arguments.from_commit_hash,
+        arguments.from_reference,
+    );
 
     let expected_version = increment::get_next_version_from_commits(
         commit_messages,

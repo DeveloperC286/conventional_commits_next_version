@@ -23,9 +23,9 @@ def set_current_version(context, current_version):
     context.arguments += " --current-version " + current_version + " "
 
 
-@when('the argument --from-tag is provided as "{from_tag}".')
-def set_from_tag(context, from_tag):
-    context.arguments += " --from-tag " + from_tag + " "
+@when('the argument --from-reference is provided as "{from_reference}".')
+def set_from_reference(context, from_reference):
+    context.arguments += " --from-reference " + from_reference + " "
 
 
 def execute_conventional_commits_next_version(context):

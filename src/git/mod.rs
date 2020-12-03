@@ -17,7 +17,7 @@ pub fn get_commit_messages_till_head_from(
         );
     }
 
-    error!("Provide either the --from-tag or --from-commit-hash argument.");
+    error!("Provide either the --from-reference or --from-commit-hash argument.");
     std::process::exit(crate::ERROR_EXIT_CODE);
 }
 
@@ -114,7 +114,7 @@ fn get_reference(repository: &Repository, matching: &str) -> Oid {
             }
         }
         Err(_) => {
-            error!("Could not find a tag with the name {:?}.", matching);
+            error!("Could not find a reference with the name {:?}.", matching);
             std::process::exit(crate::ERROR_EXIT_CODE);
         }
     }

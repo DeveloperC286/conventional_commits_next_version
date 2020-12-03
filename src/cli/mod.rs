@@ -17,9 +17,9 @@ pub struct Arguments {
     #[structopt(
         long,
         group = "from",
-        help = "The Git tag from where to start taking the range of commits from till HEAD. The range is inclusive of HEAD and exclusive of the provided tag."
+        help = "The Git reference from where to start taking the range of commits from till HEAD. The range is inclusive of HEAD and exclusive of the provided reference."
     )]
-    pub from_tag: Option<String>,
+    pub from_reference: Option<String>,
     #[structopt(
         long,
         help = "The initial Semantic Versioning to begin calculations from."

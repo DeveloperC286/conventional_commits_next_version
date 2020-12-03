@@ -32,7 +32,7 @@ A tooling/language agnostic utility to calculate the next Semantic Versioning ba
 
 ## Usage
 conventional_commits_next_version collects Git commits directly from a Git repository(See [Usage - Git Environment Variables](#usage-git-environment-variables)).
-You specify from where exclusively to begin collecting using either `--from-commit-hash` or `--from-tag`.
+You specify from where exclusively to begin collecting using either `--from-commit-hash` or `--from-reference`.
 
 Any Git commits meeting the Conventional Commits v1.0.0 specification are then used to calculate the next Semantic Versioning.
 The initial Semantic Versioning to begin calculations from is provided via `--from-version`.
@@ -150,11 +150,11 @@ conventional-commits-next-version-checking:
         # Get current version and latest tag.
         - CURRENT_VERSION=`grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2`
         # Get latest tag.
-        - LATEST_TAG=`git describe --tags | cut -d '-' -f 1`
+        - LATEST_TAG=`git describe --tags --abbrev=0`
         # Check latest tag is in semantic versioning.
         - echo $LATEST_TAG | grep "^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*$"
         # Check current vs expected.
-        - /usr/local/cargo/bin/conventional_commits_next_version --batch-commits --from-tag $LATEST_TAG --from-version $LATEST_TAG --current-version $CURRENT_VERSION
+        - /usr/local/cargo/bin/conventional_commits_next_version --batch-commits --from-reference $LATEST_TAG --from-version $LATEST_TAG --current-version $CURRENT_VERSION
     rules:
         - if: $CI_MERGE_REQUEST_ID
 ```
@@ -175,11 +175,11 @@ conventional-commits-next-version-checking:
         # Get current version and latest tag.
         - CURRENT_VERSION=`grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2`
         # Get latest tag.
-        - LATEST_TAG=`git describe --tags | cut -d '-' -f 1`
+        - LATEST_TAG=`git describe --tags --abbrev=0`
         # Check latest tag is in semantic versioning.
         - echo $LATEST_TAG | grep "^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*$"
         # Check current vs expected.
-        - ./conventional_commits_next_version --batch-commits --from-tag $LATEST_TAG --from-version $LATEST_TAG --current-version $CURRENT_VERSION
+        - ./conventional_commits_next_version --batch-commits --from-reference $LATEST_TAG --from-version $LATEST_TAG --current-version $CURRENT_VERSION
     rules:
         - if: $CI_MERGE_REQUEST_ID
 ```
