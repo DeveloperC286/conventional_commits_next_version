@@ -6,9 +6,9 @@ A tooling and language agnostic utility to calculate the next Semantic Versionin
 
 
 ## Why use Conventional Commits Next Version?
- * __Tooling/Language Agnostic__ - Only command line arguments are utilised for input, no inbuilt functionality parses tooling/language specific files to obtain information.
+ * __Tooling & Language Agnostic__ - Achieved by only utilising command-line arguments and no parsing of tooling or language specific files.
  * __No Dependencies__ - A binary download is provided, removing dependencies on downloading tools or interpreter languages.
- * __Not A Linter__ - Minor deviations from the Conventional Commits format are still accepted as valid input because this is not a linter (but we suggest you use [Conventional Commits Linter](https://gitlab.com/DeveloperC/conventional_commits_linter)).
+ * __Not A Linter__ - Minor deviations from the Conventional Commits format are still accepted as valid input, because this is not a linter (but we suggest you use [Conventional Commits Linter](https://gitlab.com/DeveloperC/conventional_commits_linter)).
  * __Invalid Commits Are Ignored__ - Only warnings are logged when Non Conventional Commits are encountered, the calculation continues performing.
 
 
