@@ -4,7 +4,7 @@ use structopt::{clap::ArgGroup, StructOpt};
 #[derive(Debug, StructOpt)]
 #[structopt(
     name = "conventional_commits_next_version",
-    about = "A tooling/language agnostic utility to calculate the next Semantic Versioning based upon the Conventional Commits Git commit messages since the last version.",
+    about = "A tooling and language agnostic utility to calculate the next Semantic Versioning using the Conventional Commits messages since the prior version.",
     group = ArgGroup::with_name("from").required(true)
 )]
 pub struct Arguments {
