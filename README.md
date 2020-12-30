@@ -213,13 +213,25 @@ Cargo is the Rust package manager, using the `install` sub-command it pulls the 
 cargo install conventional_commits_next_version
 ```
 
+By default it installs the latest version at the time of execution.
 You can specify a specific version to install using the `--version` argument.
-Otherwise it installs the latest version at the time of execution.
+For certain environments such as CICD etc you may want to pin the version.
 
 e.g.
+
 ```
-cargo install --version 1.0.0 conventional_commits_next_version
+cargo install conventional_commits_next_version --version 2.0.0
 ```
+
+Rather than pinning to a specific version you can specify the major or minor version.
+
+e.g.
+
+```
+cargo install conventional_commits_next_version --version ^2
+```
+
+Will download the latest `2.*` release whether that is `2.0.7` or `2.6.0`.
 
 
 ## Unit Testing
