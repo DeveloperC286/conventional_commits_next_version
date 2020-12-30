@@ -138,14 +138,14 @@ See [https://crates.io/crates/pretty_env_logger](https://crates.io/crates/pretty
 #### Via Cargo
 See [Compiling via Cargo](#compiling-via-cargo) for more details about installing via Cargo.
 
-__Note - This example downloads the latest version at the time of execution.__
+__Note - This example downloads the latest `2.*` version.__
 
 ```
 conventional-commits-next-version-checking:
     stage: conventional-commits-next-version-checking
     image: rust
     before_script:
-        - cargo install conventional_commits_next_version
+        - cargo install conventional_commits_next_version --version ^2
     script:
         # Get current version and latest tag.
         - CURRENT_VERSION=`grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2`
@@ -163,14 +163,14 @@ conventional-commits-next-version-checking:
 #### Via Binary Download
 See [Downloading Binary](#downloading-binary) for more details about Binary downloads.
 
-__Note - This example downloads version `1.4.0`.__
+__Note - This example downloads version `2.0.0`.__
 
 ```
 conventional-commits-next-version-checking:
     stage: conventional-commits-next-version-checking
     image: rust
     before_script:
-        - wget -q -O tmp.zip "https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/artifacts/1.4.0/download?job=release-binary-compiling-x86_64-linux-musl" && unzip tmp.zip && rm tmp.zip
+        - wget -q -O tmp.zip "https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/artifacts/2.0.0/download?job=release-binary-compiling-x86_64-linux-musl" && unzip tmp.zip && rm tmp.zip
     script:
         # Get current version and latest tag.
         - CURRENT_VERSION=`grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2`
