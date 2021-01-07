@@ -1,4 +1,4 @@
-Feature: Monorepo usage is supported, the version is calculated only from commits altering the specified monorepo.
+Feature: Monorepo usage is supported, the version is calculated only from commits altering the specified directory.
 
 
   Scenario Outline:

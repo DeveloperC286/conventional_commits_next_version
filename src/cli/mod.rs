@@ -40,6 +40,9 @@ pub struct Arguments {
     )]
     pub current_version: Option<Version>,
 
-    #[structopt(long, help = "The directory/file to only parse commits against.")]
+    #[structopt(
+        long,
+        help = "Monorepo usage is supported, the version is calculated only from commits altering the specified directory."
+    )]
     pub monorepo: Option<String>,
 }

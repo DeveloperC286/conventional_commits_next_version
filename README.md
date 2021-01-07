@@ -8,6 +8,7 @@ A tooling and language agnostic utility to calculate the next Semantic Versionin
 ## Why use Conventional Commits Next Version?
  * __Tooling & Language Agnostic__ - Achieved by only utilising command-line arguments and no parsing of tooling or language specific files.
  * __No Dependencies__ - A binary download is provided, removing dependencies on downloading tools or interpreter languages.
+ * __Monorepo Support__ - Monorepo usage is supported, the version is calculated only from commits altering the specified directory.
  * __Not A Linter__ - Minor deviations from the Conventional Commits format are still accepted as valid input, because this is not a linter (but we suggest you use [Conventional Commits Linter](https://gitlab.com/DeveloperC/conventional_commits_linter)).
  * __Invalid Commits Are Ignored__ - Only warnings are logged when Non Conventional Commits are encountered, the calculation continues performing.
 
@@ -17,6 +18,7 @@ A tooling and language agnostic utility to calculate the next Semantic Versionin
    + [Usage - Consecutive Mode](#usage-consecutive-mode)
    + [Usage - Batch Mode](#usage-batch-mode)
    + [Usage - Git Environment Variables](#usage-git-environment-variables)
+   + [Usage - Monorepo](#usage-monorepo)
    + [Usage - Logging](#usage-logging)
  * [CICD Examples](#cicd-examples)
    + [GitLab CI Rust Project Example](#gitlab-ci-rust-project-example)
@@ -119,6 +121,13 @@ The calculated Semantic Versioning is then printed to standard out.
 ```
 > 1.14.0
 ```
+
+
+### Usage - Monorepo
+The usage of monorepos is supported.
+Within a monorepo, you can provide a specific directory within to focus upon.
+Only the commits which affect or alter anything within the specified directory are used in the calculation of the next version.
+The command-line argument `--monorepo` can be used to specify the directory.
 
 
 ### Usage - Git Environment Variables
