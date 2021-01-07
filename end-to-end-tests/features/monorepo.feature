@@ -8,6 +8,7 @@ Feature: Monorepo usage is supported, the version is calculated only from commit
     And the argument --from-commit-hash is provided as "<from_commit_hash>".
     Then the returned version should be "<expected_version>".
     Given the arguments are reset.
+    And the directory is changed to the cloned repository.
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --monorepo is provided as "<monorepo>".
