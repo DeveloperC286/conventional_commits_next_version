@@ -1,23 +1,34 @@
 import os
 import tempfile
 from behave import given
+
 from util import execute_command
+
+
+@given('the arguments are reset.')
+def reset_arguments(context):
+    context.arguments = ""
+
+
+@given('the context and environment are reset.')
+def reset_context(context):
+    context.behave_directory = os.getcwd()
+    context.temporary_directory = tempfile.TemporaryDirectory()
+
+    context.conventional_commits_next_version_path = context.behave_directory + \
+        "/../target/debug/conventional_commits_next_version"
+    reset_arguments(context)
+
+    if "GIT_DIR" in os.environ:
+        del os.environ["GIT_DIR"]
 
 
 @given('the repository "{remote_repository}" is cloned and checked out at the commit "{commit_hash}".')
 def clone_remote_repository_and_checkout_commit(
         context, remote_repository, commit_hash):
-    context.behave_directory = os.getcwd()
-    context.conventional_commits_next_version_path = context.behave_directory + \
-        "/../target/debug/conventional_commits_next_version"
-    context.temporary_directory = tempfile.TemporaryDirectory()
+    reset_context(context)
+
     os.chdir(context.temporary_directory.name)
-
-    if "GIT_DIR" in os.environ:
-        del os.environ["GIT_DIR"]
-
-    context.arguments = ""
-
     (exit_code, _) = execute_command(
         "git clone " + remote_repository + " .")
     assert exit_code == 0
