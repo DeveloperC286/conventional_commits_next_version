@@ -6,11 +6,11 @@ A tooling and language agnostic utility to calculate the next semantic version b
 
 
 ## Why use Conventional Commits Next Version?
- * __Tooling & Language Agnostic__ - Achieved by only utilising command-line arguments and no parsing of tooling or language specific files.
- * __No Dependencies__ - A binary download is provided, removing dependencies on downloading tools or interpreter languages.
- * __Monorepo Support__ - Monorepo usage is supported, the version is calculated only from commits altering the specified directory.
- * __Not A Linter__ - Minor deviations from the Conventional Commits format are still accepted as valid input, because this is not a linter (but we suggest you use [Conventional Commits Linter](https://gitlab.com/DeveloperC/conventional_commits_linter)).
- * __Invalid Commits Are Ignored__ - Only warnings are logged when Non Conventional Commits are encountered, the calculation continues performing.
+ * __Tooling & Language Agnostic__ - For input command-line arguments are utilised, there is no inbuilt functionality that only parses tooling or language-specific files for input.
+ * __No Dependencies__ - A binary download is provided, removing dependencies on downloading tools or interpreted languages.
+ * __Monorepo Support__ - Monorepo usage is supported, only commits altering the specified directory are used.
+ * __Not A Linter__ - Minor deviations from the Conventional Commits specification are still accepted as valid input, because this is not a linter (but we suggest you use [Conventional Commits Linter](https://gitlab.com/DeveloperC/conventional_commits_linter)).
+ * __Flexible__ - Non-Conventional Commits are ignored when encountered, and the calculation continues.
 
 
 ## Content
@@ -33,18 +33,15 @@ A tooling and language agnostic utility to calculate the next semantic version b
 
 
 ## Usage
-conventional_commits_next_version collects Git commits directly from a Git repository(See [Usage - Git Environment Variables](#usage-git-environment-variables)).
-You specify from where exclusively to begin collecting using either `--from-commit-hash` or `--from-reference`.
+Conventional Commits Next Version uses the Git commits from a repository you specify using either the arguments `--from-commit-hash` or `--from-reference` or Git Environment Variables.
+Any commits meeting the Conventional Commits v1.0.0 specification are then used to calculate the next semantic version, based upon the provided initial semantic version via the argument `--from-version`.
 
-Any Git commits meeting the Conventional Commits v1.0.0 specification are then used to calculate the next Semantic Versioning.
-The initial Semantic Versioning to begin calculations from is provided via `--from-version`.
+By default, the next calculate version is printed to standard out.
+However, if you specify the `--current-version` semantic version argument.
+Then the provided version is asserted to be equal or larger than the calculated.
+The calculated semantic version is not printed to standard out, and if the assertion is not met it exits with a non zero exit code.
 
-By default the next calculate version is printed to standard out.
-However if you provide the optional `--current-version` Semantic Versioning argument.
-The `--current-version` Semantic Versioning is asserted to be equal or larger than the calculated Semantic Versioning.
-The calculated Semantic Versioning is not printed to standard out, if the assertion is not met then it exits with a non zero exit code.
-
-There are two modes of calculating the next Semantic Versioning consecutive mode and batch mode.
+There are two modes of calculating the next semantic version, consecutive mode and batch mode.
 By default Consecutive mode is used.
 
 
@@ -124,16 +121,14 @@ The calculated Semantic Versioning is then printed to standard out.
 
 
 ### Usage - Monorepo
-The usage of monorepos is supported.
-Within a monorepo, you can provide a specific directory within to focus upon.
-Only the commits which affect or alter anything within the specified directory are used in the calculation of the next version.
-The command-line argument `--monorepo` can be used to specify the directory.
+The `--monorepo` argument supports the usage of monorepos.
+Only commits which alter the specified entry from the argument are used when calculating the next semantic version.
 
 
 ### Usage - Git Environment Variables
 When looking for a repository the Git environment variables are respected.
-When `$GIT_DIR` is set then it takes precedence and Conventional Commits Next Version begins searching for a repository in the directory specified in `$GIT_DIR`.
-When `$GIT_DIR` is not set then Conventional Commits Next Version searches for a repository begins in the current directory.
+When `$GIT_DIR` is set, it takes precedence and Conventional Commits Next Version begins searching for a repository in the directory specified in `$GIT_DIR`.
+When `$GIT_DIR` is not set, Conventional Commits Next Version searches for a repository beginning in the current directory.
 
 
 ### Usage - Logging
@@ -215,8 +210,7 @@ The compiled binary is present in `target/release/conventional_commits_next_vers
 
 
 ## Compiling via Cargo
-Cargo is the Rust package manager, using the `install` sub-command it pulls the Conventional Commits Next Version from `crates.io` and then compiles the binary locally.
-`cargo install` places the produced binary at `$HOME/.cargo/bin/conventional_commits_next_version`.
+Cargo is the Rust package manager, the `install` sub-command pulls from [crates.io](https://crates.io/crates/conventional_commits_next_version) and then compiles the binary locally, placing the compiled binary at `$HOME/.cargo/bin/conventional_commits_next_version`.
 
 ```
 cargo install conventional_commits_next_version
@@ -244,7 +238,8 @@ Will download the latest `2.*` release whether that is `2.0.7` or `2.6.0`.
 
 
 ## Unit Testing
-The unit test suite has a number parameterised tests testing the Conventional Commits v1.0.0 format parsing, cargo can be used to setup and run all the unit tests.
+The unit test suite has several parameterised tests testing the Conventional Commits v1.0.0 format parsing.
+Cargo is used to set up and run all the unit tests.
 
 ```
 cargo test
@@ -252,8 +247,13 @@ cargo test
 
 
 ## End-to-End Testing
-To ensure correctness as there are a variety of out of process dependencies the project has an End-to-End behaviour driven test suite using the behave framework (https://github.com/behave/behave).
-To run the test suite you need to first build a binary, install Python3, install behave and then execute behave to run the behaviour driven test suite.
+To ensure correctness as there are various out of process dependencies, the project has an End-to-End behaviour driven test suite using the Behave framework (https://github.com/behave/behave).
+
+To run the test suite you need to
+ - Compile the Convention Commits Next Version binary.
+ - Install Python3.
+ - Install Behave.
+ - Execute Behave.
 
 __Note - You can't use --release as the test suite uses `target/debug/conventional_commits_next_version`.__
 
