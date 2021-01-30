@@ -35,11 +35,11 @@ A tooling and language agnostic utility to calculate the next semantic version b
 ## Usage
 Conventional Commits Next Version uses the Git commits from a repository you specify using either the arguments `--from-commit-hash` or `--from-reference` or Git Environment Variables.
 Any commits meeting the Conventional Commits v1.0.0 specification are then used to calculate the next semantic version, based upon the provided initial semantic version via the argument `--from-version`.
+The next calculate version is printed to standard out.
 
-By default, the next calculate version is printed to standard out.
-However, if you specify the `--current-version` semantic version argument.
+If you specify the `--current-version` semantic version argument.
 Then the provided version is asserted to be equal or larger than the calculated.
-The calculated semantic version is not printed to standard out, and if the assertion is not met it exits with a non zero exit code.
+If the assertion is not met then it exits with a non zero exit code.
 
 There are two modes of calculating the next semantic version, consecutive mode and batch mode.
 By default Consecutive mode is used.
