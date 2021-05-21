@@ -33,11 +33,6 @@ fn main() {
     print!("{}", expected_version.to_string());
 
     if let Some(current_version) = arguments.current_version {
-        trace!(
-            "Comparing {} < {}.",
-            current_version.to_string(),
-            expected_version.to_string()
-        );
         if current_version < expected_version {
             std::process::exit(ERROR_EXIT_CODE);
         }
