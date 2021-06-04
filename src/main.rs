@@ -10,6 +10,7 @@ use structopt::StructOpt;
 mod cli;
 mod git;
 mod increment;
+mod utilities;
 
 const ERROR_EXIT_CODE: i32 = 1;
 

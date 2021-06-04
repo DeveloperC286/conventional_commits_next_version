@@ -1,6 +1,7 @@
 use semver::Version;
 
 use crate::increment::regex::*;
+use crate::utilities::version::*;
 
 mod regex;
 
@@ -34,7 +35,7 @@ fn get_next_version_from_commits_batch(
         .count();
 
     if major_commits_count > 0 {
-        version.increment_major();
+        increment_major(&mut version);
         return version;
     }
 
@@ -50,7 +51,7 @@ fn get_next_version_from_commits_batch(
         .count();
 
     if minor_commits_count > 0 {
-        version.increment_minor();
+        increment_minor(&mut version);
         return version;
     }
 
@@ -66,7 +67,7 @@ fn get_next_version_from_commits_batch(
         .count();
 
     if patch_commits_count > 0 {
-        version.increment_patch();
+        increment_patch(&mut version);
         return version;
     }
 
@@ -80,13 +81,13 @@ fn get_next_version_from_commits_consecutive(
     commit_messages.iter().for_each(|commit_message| {
         if is_major_increment(commit_message) {
             log_major_increment(commit_message);
-            version.increment_major();
+            increment_major(&mut version);
         } else if is_minor_increment(commit_message) {
             log_minor_increment(commit_message);
-            version.increment_minor();
+            increment_minor(&mut version);
         } else if is_patch_increment(commit_message) {
             log_patch_increment(commit_message);
-            version.increment_patch();
+            increment_patch(&mut version);
         }
     });
 

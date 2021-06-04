@@ -1,4 +1,4 @@
-use semver::{SemVerError, Version};
+use semver::{Error, Version};
 use structopt::{clap::ArgGroup, StructOpt};
 
 #[derive(Debug, StructOpt)]
@@ -49,7 +49,7 @@ pub struct Arguments {
     pub monorepo: Option<String>,
 }
 
-fn parse_version(src: &str) -> Result<Version, SemVerError> {
+fn parse_version(src: &str) -> Result<Version, Error> {
     if src.starts_with('v') || src.starts_with('V') {
         return Version::parse(&src[1..]);
     }
