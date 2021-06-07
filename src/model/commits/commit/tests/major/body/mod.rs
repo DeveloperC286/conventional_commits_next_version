@@ -1,6 +1,4 @@
-use rstest::rstest;
-
-use crate::increment::*;
+use super::*;
 
 #[rstest(
     commit_message,
@@ -12,7 +10,7 @@ use crate::increment::*;
     case("feat: tweaks to API surface based on user feedback (#1726)\n\nBREAKING CHANGE: tweaks to ESM/Deno API surface: now exports yargs function by default; getProcessArgvWithoutBin becomes hidBin; types now exported for Deno."),
 )]
 fn test_is_major_footer_increment(commit_message: &str) {
-    assert!(is_major_footer_increment(commit_message));
+    is_major_footer_increment(commit_message);
 }
 
 #[rstest(
@@ -25,5 +23,5 @@ fn test_is_major_footer_increment(commit_message: &str) {
     case("feat: tweaks to API surface based on user feedback (#1726)\n\nBREAKING-CHANGE: tweaks to ESM/Deno API surface: now exports yargs function by default; getProcessArgvWithoutBin becomes hidBin; types now exported for Deno."),
 )]
 fn test_is_major_footer_increment_synonymous(commit_message: &str) {
-    assert!(is_major_footer_increment(commit_message));
+    is_major_footer_increment(commit_message);
 }

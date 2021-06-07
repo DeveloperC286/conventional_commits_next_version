@@ -7,9 +7,10 @@ extern crate regex;
 
 use structopt::StructOpt;
 
+use crate::model::commits::Commits;
+
 mod cli;
-mod git;
-mod increment;
+mod model;
 mod utilities;
 
 const ERROR_EXIT_CODE: i32 = 1;
@@ -19,17 +20,14 @@ fn main() {
     let arguments = cli::Arguments::from_args();
     trace!("The command line arguments provided are {:?}.", arguments);
 
-    let commit_messages = git::get_commit_messages_till_head_from(
+    let commits = Commits::new(
         arguments.from_commit_hash,
         arguments.from_reference,
         arguments.monorepo,
     );
 
-    let expected_version = increment::get_next_version_from_commits(
-        commit_messages,
-        arguments.from_version,
-        arguments.batch_commits,
-    );
+    let expected_version =
+        commits.get_next_version(arguments.from_version, arguments.batch_commits);
 
     print!("{}", expected_version.to_string());
 
