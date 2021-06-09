@@ -1,4 +1,5 @@
 use super::*;
 
-mod body;
+mod footer;
 mod title;
+mod title_and_footer;

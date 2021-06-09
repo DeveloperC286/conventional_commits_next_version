@@ -21,7 +21,7 @@ pub fn test_major_title_commits(
         ),
         variations::get_body_variations(should_generate_body),
     ) {
-        is_major_title_increment(&commit_message);
+        is_only_major_title_increment(&commit_message);
     }
 }
 
@@ -40,7 +40,7 @@ pub fn test_major_footer_commits(
         variations::get_description_termination_variations(true),
         variations::MAJOR_FOOTER_VARIATIONS,
     ) {
-        is_major_footer_increment(&commit_message);
+        is_only_major_footer_increment(&commit_message);
     }
 }
 
