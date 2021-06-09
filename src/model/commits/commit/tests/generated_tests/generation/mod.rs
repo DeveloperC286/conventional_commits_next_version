@@ -2,7 +2,7 @@ use super::*;
 
 mod variations;
 
-pub fn generate_major_commits(
+pub fn test_major_title_commits(
     should_generate_preceding_whitespace: bool,
     should_generate_empty_scope: bool,
     should_generate_space_after_type: bool,
@@ -12,7 +12,7 @@ pub fn generate_major_commits(
 ) {
     for commit_message in generate_commit_messages(
         variations::get_preceding_whitespace_variations(should_generate_preceding_whitespace),
-        variations::get_major_commit_types(),
+        variations::get_major_commit_type_variations(),
         variations::get_scope_variations(should_generate_empty_scope),
         should_generate_space_after_type,
         variations::get_description_variations(should_generate_description),
@@ -25,7 +25,7 @@ pub fn generate_major_commits(
     }
 }
 
-pub fn generate_major_body_commits(
+pub fn test_major_footer_commits(
     should_generate_preceding_whitespace: bool,
     should_generate_empty_scope: bool,
     should_generate_space_after_type: bool,
@@ -38,13 +38,13 @@ pub fn generate_major_body_commits(
         should_generate_space_after_type,
         variations::get_description_variations(should_generate_description),
         variations::get_description_termination_variations(true),
-        variations::get_major_body_variations(),
+        variations::get_major_footer_variations(),
     ) {
         is_major_footer_increment(&commit_message);
     }
 }
 
-pub fn generate_minor_commits(
+pub fn test_minor_commits(
     should_generate_preceding_whitespace: bool,
     should_generate_empty_scope: bool,
     should_generate_space_after_type: bool,
@@ -54,7 +54,7 @@ pub fn generate_minor_commits(
 ) {
     for commit_message in generate_commit_messages(
         variations::get_preceding_whitespace_variations(should_generate_preceding_whitespace),
-        variations::get_minor_commit_types(),
+        variations::get_minor_commit_type_variations(),
         variations::get_scope_variations(should_generate_empty_scope),
         should_generate_space_after_type,
         variations::get_description_variations(should_generate_description),
@@ -67,7 +67,7 @@ pub fn generate_minor_commits(
     }
 }
 
-pub fn generate_patch_commits(
+pub fn test_patch_commits(
     should_generate_preceding_whitespace: bool,
     should_generate_empty_scope: bool,
     should_generate_space_after_type: bool,
@@ -77,7 +77,7 @@ pub fn generate_patch_commits(
 ) {
     for commit_message in generate_commit_messages(
         variations::get_preceding_whitespace_variations(should_generate_preceding_whitespace),
-        variations::get_patch_commit_types(),
+        variations::get_patch_commit_type_variations(),
         variations::get_scope_variations(should_generate_empty_scope),
         should_generate_space_after_type,
         variations::get_description_variations(should_generate_description),
@@ -92,7 +92,7 @@ pub fn generate_patch_commits(
 
 fn generate_commit_messages(
     preceding_whitespace_variations: Vec<String>,
-    commit_types: Vec<String>,
+    commit_type_variations: Vec<String>,
     scope_variations: Vec<String>,
     should_generate_space_after_type: bool,
     description_variations: Vec<String>,
@@ -106,15 +106,15 @@ fn generate_commit_messages(
         false => "",
     };
 
-    for preceding in &preceding_whitespace_variations {
-        for commit_type in &commit_types {
+    for preceding_whitespace in &preceding_whitespace_variations {
+        for commit_type in &commit_type_variations {
             for scope in &scope_variations {
                 for description in &description_variations {
                     for description_termination in &description_termination_variations {
                         for body in &body_variations {
                             commit_messages.push(format!(
                                 "{}{}{}:{}{}{}{}",
-                                preceding,
+                                preceding_whitespace,
                                 commit_type,
                                 scope,
                                 space_after_type,

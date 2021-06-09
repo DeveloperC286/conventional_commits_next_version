@@ -13,7 +13,7 @@ pub fn get_preceding_whitespace_variations(
     }
 }
 
-pub fn get_major_commit_types() -> Vec<String> {
+pub fn get_major_commit_type_variations() -> Vec<String> {
     vec![
         "feat!".to_string(),
         "fix!".to_string(),
@@ -23,11 +23,11 @@ pub fn get_major_commit_types() -> Vec<String> {
     ]
 }
 
-pub fn get_minor_commit_types() -> Vec<String> {
+pub fn get_minor_commit_type_variations() -> Vec<String> {
     vec!["feat".to_string(), "FEAT".to_string(), "Feat".to_string()]
 }
 
-pub fn get_patch_commit_types() -> Vec<String> {
+pub fn get_patch_commit_type_variations() -> Vec<String> {
     vec!["fix".to_string(), "FIX".to_string(), "Fix".to_string()]
 }
 
@@ -94,7 +94,7 @@ pub fn get_body_variations(should_generate_body: bool) -> Vec<String> {
     }
 }
 
-pub fn get_major_body_variations() -> Vec<String> {
+pub fn get_major_footer_variations() -> Vec<String> {
     vec![
         "BREAKING CHANGE:\r\n\r\nremoved undocumented `defaults` alias for `default`.".to_string(),
         "BREAKING CHANGE: find-up replaced with escalade; export map added (limits importable files in Node >= 12); yarser-parser@19.x.x (new decamelize/camelcase implementation).".to_string(),
