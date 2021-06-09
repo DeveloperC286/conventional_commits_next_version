@@ -58,6 +58,7 @@ fn is_minor_increment(commit_message: &str) {
         commit_message
     );
 }
+
 fn is_not_minor_increment(commit_message: &str) {
     let commit = Commit {
         message: commit_message.to_string(),
@@ -83,6 +84,7 @@ fn is_patch_increment(commit_message: &str) {
         commit_message
     );
 }
+
 fn is_not_patch_increment(commit_message: &str) {
     let commit = Commit {
         message: commit_message.to_string(),

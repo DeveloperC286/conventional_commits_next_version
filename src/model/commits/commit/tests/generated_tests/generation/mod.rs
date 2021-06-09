@@ -12,7 +12,7 @@ pub fn test_major_title_commits(
 ) {
     for commit_message in generate_commit_messages(
         variations::get_preceding_whitespace_variations(should_generate_preceding_whitespace),
-        variations::get_major_commit_type_variations(),
+        variations::MAJOR_TITLE_COMMIT_TYPE_VARIATIONS,
         variations::get_scope_variations(should_generate_empty_scope),
         should_generate_space_after_type,
         variations::get_description_variations(should_generate_description),
@@ -33,12 +33,12 @@ pub fn test_major_footer_commits(
 ) {
     for commit_message in generate_commit_messages(
         variations::get_preceding_whitespace_variations(should_generate_preceding_whitespace),
-        variations::get_commit_types_variations(),
+        variations::COMMIT_TYPE_VARIATIONS,
         variations::get_scope_variations(should_generate_empty_scope),
         should_generate_space_after_type,
         variations::get_description_variations(should_generate_description),
         variations::get_description_termination_variations(true),
-        variations::get_major_footer_variations(),
+        variations::MAJOR_FOOTER_VARIATIONS,
     ) {
         is_major_footer_increment(&commit_message);
     }
@@ -54,7 +54,7 @@ pub fn test_minor_commits(
 ) {
     for commit_message in generate_commit_messages(
         variations::get_preceding_whitespace_variations(should_generate_preceding_whitespace),
-        variations::get_minor_commit_type_variations(),
+        variations::MINOR_COMMIT_TYPE_VARIATIONS,
         variations::get_scope_variations(should_generate_empty_scope),
         should_generate_space_after_type,
         variations::get_description_variations(should_generate_description),
@@ -77,7 +77,7 @@ pub fn test_patch_commits(
 ) {
     for commit_message in generate_commit_messages(
         variations::get_preceding_whitespace_variations(should_generate_preceding_whitespace),
-        variations::get_patch_commit_type_variations(),
+        variations::PATCH_COMMIT_TYPE_VARIATIONS,
         variations::get_scope_variations(should_generate_empty_scope),
         should_generate_space_after_type,
         variations::get_description_variations(should_generate_description),
@@ -91,13 +91,13 @@ pub fn test_patch_commits(
 }
 
 fn generate_commit_messages(
-    preceding_whitespace_variations: Vec<String>,
-    commit_type_variations: Vec<String>,
-    scope_variations: Vec<String>,
+    preceding_whitespace_variations: &[&str],
+    commit_type_variations: &[&str],
+    scope_variations: &[&str],
     should_generate_space_after_type: bool,
-    description_variations: Vec<String>,
-    description_termination_variations: Vec<String>,
-    body_variations: Vec<String>,
+    description_variations: &[&str],
+    description_termination_variations: &[&str],
+    body_variations: &[&str],
 ) -> Vec<String> {
     let mut commit_messages = vec![];
 
@@ -106,12 +106,12 @@ fn generate_commit_messages(
         false => "",
     };
 
-    for preceding_whitespace in &preceding_whitespace_variations {
-        for commit_type in &commit_type_variations {
-            for scope in &scope_variations {
-                for description in &description_variations {
-                    for description_termination in &description_termination_variations {
-                        for body in &body_variations {
+    for preceding_whitespace in preceding_whitespace_variations {
+        for commit_type in commit_type_variations {
+            for scope in scope_variations {
+                for description in description_variations {
+                    for description_termination in description_termination_variations {
+                        for body in body_variations {
                             commit_messages.push(format!(
                                 "{}{}{}:{}{}{}{}",
                                 preceding_whitespace,
