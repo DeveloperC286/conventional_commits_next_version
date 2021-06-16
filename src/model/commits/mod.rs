@@ -117,16 +117,16 @@ impl Commits {
         exit(crate::ERROR_EXIT_CODE);
     }
 
-    pub fn get_next_version(&self, from_version: Version, batch_commits: bool) -> Version {
-        fn get_next_version_batch(commits: &[Commit], mut version: Version) -> Version {
+    pub fn get_next_version(&self, mut from_version: Version, batch_commits: bool) -> Version {
+        fn increment_version_batch(commits: &[Commit], version: &mut Version) {
             let major_commits_count = commits
                 .iter()
                 .filter(|commit| commit.is_major_increment())
                 .count();
 
             if major_commits_count > 0 {
-                increment_major(&mut version);
-                return version;
+                increment_major(version);
+                return;
             }
 
             let minor_commits_count = commits
@@ -135,8 +135,8 @@ impl Commits {
                 .count();
 
             if minor_commits_count > 0 {
-                increment_minor(&mut version);
-                return version;
+                increment_minor(version);
+                return;
             }
 
             let patch_commits_count = commits
@@ -145,33 +145,31 @@ impl Commits {
                 .count();
 
             if patch_commits_count > 0 {
-                increment_patch(&mut version);
-                return version;
+                increment_patch(version);
+                return ;
             }
-
-            version
         }
 
-        fn get_next_version_consecutive(commits: &[Commit], mut version: Version) -> Version {
+        fn increment_version_consecutive(commits: &[Commit], version: &mut Version) {
             commits.iter().for_each(|commit| {
                 if commit.is_major_increment() {
-                    increment_major(&mut version);
+                    increment_major(version);
                 } else if commit.is_minor_increment() {
-                    increment_minor(&mut version);
+                    increment_minor(version);
                 } else if commit.is_patch_increment() {
-                    increment_patch(&mut version);
+                    increment_patch(version);
                 }
             });
-
-            version
         }
 
         if batch_commits {
             trace!("Operating in batch mode.");
-            get_next_version_batch(&self.commits, from_version)
+            increment_version_batch(&self.commits, &mut from_version);
         } else {
             trace!("Operating in consecutive mode.");
-            get_next_version_consecutive(&self.commits, from_version)
+            increment_version_consecutive(&self.commits, &mut from_version);
         }
+
+        from_version
     }
 }
