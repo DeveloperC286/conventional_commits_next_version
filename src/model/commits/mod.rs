@@ -121,10 +121,7 @@ impl Commits {
         fn get_next_version_batch(commits: &[Commit], mut version: Version) -> Version {
             let major_commits_count = commits
                 .iter()
-                .filter(|commit| match commit.is_major_increment() {
-                    true => true,
-                    false => false,
-                })
+                .filter(|commit| commit.is_major_increment())
                 .count();
 
             if major_commits_count > 0 {
@@ -134,10 +131,7 @@ impl Commits {
 
             let minor_commits_count = commits
                 .iter()
-                .filter(|commit| match commit.is_minor_increment() {
-                    true => true,
-                    false => false,
-                })
+                .filter(|commit| commit.is_minor_increment())
                 .count();
 
             if minor_commits_count > 0 {
@@ -147,10 +141,7 @@ impl Commits {
 
             let patch_commits_count = commits
                 .iter()
-                .filter(|commit| match commit.is_patch_increment() {
-                    true => true,
-                    false => false,
-                })
+                .filter(|commit| commit.is_patch_increment())
                 .count();
 
             if patch_commits_count > 0 {
