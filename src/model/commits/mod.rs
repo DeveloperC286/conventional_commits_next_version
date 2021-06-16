@@ -13,7 +13,7 @@ pub struct Commits {
 }
 
 impl Commits {
-    pub fn new(
+    pub fn from(
         from_commit_hash: Option<Oid>,
         from_reference: Option<String>,
         monorepo: Option<String>,
