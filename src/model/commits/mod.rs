@@ -119,34 +119,27 @@ impl Commits {
 
     pub fn get_next_version(&self, mut from_version: Version, batch_commits: bool) -> Version {
         fn increment_version_batch(commits: &[Commit], version: &mut Version) {
-            let major_commits_count = commits
+            if commits
                 .iter()
                 .filter(|commit| commit.is_major_increment())
-                .count();
-
-            if major_commits_count > 0 {
+                .count()
+                > 0
+            {
                 increment_major(version);
-                return;
-            }
-
-            let minor_commits_count = commits
+            } else if commits
                 .iter()
                 .filter(|commit| commit.is_minor_increment())
-                .count();
-
-            if minor_commits_count > 0 {
+                .count()
+                > 0
+            {
                 increment_minor(version);
-                return;
-            }
-
-            let patch_commits_count = commits
+            } else if commits
                 .iter()
                 .filter(|commit| commit.is_patch_increment())
-                .count();
-
-            if patch_commits_count > 0 {
+                .count()
+                > 0
+            {
                 increment_patch(version);
-                return ;
             }
         }
 
