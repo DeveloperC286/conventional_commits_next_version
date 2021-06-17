@@ -31,8 +31,7 @@ impl Commits {
                         exit(crate::ERROR_EXIT_CODE);
                     }
                 })
-                .filter(|commit| commit.is_some())
-                .map(|commit| commit.unwrap())
+                .flatten()
                 .collect();
 
             commits.reverse();
