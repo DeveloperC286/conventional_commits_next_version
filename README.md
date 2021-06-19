@@ -48,6 +48,8 @@ By default Consecutive mode is used.
 ### Usage - Consecutive Mode
 In consecutive mode each Git commit in the Conventional Commits specification is applied to Semantic Versioning calculation in chronological order.
 
+Consecutive mode is the default, so no additional flags or configuration needs supplied.
+
 e.g.
 
 ```
@@ -57,7 +59,7 @@ git checkout 6014e39bca3a1e8445aa0fb2a435f6181e344c45
 RUST_LOG=trace conventional_commits_next_version --from-commit-hash c36c571e4e15dfe26be1d919e4991fb6ab6ed9fd --from-version 15.2.0
 ```
 
-Using the environment variable `RUST_LOG` we can enable more detailed logging, so we can see the internal logic.
+Using the environment variable `RUST_LOG` we can enable more detailed logging, so we can see the logic of consecutive mode.
 
 ```
 DEBUG conventional_commits_next_version::model::commits::commit > "fix: address ambiguity between nargs of 1 and requiresArg (#1572)\n\n" matches a patch Semantic Versioning increment commit message.
@@ -88,35 +90,32 @@ There are no more Conventional Commits which will increment the Semantic Version
 
 
 ### Usage - Batch Mode
-In batch mode the single largest increment across all the Git commits in the Conventional Commits specification increments the Semantic Versioning.
+In batch mode the single largest increment across all the Git commits in the Conventional Commits specification is the only increment applied to the Semantic Versioning.
+Batch mode is useful for feature branches, if it has multiple fixes or a mixture of fixes and features being merged.
 
 Batch mode is enabled via the `--batch-commits` flag.
-
-Batch mode is useful for feature branches, if it has multiple fixes or a mixture of fixes and features being merged.
 
 e.g.
 
 ```
 git clone https://github.com/yargs/yargs.git
 cd yargs
-git checkout 3af7f04cdbfcbd4b3f432aca5144d43f21958c39
-RUST_LOG=trace conventional_commits_next_version --from-commit-hash a5edc328ecb3f90d1ba09cfe70a0040f68adf50a --from-version 1.13.2 --batch-commits
+git checkout 6014e39bca3a1e8445aa0fb2a435f6181e344c45
+RUST_LOG=trace conventional_commits_next_version --from-commit-hash c36c571e4e15dfe26be1d919e4991fb6ab6ed9fd --from-version 15.2.0 --batch-commits
 ```
 
-Using the same example we can see how batch mode behaves differently.
+Using the environment variable `RUST_LOG` we can see more detailed logs, to see how batch mode behaves differently.
 
 ```
-DEBUG conventional_commits_next_version::increment > Incrementing semantic versioning minor because of commit "feat(yargs-parser): introduce single-digit boolean aliases (#1576)\n\n".
-DEBUG conventional_commits_next_version::increment > Incrementing semantic versioning minor because of commit "feat: add usage for single-digit boolean aliases (#1580)\n\n".
+DEBUG conventional_commits_next_version::model::commits::commit > "feat(yargs-parser): introduce single-digit boolean aliases (#1576)\n\n" matches a minor Semantic Versioning increment commit message.
+DEBUG conventional_commits_next_version::model::commits::commit > "feat: add usage for single-digit boolean aliases (#1580)\n\n" matches a minor Semantic Versioning increment commit message.
 ```
 
-The largest increment is a minor Semantic Versioning increment, because of the two Conventional Commits with `feat` as the type.
-The minor Semantic Versioning increment increases the initial Semantic Versioning from `1.13.0` to `1.14.0`.
-
-The calculated Semantic Versioning is then printed to standard out.
+The largest increment is a minor Semantic Versioning increment, because of the two commits `3af7f04cdbfcbd4b3f432aca5144d43f21958c39` and `6014e39bca3a1e8445aa0fb2a435f6181e344c45` with `feat` as the Conventional Commits' type.
+The minor Semantic Versioning increment increases the initial Semantic Versioning from `15.2.0` to `15.3.0`, which is then printed to standard out.
 
 ```
-> 1.14.0
+15.3.0
 ```
 
 
