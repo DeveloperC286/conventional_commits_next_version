@@ -31,14 +31,14 @@ pub struct Arguments {
 
     #[structopt(
         long,
-        help = "In batch mode the single largest increment across all the Git commits in the Conventional Commits specification increments the Semantic Versioning."
+        help = "In batch mode the largest Semantic Versioning increment determined by the Conventional Commits type across all the commits is the only increment applied."
     )]
     pub batch_commits: bool,
 
     #[structopt(
         long,
         parse(try_from_str = parse_version),
-        help = "The `--current-version` Semantic Versioning is asserted to be equal or larger than the calculated Semantic Versioning. The calculated Semantic Versioning is not printed to standard out, if the assertion is not met then it exits with a non zero exit code."
+        help = "This Semantic Versioning is asserted to be equal or larger than the calculated Semantic Versioning. The calculated Semantic Versioning is not printed to standard out. If the assertion is not met then it exits with a non zero exit code."
     )]
     pub current_version: Option<Version>,
 

@@ -17,8 +17,8 @@ A tooling and language agnostic utility to calculate the next semantic version b
  * [Usage](#usage)
    + [Usage - Consecutive Mode](#usage-consecutive-mode)
    + [Usage - Batch Mode](#usage-batch-mode)
+   + [Usage - Additional Arguments](#usage-additional-arguments)
    + [Usage - Git Environment Variables](#usage-git-environment-variables)
-   + [Usage - Monorepo](#usage-monorepo)
    + [Usage - Logging](#usage-logging)
  * [CICD Examples](#cicd-examples)
    + [GitLab CI Rust Project Example](#gitlab-ci-rust-project-example)
@@ -33,16 +33,11 @@ A tooling and language agnostic utility to calculate the next semantic version b
 
 
 ## Usage
-Conventional Commits Next Version uses the Git commits from a repository you specify using either the arguments `--from-commit-hash` or `--from-reference` or Git Environment Variables.
-Any commits meeting the Conventional Commits v1.0.0 specification are then used to calculate the next semantic version, based upon the provided initial semantic version via the argument `--from-version`.
-The next calculate version is printed to standard out.
-
-If you specify the `--current-version` semantic version argument.
-Then the provided version is asserted to be equal or larger than the calculated.
-If the assertion is not met then it exits with a non zero exit code.
+Conventional Commits Next Version calculates the next semantic version based on the Conventional Commits since the prior version.
+The range of commits start excusively from the commit specified by either the arguments `--from-commit-hash` or `--from-reference`, till inclusively of `HEAD`.
+Any commits in this range which conform to the Conventional Commits v1.0.0 specification are used to calculate the next Semantic Versioning, based upon the initial Semantic Versioning provided via the argument `--from-version`.
 
 There are two modes of calculating the next semantic version, consecutive mode and batch mode.
-By default Consecutive mode is used.
 
 
 ### Usage - Consecutive Mode
@@ -90,8 +85,8 @@ There are no more Conventional Commits which will increment the Semantic Version
 
 
 ### Usage - Batch Mode
-In batch mode the single largest increment across all the Git commits in the Conventional Commits specification is the only increment applied to the Semantic Versioning.
-Batch mode is useful for feature branches, if it has multiple fixes or a mixture of fixes and features being merged.
+In batch mode the largest Semantic Versioning increment determined by the Conventional Commits type across all the commits is the only increment applied.
+Batch mode is useful for feature branches, if it has multiple types all being merged together.
 
 Batch mode is enabled via the `--batch-commits` flag.
 
@@ -119,9 +114,15 @@ The minor Semantic Versioning increment increases the initial Semantic Versionin
 ```
 
 
-### Usage - Monorepo
-The `--monorepo` argument supports the usage of monorepos.
-Only commits which alter the specified entry from the argument are used when calculating the next semantic version.
+## Usage - Additional Arguments
+Additional command line flags can be passed to alter what and how the next Semantic Versioning is calculated.
+
+
+| Flag                      | |
+|---------------------------|-|
+| --batch-commits | In batch mode the largest Semantic Versioning increment determined by the Conventional Commits type across all the commits is the only increment applied. |
+| --current-version | This Semantic Versioning is asserted to be equal or larger than the calculated Semantic Versioning. The calculated Semantic Versioning is not printed to standard out. If the assertion is not met then it exits with a non zero exit code. |
+| --monorepo | Monorepo usage is supported, the version is calculated only from commits altering the specified directory. |
 
 
 ### Usage - Git Environment Variables
