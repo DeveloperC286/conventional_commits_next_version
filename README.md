@@ -53,37 +53,37 @@ e.g.
 ```
 git clone https://github.com/yargs/yargs.git
 cd yargs
-git checkout 3af7f04cdbfcbd4b3f432aca5144d43f21958c39
-RUST_LOG=trace conventional_commits_next_version --from-commit-hash a5edc328ecb3f90d1ba09cfe70a0040f68adf50a --from-version 1.13.2
+git checkout 6014e39bca3a1e8445aa0fb2a435f6181e344c45
+RUST_LOG=trace conventional_commits_next_version --from-commit-hash c36c571e4e15dfe26be1d919e4991fb6ab6ed9fd --from-version 15.2.0
 ```
 
 Using the environment variable `RUST_LOG` we can enable more detailed logging, so we can see the internal logic.
 
 ```
-DEBUG conventional_commits_next_version::increment > Incrementing semantic versioning patch because of commit "fix: address ambiguity between nargs of 1 and requiresArg (#1572)\n\n".
+DEBUG conventional_commits_next_version::model::commits::commit > "fix: address ambiguity between nargs of 1 and requiresArg (#1572)\n\n" matches a patch Semantic Versioning increment commit message.
 ```
 
 From the logs we can see that the commit `a5edc328ecb3f90d1ba09cfe70a0040f68adf50a` has the Conventional Commits type of `fix`.
-The fix type will cause the increment of the initial Semantic Versioning provided via `--from-version` from `1.13.2` to `1.13.3`.
+The fix type will cause the increment of the initial Semantic Versioning provided via `--from-version` from `15.2.0` to `15.2.1`.
 
 ```
-DEBUG conventional_commits_next_version::increment > Incrementing semantic versioning minor because of commit "feat(yargs-parser): introduce single-digit boolean aliases (#1576)\n\n".
+DEBUG conventional_commits_next_version::model::commits::commit > "feat(yargs-parser): introduce single-digit boolean aliases (#1576)\n\n" matches a minor Semantic Versioning increment commit message.
 ```
 
 From the logs we can see that the commit `3af7f04cdbfcbd4b3f432aca5144d43f21958c39` has the Conventional Commits type of `feat`.
-The feat type encountered will increment the minor Semantic Versioning from `1.13.3` to `1.14.0`.
+The feat type encountered will increment the minor Semantic Versioning from `15.2.1` to `15.3.0`.
 
 ```
-DEBUG conventional_commits_next_version::increment > Incrementing semantic versioning minor because of commit "feat: add usage for single-digit boolean aliases (#1580)\n\n".
+DEBUG conventional_commits_next_version::model::commits::commit > "feat: add usage for single-digit boolean aliases (#1580)\n\n" matches a minor Semantic Versioning increment commit message.
 ```
 
 From the logs we can see that the commit `6014e39bca3a1e8445aa0fb2a435f6181e344c451` has the Conventional Commits type of `feat`.
-The feat type will increment the minor Semantic Versioning from `1.14.0` to `1.15.0`.
+The feat type will increment the minor Semantic Versioning from `15.3.0` to `15.4.0`.
 
 There are no more Conventional Commits which will increment the Semantic Versioning, so the calculated Semantic Versioning is printed to standard out.
 
 ```
-> 1.15.0
+15.4.0
 ```
 
 
