@@ -1,8 +1,8 @@
-use std::collections::HashSet;
+use git2::{Oid, Repository};
+use regex::Regex;
 use std::process::exit;
 
-use git2::{Oid, Repository, TreeWalkMode, TreeWalkResult};
-use regex::Regex;
+use crate::model::monorepo::Monorepo;
 
 const OPTIONAL_PRECEDING_WHITESPACE: &str = "^([[:space:]])*";
 const ANY_CHARACTER_REGEX: &str = "([[:digit:]]|[[:alpha:]])+";
@@ -45,78 +45,7 @@ pub struct Commit {
 }
 
 impl Commit {
-    pub fn from(repository: &Repository, oid: Oid, monorepo: &Option<String>) -> Option<Self> {
-        fn get_all_files_changed_in_commit(
-            repository: &Repository,
-            commit: git2::Commit,
-        ) -> HashSet<String> {
-            let mut files = HashSet::new();
-
-            match commit.tree() {
-                Ok(commit_tree) => {
-                    if commit.parent_count() == 0 {
-                        // Root Commit
-                        commit_tree
-                            .walk(TreeWalkMode::PostOrder, |directory, entry| {
-                                match entry.name() {
-                                    Some(name) => {
-                                        let file = format!("{}{}", directory, name);
-                                        files.insert(file);
-                                    }
-                                    None => {
-                                        warn!(
-                                            "Commit with the hash '{}' has not valid utf-8 files.",
-                                            commit.id()
-                                        )
-                                    }
-                                }
-                                TreeWalkResult::Ok
-                            })
-                            .unwrap();
-                    } else {
-                        // Some merge commits can have multiple parents.
-                        for parent in commit.parents() {
-                            match parent.tree() {
-                                Ok(parent_tree) => {
-                                    match repository.diff_tree_to_tree(
-                                        Some(&parent_tree),
-                                        Some(&commit_tree),
-                                        None,
-                                    ) {
-                                        Ok(diff) => {
-                                            for delta in diff.deltas() {
-                                                if let Some(new_file) = delta.new_file().path() {
-                                                    files.insert(new_file.display().to_string());
-                                                }
-
-                                                if let Some(old_file) = delta.old_file().path() {
-                                                    files.insert(old_file.display().to_string());
-                                                }
-                                            }
-                                        }
-                                        Err(error) => {
-                                            error!("{:?}", error);
-                                            exit(crate::ERROR_EXIT_CODE);
-                                        }
-                                    }
-                                }
-                                Err(error) => {
-                                    error!("{:?}", error);
-                                    exit(crate::ERROR_EXIT_CODE);
-                                }
-                            }
-                        }
-                    }
-                }
-                Err(error) => {
-                    error!("{:?}", error);
-                    exit(crate::ERROR_EXIT_CODE);
-                }
-            }
-
-            files
-        }
-
+    pub fn from(repository: &Repository, oid: Oid, monorepo: &Monorepo) -> Option<Self> {
         match repository.find_commit(oid) {
             Ok(commit) => match commit.message().map(|m| m.to_string()) {
                 Some(message) => {
@@ -126,35 +55,10 @@ impl Commit {
                         commit.id()
                     );
 
-                    if let Some(monorepo) = &monorepo {
-                        let all_files_in_commit =
-                            get_all_files_changed_in_commit(repository, commit);
-                        trace!(
-                            "commit with the hash '{}' changes the files {:?}.",
-                            oid,
-                            all_files_in_commit
-                        );
-
-                        for file_in_commit in all_files_in_commit {
-                            if file_in_commit.starts_with(monorepo) {
-                                trace!(
-                                    "Using commit with the hash '{}' as {:?} matches {:?}.",
-                                    oid,
-                                    file_in_commit,
-                                    monorepo
-                                );
-                                return Some(Commit { message });
-                            }
-                        }
-
-                        debug!(
-                            "Ignoring commit with the hash '{}' as {:?} was not found.",
-                            oid, monorepo
-                        );
-                        return None;
+                    match monorepo.does_commit_effect(repository, commit) {
+                        true => Some(Commit { message }),
+                        false => None,
                     }
-
-                    Some(Commit { message })
                 }
                 None => {
                     error!(

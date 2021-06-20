@@ -4,6 +4,7 @@ use git2::{Oid, Repository, Revwalk};
 use semver::Version;
 
 use crate::model::commits::commit::Commit;
+use crate::model::monorepo::Monorepo;
 use crate::utilities::version::*;
 
 mod commit;
@@ -21,11 +22,11 @@ impl Commits {
         fn get_commits_till_head_from_oid(
             repository: &Repository,
             from_commit_hash: Oid,
-            monorepo: Option<String>,
+            monorepo: &Monorepo,
         ) -> Commits {
             let mut commits: Vec<Commit> = get_commit_oids(repository, from_commit_hash)
                 .map(|oid| match oid {
-                    Ok(oid) => Commit::from(repository, oid, &monorepo),
+                    Ok(oid) => Commit::from(repository, oid, monorepo),
                     Err(error) => {
                         error!("{:?}", error);
                         exit(crate::ERROR_EXIT_CODE);
@@ -99,16 +100,17 @@ impl Commits {
         }
 
         let repository = get_repository();
+        let monorepo = Monorepo::from(monorepo);
 
         if let Some(oid) = from_commit_hash {
-            return get_commits_till_head_from_oid(&repository, oid, monorepo);
+            return get_commits_till_head_from_oid(&repository, oid, &monorepo);
         }
 
         if let Some(reference) = from_reference {
             return get_commits_till_head_from_oid(
                 &repository,
                 get_reference(&repository, &reference),
-                monorepo,
+                &monorepo,
             );
         }
 
