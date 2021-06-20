@@ -91,17 +91,21 @@ impl Monorepo {
         true
     }
 
-    fn is_files_within(&self, files: HashSet<String>) -> bool {
+    fn is_files_within(&self, files_in_commit: HashSet<String>) -> bool {
         match &self.monorepo {
             Some(monorepo) => {
-                for file_in_commit in files {
-                    if file_in_commit.starts_with(monorepo) {
-                        trace!("{:?} is within {:?}.", file_in_commit, monorepo);
-                        return true;
-                    }
-                }
-
-                false
+                files_in_commit
+                    .iter()
+                    .filter(|file_in_commit| file_in_commit.starts_with(monorepo))
+                    .inspect(|file_in_commit| {
+                        trace!(
+                            "File {:?} within the commit is inside {:?}.",
+                            file_in_commit,
+                            monorepo
+                        )
+                    })
+                    .count()
+                    > 0
             }
             None => true,
         }
