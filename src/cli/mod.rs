@@ -46,7 +46,7 @@ pub struct Arguments {
         long,
         help = "Monorepo usage is supported, the version is calculated only from commits altering the specified directory."
     )]
-    pub monorepo: Option<String>,
+    pub monorepo: Vec<String>,
 }
 
 fn parse_version(src: &str) -> Result<Version, Error> {

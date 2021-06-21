@@ -1,4 +1,4 @@
-Feature: Monorepo usage is supported, the version is calculated only from commits altering the specified directory.
+Feature: The usage of filtering on a monorepo within the repository is supported, the version is calculated only from commits altering the specified directory.
 
 
   Scenario Outline:

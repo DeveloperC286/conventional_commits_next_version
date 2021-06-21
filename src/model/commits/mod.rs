@@ -1,9 +1,10 @@
-use git2::{Oid, Repository, Revwalk};
-use semver::Version;
 use std::process::exit;
 
+use git2::{Oid, Repository, Revwalk};
+use semver::Version;
+
 use crate::model::commits::commit::Commit;
-use crate::model::monorepo::Monorepo;
+use crate::model::monorepos::Monorepos;
 use crate::utilities::version::*;
 
 mod commit;
@@ -16,16 +17,16 @@ impl Commits {
     pub fn from(
         from_commit_hash: Option<Oid>,
         from_reference: Option<String>,
-        monorepo: Option<String>,
+        monorepos: Vec<String>,
     ) -> Self {
         fn get_commits_till_head_from_oid(
             repository: &Repository,
             from_commit_hash: Oid,
-            monorepo: &Monorepo,
+            monorepos: &Monorepos,
         ) -> Commits {
             let mut commits: Vec<Commit> = get_commit_oids(repository, from_commit_hash)
                 .map(|oid| match oid {
-                    Ok(oid) => Commit::from(repository, oid, monorepo),
+                    Ok(oid) => Commit::from(repository, oid, monorepos),
                     Err(error) => {
                         error!("{:?}", error);
                         exit(crate::ERROR_EXIT_CODE);
@@ -99,17 +100,17 @@ impl Commits {
         }
 
         let repository = get_repository();
-        let monorepo = Monorepo::from(monorepo);
+        let monorepos = Monorepos::from(monorepos);
 
         if let Some(oid) = from_commit_hash {
-            return get_commits_till_head_from_oid(&repository, oid, &monorepo);
+            return get_commits_till_head_from_oid(&repository, oid, &monorepos);
         }
 
         if let Some(reference) = from_reference {
             return get_commits_till_head_from_oid(
                 &repository,
                 get_reference(&repository, &reference),
-                &monorepo,
+                &monorepos,
             );
         }
 
@@ -156,10 +157,10 @@ impl Commits {
         }
 
         if batch_commits {
-            trace!("Operating in batch mode.");
+            info!("Operating in batch mode.");
             increment_version_batch(&self.commits, &mut from_version);
         } else {
-            trace!("Operating in consecutive mode.");
+            info!("Operating in consecutive mode.");
             increment_version_consecutive(&self.commits, &mut from_version);
         }
 

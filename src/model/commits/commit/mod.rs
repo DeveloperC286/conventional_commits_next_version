@@ -1,8 +1,9 @@
-use git2::{Oid, Repository};
-use regex::Regex;
 use std::process::exit;
 
-use crate::model::monorepo::Monorepo;
+use git2::{Oid, Repository};
+use regex::Regex;
+
+use crate::model::monorepos::Monorepos;
 
 const OPTIONAL_PRECEDING_WHITESPACE: &str = "^([[:space:]])*";
 const ANY_CHARACTER_REGEX: &str = "([[:digit:]]|[[:alpha:]])+";
@@ -45,7 +46,7 @@ pub struct Commit {
 }
 
 impl Commit {
-    pub fn from(repository: &Repository, oid: Oid, monorepo: &Monorepo) -> Option<Self> {
+    pub fn from(repository: &Repository, oid: Oid, monorepos: &Monorepos) -> Option<Self> {
         match repository.find_commit(oid) {
             Ok(commit) => match commit.message().map(|m| m.to_string()) {
                 Some(message) => {
@@ -55,7 +56,7 @@ impl Commit {
                         commit.id()
                     );
 
-                    match monorepo.does_commit_effect(repository, commit) {
+                    match monorepos.does_commit_effect(repository, &commit) {
                         true => Some(Commit { message }),
                         false => None,
                     }

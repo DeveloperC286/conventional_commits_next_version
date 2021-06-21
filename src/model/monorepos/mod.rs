@@ -1,20 +1,21 @@
-use git2::{Repository, TreeWalkMode, TreeWalkResult};
 use std::collections::HashSet;
 use std::process::exit;
 
-pub struct Monorepo {
-    monorepo: Option<String>,
+use git2::{Repository, TreeWalkMode, TreeWalkResult};
+
+pub struct Monorepos {
+    monorepos: Vec<String>,
 }
 
-impl Monorepo {
-    pub fn from(monorepo: Option<String>) -> Self {
-        Monorepo { monorepo }
+impl Monorepos {
+    pub fn from(monorepos: Vec<String>) -> Self {
+        Monorepos { monorepos }
     }
 
-    pub fn does_commit_effect(&self, repository: &Repository, commit: git2::Commit) -> bool {
+    pub fn does_commit_effect(&self, repository: &Repository, commit: &git2::Commit) -> bool {
         fn get_all_files_changed_in_commit(
             repository: &Repository,
-            commit: git2::Commit,
+            commit: &git2::Commit,
         ) -> HashSet<String> {
             let mut files = HashSet::new();
 
@@ -83,30 +84,37 @@ impl Monorepo {
             files
         }
 
-        if self.monorepo.is_some() {
-            return self.is_files_within(get_all_files_changed_in_commit(repository, commit));
+        if !self.monorepos.is_empty() {
+            let files_in_commit = get_all_files_changed_in_commit(repository, commit);
+            trace!(
+                "Commit with the hash '{}' changes the files {:?}.",
+                commit.id(),
+                files_in_commit
+            );
+            return self.is_files_within(files_in_commit);
         }
 
         true
     }
 
     fn is_files_within(&self, files_in_commit: HashSet<String>) -> bool {
-        match &self.monorepo {
-            Some(monorepo) => {
-                files_in_commit
-                    .iter()
-                    .filter(|file_in_commit| file_in_commit.starts_with(monorepo))
-                    .inspect(|file_in_commit| {
-                        trace!(
-                            "File {:?} within the commit is inside {:?}.",
-                            file_in_commit,
-                            monorepo
-                        )
-                    })
-                    .count()
-                    > 0
+        match &self.monorepos.len() {
+            0 => true,
+            _ => {
+                for file_in_commit in files_in_commit {
+                    for monorepo in &self.monorepos {
+                        if file_in_commit.starts_with(monorepo) {
+                            debug!(
+                                "The file {:?} is within the monorepo {:?}.",
+                                file_in_commit, monorepo
+                            );
+                            return true;
+                        }
+                    }
+                }
+
+                false
             }
-            None => true,
         }
     }
 }
