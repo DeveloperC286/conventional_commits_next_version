@@ -1,6 +1,5 @@
-use std::collections::HashSet;
-
 use git2::{Repository, TreeWalkMode, TreeWalkResult};
+use std::collections::HashSet;
 use std::process::exit;
 
 pub struct Monorepo {
