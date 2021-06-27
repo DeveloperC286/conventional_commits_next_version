@@ -46,7 +46,11 @@ pub struct Commit {
 }
 
 impl Commit {
-    pub fn from(repository: &Repository, oid: Oid, monorepos: &Monorepos) -> Option<Self> {
+    pub fn from(message: String) -> Commit {
+        Commit { message }
+    }
+
+    pub fn from_git(repository: &Repository, oid: Oid, monorepos: &Monorepos) -> Option<Self> {
         match repository.find_commit(oid) {
             Ok(commit) => match commit.message().map(|m| m.to_string()) {
                 Some(message) => {

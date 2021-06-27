@@ -21,6 +21,7 @@ fn main() {
     trace!("The command line arguments provided are {:?}.", arguments);
 
     let commits = Commits::from(
+        arguments.from_commit_message,
         arguments.from_commit_hash,
         arguments.from_reference,
         arguments.monorepo,

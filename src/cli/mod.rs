@@ -11,6 +11,13 @@ pub struct Arguments {
     #[structopt(
         long,
         group = "from",
+        help = "The singular Git commit message to use in the calculation of the next semantic version."
+    )]
+    pub from_commit_message: Option<String>,
+
+    #[structopt(
+        long,
+        group = "from",
         help = "The Git commit hash from where to start taking the range of commits from till HEAD. The range is inclusive of HEAD and exclusive of the provided Git commit hash."
     )]
     pub from_commit_hash: Option<String>,
