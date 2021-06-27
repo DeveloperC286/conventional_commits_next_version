@@ -6,21 +6,25 @@ from util import execute_command
 
 @then('the returned version should be "{expected_version}".')
 def compare_returned_and_expected_versions(context, expected_version):
-    current_version_assertion_passes(context, expected_version)
-
-
-@then('the returned version is "{returned_version}" and the current version assertion passes.')
-def current_version_assertion_passes(context, returned_version):
     execute_conventional_commits_next_version(context)
     assert int(context.exit_code) == 0
-    assert context.stdout == returned_version
+    assert context.stdout == expected_version
 
 
-@then('the returned version is "{returned_version}" and the current version assertion fails.')
-def current_version_assertion_fails(context, returned_version):
+@then('the current version assertion passes.')
+def current_version_assertion_passes(context):
+    execute_conventional_commits_next_version(context)
+    assert int(context.exit_code) == 0
+    assert context.stdout == ""
+
+
+@then('the current version assertion fails.')
+def current_version_assertion_fails(context):
     execute_conventional_commits_next_version(context)
     assert int(context.exit_code) != 0
-    assert context.stdout == returned_version
+    assert starts_with(
+        context.stdout,
+        "ERROR conventional_commits_next_version > The current version ")
 
 
 @then('the error message is "{error_message}".')

@@ -30,13 +30,19 @@ fn main() {
     let expected_version =
         commits.get_next_version(arguments.from_version, arguments.batch_commits);
 
-    print!("{}", expected_version.to_string());
-
     if let Some(current_version) = arguments.current_version {
         if current_version < expected_version {
-            error!("The current version {} is not larger or equal to the expected version {}.", current_version, expected_version);
+            error!(
+                "The current version {} is not larger or equal to the expected version {}.",
+                current_version, expected_version
+            );
             std::process::exit(ERROR_EXIT_CODE);
         }
-        info!("The current version {} is larger or equal to the expected version {}.", current_version, expected_version);
+        info!(
+            "The current version {} is larger or equal to the expected version {}.",
+            current_version, expected_version
+        );
+    } else {
+        print!("{}", expected_version.to_string());
     }
 }
