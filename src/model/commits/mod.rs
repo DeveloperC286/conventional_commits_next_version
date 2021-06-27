@@ -222,14 +222,18 @@ impl Commits {
     }
 
     pub fn get_next_version(&self, mut from_version: Version, batch_commits: bool) -> Version {
-        fn increment_version_batch(commits: &[Commit], version: &mut Version) {
+        fn increment_version_batch(commits: &[Commit], version: &mut Version, pre_major: bool) {
             if commits
                 .iter()
                 .filter(|commit| commit.is_major_increment())
                 .count()
                 > 0
             {
-                increment_major(version);
+                if pre_major {
+                    increment_minor(version);
+                } else {
+                    increment_major(version);
+                }
             } else if commits
                 .iter()
                 .filter(|commit| commit.is_minor_increment())
@@ -247,10 +251,18 @@ impl Commits {
             }
         }
 
-        fn increment_version_consecutive(commits: &[Commit], version: &mut Version) {
+        fn increment_version_consecutive(
+            commits: &[Commit],
+            version: &mut Version,
+            pre_major: bool,
+        ) {
             commits.iter().for_each(|commit| {
                 if commit.is_major_increment() {
-                    increment_major(version);
+                    if pre_major {
+                        increment_minor(version);
+                    } else {
+                        increment_major(version);
+                    }
                 } else if commit.is_minor_increment() {
                     increment_minor(version);
                 } else if commit.is_patch_increment() {
@@ -259,12 +271,14 @@ impl Commits {
             });
         }
 
+        let pre_major = from_version.major.eq(&0);
+
         if batch_commits {
             info!("Operating in batch mode.");
-            increment_version_batch(&self.commits, &mut from_version);
+            increment_version_batch(&self.commits, &mut from_version, pre_major);
         } else {
             info!("Operating in consecutive mode.");
-            increment_version_consecutive(&self.commits, &mut from_version);
+            increment_version_consecutive(&self.commits, &mut from_version, pre_major);
         }
 
         from_version
