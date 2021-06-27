@@ -24,6 +24,7 @@ A tooling and language agnostic utility to calculate the next semantic version b
    + [GitLab CI Rust Project Example](#gitlab-ci-rust-project-example)
      + [Via Cargo](#via-cargo)
      + [Via Binary Download](#via-binary-download)
+   + [Git Hooks Rust Project Example](#git-hooks-rust-project-example)
  * [Downloading Binary](#downloading-binary)
  * [Compiling via Local Repository](#compiling-via-local-repository)
  * [Compiling via Cargo](#compiling-via-cargo)
@@ -186,6 +187,25 @@ conventional-commits-next-version-checking:
         - ./conventional_commits_next_version --batch-commits --from-reference $LATEST_TAG --from-version $LATEST_TAG --current-version $CURRENT_VERSION
     rules:
         - if: $CI_MERGE_REQUEST_ID
+```
+
+
+### Git Hooks Rust Project Example
+
+An example `commit-msg` Git hook to check if a Rust projects semantic version needs increased because of the commit message.
+
+```
+#!/bin/bash
+
+COMMIT_MESSAGE=$(cat $1)
+
+# Get current version in the commit to be made.
+COMMIT_VERSION=$(grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2)
+# Get latest version on the remote HEAD.
+HEAD_VERSION=$(git show remotes/origin/HEAD:Cargo.toml | grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' | cut -d '"' -f 2)
+
+# Check current commits version vs expected because of the new commit's message.
+RUST_LOG=info /home/$USER/.cargo/bin/conventional_commits_next_version --from-commit-message "$COMMIT_MESSAGE" --from-version $HEAD_VERSION --current-version $COMMIT_VERSION
 ```
 
 
