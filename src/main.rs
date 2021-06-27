@@ -34,7 +34,9 @@ fn main() {
 
     if let Some(current_version) = arguments.current_version {
         if current_version < expected_version {
+            error!("The current version {} is not larger or equal to the expected version {}.", current_version, expected_version);
             std::process::exit(ERROR_EXIT_CODE);
         }
+        info!("The current version {} is larger or equal to the expected version {}.", current_version, expected_version);
     }
 }
