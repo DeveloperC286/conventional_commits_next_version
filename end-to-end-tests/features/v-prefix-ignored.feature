@@ -1,7 +1,7 @@
-Feature: The semantic version if prefixed with a v is ignored.
+Feature: The semantic version if prefixed with a v is supported and can still be parsed.
 
 
-  Scenario Outline: From version supports lower or upper-case v prefix.
+  Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-commit-hash is provided as "<from_commit_hash>".

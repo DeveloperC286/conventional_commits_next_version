@@ -41,7 +41,7 @@ Feature: Shortened commit hashes are supported and can be supplied in place of f
       | https://gitlab.com/dmfay/massive-js.git | 482c364acf5505b81c55245fac0472890d351662 | 3f20134864b19b11541287af440540c7ad0ed986 | 7.2.0        | 7.5.3            | 3f20134                    |
 
 
-  Scenario Outline:
+  Scenario Outline: The short commit hash matches no commit hashes. So an error is printed and it exits unsuccessfully.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-commit-hash is provided as "<from_commit_hash>".
@@ -55,7 +55,7 @@ Feature: Shortened commit hashes are supported and can be supplied in place of f
       | https://gitlab.com/dmfay/massive-js.git | 482c364acf5505b81c55245fac0472890d351662 | 3f235ee          | 7.2.0        |
 
 
-  Scenario Outline:
+  Scenario Outline: The short commit hash is ambiguous, multiple commit hashes match it. So an error is printed and it exits unsuccessfully.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-commit-hash is provided as "<from_commit_hash>".
@@ -63,5 +63,5 @@ Feature: Shortened commit hashes are supported and can be supplied in place of f
 
 
     Examples:
-      | repository                              | checkout_commit                          | from_commit_hash | from_version |
-      | https://github.com/yargs/yargs.git      | 089417550ef5a5b8ce3578dd2a989191300b64cd | 3f6          | 0.2.1        |
+      | repository                         | checkout_commit                          | from_commit_hash | from_version |
+      | https://github.com/yargs/yargs.git | 089417550ef5a5b8ce3578dd2a989191300b64cd | 3f6              | 0.2.1        |
