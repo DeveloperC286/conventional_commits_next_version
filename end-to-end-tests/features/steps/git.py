@@ -15,6 +15,7 @@ def reset_context(context):
     context.behave_directory = os.getcwd()
     context.temporary_directory = tempfile.TemporaryDirectory()
 
+    context.pre_command = ""
     context.conventional_commits_next_version_path = context.behave_directory + \
         "/../target/debug/conventional_commits_next_version"
     reset_arguments(context)

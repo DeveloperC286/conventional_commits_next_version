@@ -13,7 +13,7 @@ pub struct Arguments {
         group = "from",
         help = "The singular Git commit message to use in the calculation of the next semantic version."
     )]
-    pub from_commit_message: Option<String>,
+    pub from_stdin: bool,
 
     #[structopt(
         long,

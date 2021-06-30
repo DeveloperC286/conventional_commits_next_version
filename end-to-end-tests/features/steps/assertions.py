@@ -45,8 +45,8 @@ def then_the_error_message_is_either(context, error_message, error_message2):
 
 def execute_conventional_commits_next_version(context):
     os.chdir(context.temporary_directory.name)
-    (context.exit_code, context.stdout) = execute_command(
-        context.conventional_commits_next_version_path + context.arguments)
+    (context.exit_code, context.stdout) = execute_command(context.pre_command +
+                                                          context.conventional_commits_next_version_path + context.arguments)
     os.chdir(context.behave_directory)
 
 

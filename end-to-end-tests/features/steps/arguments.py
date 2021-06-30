@@ -1,10 +1,10 @@
 from behave import when
 
 
-@when(
-    'the argument --from-commit-message is provided as "{from_commit_message}".')
-def set_from_commit_message(context, from_commit_message):
-    context.arguments += " --from-commit-message " + from_commit_message + " "
+@when('the argument --from-stdin is provided as "{from_stdin}".')
+def set_from_commit_hash(context, from_stdin):
+    context.pre_command = "echo " + from_stdin + " | "
+    context.arguments += " --from-stdin "
 
 
 @when('the argument --from-commit-hash is provided as "{from_commit_hash}".')

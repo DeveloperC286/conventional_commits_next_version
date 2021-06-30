@@ -21,12 +21,14 @@ fn main() {
     let arguments = cli::Arguments::from_args();
     trace!("The command line arguments provided are {:?}.", arguments);
 
-    let commits = Commits::from(
-        arguments.from_commit_message,
-        arguments.from_commit_hash,
-        arguments.from_reference,
-        arguments.monorepo,
-    );
+    let commits = match arguments.from_stdin {
+        true => Commits::from_stdin(),
+        false => Commits::from_git(
+            arguments.from_commit_hash,
+            arguments.from_reference,
+            arguments.monorepo,
+        ),
+    };
 
     let expected_version =
         commits.get_next_version(arguments.from_version, arguments.batch_commits);
