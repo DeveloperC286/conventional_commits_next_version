@@ -153,13 +153,13 @@ conventional-commits-next-version-checking:
         - cargo install conventional_commits_next_version --version ^3
     script:
         # Get current version and latest tag.
-        - CURRENT_VERSION=`grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2`
+        - CURRENT_VERSION=$(grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2)
         # Get latest tag.
-        - LATEST_TAG=`git describe --tags --abbrev=0`
+        - LATEST_TAG=$(git describe --tags --abbrev=0)
         # Check latest tag is in semantic versioning.
-        - echo $LATEST_TAG | grep "^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*$"
+        - echo "$LATEST_TAG" | grep "^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*$"
         # Check current vs expected.
-        - /usr/local/cargo/bin/conventional_commits_next_version --batch-commits --from-reference $LATEST_TAG --from-version $LATEST_TAG --current-version $CURRENT_VERSION
+        - /usr/local/cargo/bin/conventional_commits_next_version --batch-commits --from-reference "$LATEST_TAG" --from-version "$LATEST_TAG" --current-version "$CURRENT_VERSION"
     rules:
         - if: $CI_MERGE_REQUEST_ID
 ```
@@ -178,13 +178,13 @@ conventional-commits-next-version-checking:
         - wget -q -O tmp.zip "https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/artifacts/3.0.0/download?job=release-binary-compiling-x86_64-linux-musl" && unzip tmp.zip && rm tmp.zip
     script:
         # Get current version and latest tag.
-        - CURRENT_VERSION=`grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2`
+        - CURRENT_VERSION=$(grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2)
         # Get latest tag.
-        - LATEST_TAG=`git describe --tags --abbrev=0`
+        - LATEST_TAG=$(git describe --tags --abbrev=0)
         # Check latest tag is in semantic versioning.
-        - echo $LATEST_TAG | grep "^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*$"
+        - echo "$LATEST_TAG" | grep "^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*$"
         # Check current vs expected.
-        - ./conventional_commits_next_version --batch-commits --from-reference $LATEST_TAG --from-version $LATEST_TAG --current-version $CURRENT_VERSION
+        - ./conventional_commits_next_version --batch-commits --from-reference "$LATEST_TAG" --from-version "$LATEST_TAG" --current-version "$CURRENT_VERSION"
     rules:
         - if: $CI_MERGE_REQUEST_ID
 ```
