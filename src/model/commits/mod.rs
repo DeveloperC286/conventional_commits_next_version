@@ -30,7 +30,38 @@ impl Commits {
                 from_commit_hash: Oid,
                 monorepos: &Monorepos,
             ) -> Commits {
-                let mut commits: Vec<Commit> = get_commit_oids(repository, from_commit_hash)
+                fn get_commit_revwalker(repository: &Repository, from_commit_hash: Oid) -> Revwalk {
+                    match repository.revwalk() {
+                        Ok(mut commits) => {
+                            match commits.push_head() {
+                                Ok(_) => {}
+                                Err(_) => {
+                                    error!("Unable to push HEAD onto the Git revision walker.");
+                                    exit(crate::ERROR_EXIT_CODE);
+                                }
+                            }
+
+                            match commits.hide(from_commit_hash) {
+                                Ok(_) => {}
+                                Err(_) => {
+                                    error!(
+                                        "Can not find commit hash '{}' on the Git revision walker.",
+                                        from_commit_hash
+                                    );
+                                    exit(crate::ERROR_EXIT_CODE);
+                                }
+                            }
+
+                            commits
+                        }
+                        Err(error) => {
+                            error!("{:?}", error);
+                            exit(crate::ERROR_EXIT_CODE);
+                        }
+                    }
+                }
+
+                let mut commits: Vec<Commit> = get_commit_revwalker(repository, from_commit_hash)
                     .map(|oid| match oid {
                         Ok(oid) => Commit::from_git(repository, oid, monorepos),
                         Err(error) => {
@@ -43,37 +74,6 @@ impl Commits {
 
                 commits.reverse();
                 Commits { commits }
-            }
-
-            fn get_commit_oids(repository: &Repository, from_commit_hash: Oid) -> Revwalk {
-                match repository.revwalk() {
-                    Ok(mut commits) => {
-                        match commits.push_head() {
-                            Ok(_) => {}
-                            Err(_) => {
-                                error!("Unable to push HEAD onto the Git revision walker.");
-                                exit(crate::ERROR_EXIT_CODE);
-                            }
-                        }
-
-                        match commits.hide(from_commit_hash) {
-                            Ok(_) => {}
-                            Err(_) => {
-                                error!(
-                                    "Can not find commit hash '{}' on the Git revision walker.",
-                                    from_commit_hash
-                                );
-                                exit(crate::ERROR_EXIT_CODE);
-                            }
-                        }
-
-                        commits
-                    }
-                    Err(error) => {
-                        error!("{:?}", error);
-                        exit(crate::ERROR_EXIT_CODE);
-                    }
-                }
             }
 
             fn get_repository() -> Repository {
