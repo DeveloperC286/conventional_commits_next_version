@@ -34,11 +34,16 @@ A tooling and language agnostic utility to calculate the next semantic version b
 
 
 ## Usage
-Conventional Commits Next Version calculates the next semantic version based on the Conventional Commits since the prior version.
-The range of commits start exclusively from the commit specified by either the arguments `--from-commit-hash` or `--from-reference`, till inclusively of `HEAD`.
-Any commits in this range which conform to the Conventional Commits v1.0.0 specification are used to calculate the next Semantic Versioning, based upon the initial Semantic Versioning provided via the argument `--from-version`.
+Conventional Commits Next Version can either operate upon a range of Git commits in the repositories' history or on a commit message from standard in.
+To provide a commit message by standard in simple add the flag `--from-stdin` and standard in will be read.
+Otherwise to specify the range of commits you can add either the `--from-commit-hash <commit-hash>` or `--from-reference <reference>` arguments.
+The range of commits starts exclusively from the commit specified till inclusively of `HEAD`.
 
-There are two modes of calculating the next semantic version, consecutive mode and batch mode.
+Any commits which conform to the Conventional Commits v1.0.0 specification are used to calculate the next Semantic Versioning, based upon the initial Semantic Versioning provided via the argument `--from-version <version>`.
+
+The only required arguments is `--from-version <version>` and any of `--from-stdin`, `--from-commit-hash <commit-hash>` or `--from-reference <reference>` arguments.
+
+While operating on a range of commits there are two modes of calculating the next semantic version, consecutive mode and batch mode.
 
 
 ### Usage - Consecutive Mode
