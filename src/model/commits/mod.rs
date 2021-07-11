@@ -92,16 +92,21 @@ impl Commits {
 
         fn get_reference(repository: &Repository, matching: &str) -> Oid {
             match repository.resolve_reference_from_short_name(matching) {
-                Ok(reference) => {
-                    trace!("Found reference '{}'.", reference.name().unwrap());
-                    match reference.peel_to_commit() {
-                        Ok(commit) => commit.id(),
-                        Err(error) => {
-                            error!("{:?}", error);
-                            exit(crate::ERROR_EXIT_CODE);
-                        }
+                Ok(reference) => match reference.peel_to_commit() {
+                    Ok(commit) => {
+                        trace!(
+                            "Matched {:?} to the reference {:?} at the commit hash '{}'.",
+                            matching,
+                            reference.name().unwrap(),
+                            commit.id()
+                        );
+                        commit.id()
                     }
-                }
+                    Err(error) => {
+                        error!("{:?}", error);
+                        exit(crate::ERROR_EXIT_CODE);
+                    }
+                },
                 Err(_) => {
                     error!("Could not find a reference with the name {:?}.", matching);
                     exit(crate::ERROR_EXIT_CODE);
