@@ -35,7 +35,7 @@ A tooling and language agnostic utility to calculate the next semantic version b
 
 ## Usage
 Conventional Commits Next Version calculates the next semantic version based on the Conventional Commits since the prior version.
-The range of commits start excusively from the commit specified by either the arguments `--from-commit-hash` or `--from-reference`, till inclusively of `HEAD`.
+The range of commits start exclusively from the commit specified by either the arguments `--from-commit-hash` or `--from-reference`, till inclusively of `HEAD`.
 Any commits in this range which conform to the Conventional Commits v1.0.0 specification are used to calculate the next Semantic Versioning, based upon the initial Semantic Versioning provided via the argument `--from-version`.
 
 There are two modes of calculating the next semantic version, consecutive mode and batch mode.
@@ -195,17 +195,20 @@ conventional-commits-next-version-checking:
 An example `commit-msg` Git hook to check if a Rust projects semantic version needs increased because of the commit message.
 
 ```
-#!/bin/bash
+#!/usr/bin/env bash
 
-COMMIT_MESSAGE=$(cat $1)
+set -o errexit
+set -o pipefail
+
+commit_message=$(cat "${1}")
 
 # Get current version in the commit to be made.
-COMMIT_VERSION=$(grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2)
+current_version=$(grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2)
 # Get latest version on the remote HEAD.
-HEAD_VERSION=$(git show remotes/origin/HEAD:Cargo.toml | grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' | cut -d '"' -f 2)
+head_version=$(git show remotes/origin/HEAD:Cargo.toml | grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' | cut -d '"' -f 2)
 
 # Check current commits version vs expected because of the new commit's message.
-RUST_LOG=info /home/$USER/.cargo/bin/conventional_commits_next_version --from-commit-message "$COMMIT_MESSAGE" --from-version $HEAD_VERSION --current-version $COMMIT_VERSION
+echo "${commit_message}" | "/home/${USER}/.cargo/bin/conventional_commits_next_version" --from-stdin --from-version "${head_version}" --current-version "${current_version}"
 ```
 
 
