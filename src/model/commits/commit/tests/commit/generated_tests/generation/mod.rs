@@ -14,7 +14,7 @@ pub fn test_major_title_commits(
         variations::get_preceding_whitespace_variations(should_generate_preceding_whitespace),
         variations::MAJOR_TITLE_COMMIT_TYPE_VARIATIONS,
         variations::get_scope_variations(should_generate_empty_scope),
-        should_generate_space_after_type,
+        variations::get_after_type_variation(should_generate_space_after_type),
         variations::get_description_variations(should_generate_description),
         variations::get_description_termination_variations(
             should_generate_description_termination || should_generate_body,
@@ -35,7 +35,7 @@ pub fn test_major_footer_commits(
         variations::get_preceding_whitespace_variations(should_generate_preceding_whitespace),
         variations::COMMIT_TYPE_VARIATIONS,
         variations::get_scope_variations(should_generate_empty_scope),
-        should_generate_space_after_type,
+        variations::get_after_type_variation(should_generate_space_after_type),
         variations::get_description_variations(should_generate_description),
         variations::get_description_termination_variations(true),
         variations::MAJOR_FOOTER_VARIATIONS,
@@ -56,7 +56,7 @@ pub fn test_minor_commits(
         variations::get_preceding_whitespace_variations(should_generate_preceding_whitespace),
         variations::MINOR_COMMIT_TYPE_VARIATIONS,
         variations::get_scope_variations(should_generate_empty_scope),
-        should_generate_space_after_type,
+        variations::get_after_type_variation(should_generate_space_after_type),
         variations::get_description_variations(should_generate_description),
         variations::get_description_termination_variations(
             should_generate_description_termination || should_generate_body,
@@ -79,7 +79,7 @@ pub fn test_patch_commits(
         variations::get_preceding_whitespace_variations(should_generate_preceding_whitespace),
         variations::PATCH_COMMIT_TYPE_VARIATIONS,
         variations::get_scope_variations(should_generate_empty_scope),
-        should_generate_space_after_type,
+        variations::get_after_type_variation(should_generate_space_after_type),
         variations::get_description_variations(should_generate_description),
         variations::get_description_termination_variations(
             should_generate_description_termination || should_generate_body,
@@ -94,17 +94,12 @@ fn generate_commit_messages(
     preceding_whitespace_variations: &[&str],
     commit_type_variations: &[&str],
     scope_variations: &[&str],
-    should_generate_space_after_type: bool,
+    after_type_variation: &str,
     description_variations: &[&str],
     description_termination_variations: &[&str],
     body_variations: &[&str],
 ) -> Vec<String> {
     let mut commit_messages = vec![];
-
-    let space_after_type = match should_generate_space_after_type {
-        true => " ",
-        false => "",
-    };
 
     for preceding_whitespace in preceding_whitespace_variations {
         for commit_type in commit_type_variations {
@@ -117,7 +112,7 @@ fn generate_commit_messages(
                                 preceding_whitespace,
                                 commit_type,
                                 scope,
-                                space_after_type,
+                                after_type_variation,
                                 description,
                                 description_termination,
                                 body

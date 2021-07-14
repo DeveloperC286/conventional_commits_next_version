@@ -30,6 +30,13 @@ pub fn get_scope_variations(should_generate_empty_scope: bool) -> &'static [&'st
     }
 }
 
+pub fn get_after_type_variation(should_generate_space_after_type: bool) -> &'static str {
+    match should_generate_space_after_type {
+        true => " ",
+        false => "",
+    }
+}
+
 const DESCRIPTION_VARIATIONS: &[&str] = &[
     "expose hideBin helper for CJS ",
     "release 16.1.0 (#1779)",
