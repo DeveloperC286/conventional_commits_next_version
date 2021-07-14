@@ -20,8 +20,8 @@ pub const PATCH_COMMIT_TYPE_VARIATIONS: &[&str] = &["fix", "FIX", "Fix"];
 pub const COMMIT_TYPE_VARIATIONS: &[&str] =
     &["Lint", "bug", "fix", "feat", "ci", "chore", "docs", "CI"];
 
-pub const EMPTY_SCOPE_VARIATIONS: &[&str] = &["()", "(  )"];
-pub const NON_EMPTY_SCOPE_VARIATIONS: &[&str] = &["", "(i18n)", "(parser)", "(strict mode)"];
+const EMPTY_SCOPE_VARIATIONS: &[&str] = &["()", "(  )"];
+const NON_EMPTY_SCOPE_VARIATIONS: &[&str] = &["", "(i18n)", "(parser)", "(strict mode)"];
 
 pub fn get_scope_variations(should_generate_empty_scope: bool) -> &'static [&'static str] {
     match should_generate_empty_scope {
