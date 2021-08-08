@@ -1,7 +1,7 @@
 import os
 from behave import then
 
-from util import execute_conventional_commits_next_version
+from utilities import execute_conventional_commits_next_version
 
 
 @then('the returned version should be "{expected_version}".')
