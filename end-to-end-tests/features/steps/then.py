@@ -46,5 +46,15 @@ def then_the_error_message_is_either(context, error_message, error_message2):
         error_message2)
 
 
+@then('their is a could not find commit hash "{commit_hash}" error.')
+def then_could_not_find_commit_hash(context, commit_hash):
+    execute_conventional_commits_next_version(context)
+    could_not_find_commit_hash_error = " ERROR conventional_commits_next_version::model::commits > Can not find commit hash '" + \
+        commit_hash + "' on the Git revision walker.\n"
+    assert context.stdout == ""
+    assert int(context.exit_code) != 0
+    assert context.stderr == could_not_find_commit_hash_error
+
+
 def starts_with(searching, searching_for):
     return searching.strip().startswith(searching_for.strip())
