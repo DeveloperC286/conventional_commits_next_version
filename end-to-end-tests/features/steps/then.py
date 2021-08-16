@@ -33,12 +33,16 @@ def current_version_assertion_fails(context):
 @then('the error message is "{error_message}".')
 def then_the_error_message_is(context, error_message):
     execute_conventional_commits_next_version(context)
+    assert context.stdout == ""
+    assert int(context.exit_code) != 0
     assert starts_with(context.stderr, error_message)
 
 
 @then('the error message is either "{error_message}" or "{error_message2}".')
 def then_the_error_message_is_either(context, error_message, error_message2):
     execute_conventional_commits_next_version(context)
+    assert context.stdout == ""
+    assert int(context.exit_code) != 0
     assert starts_with(
         context.stderr,
         error_message) or starts_with(
