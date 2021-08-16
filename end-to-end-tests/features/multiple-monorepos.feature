@@ -14,5 +14,5 @@ Feature: The usage of filtering on multiple monorepos within the repository is s
     Then the returned version should be "<monorepo_expected_version>".
 
     Examples:
-      | repository                                   | checkout_commit                          | from_commit_hash                         | from_version | expected_version | monorepo_1                      | monorepo_2   | monorepo_expected_version |
-      | https://github.com/yargs/yargs.git           | acff16db1057ea830a37f2214782e5026be894b6 | cb01c98c44e30f55c2dc9434caef524ae433d9a4 | 1.7.2        | 1.8.0            | helpers/                        | package.json | 1.7.4                     |
+      | repository                         | checkout_commit                          | from_commit_hash                         | from_version | expected_version | monorepo_1 | monorepo_2   | monorepo_expected_version |
+      | https://github.com/yargs/yargs.git | acff16db1057ea830a37f2214782e5026be894b6 | cb01c98c44e30f55c2dc9434caef524ae433d9a4 | 1.7.2        | 1.8.0            | helpers/   | package.json | 1.7.4                     |
