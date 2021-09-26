@@ -41,16 +41,20 @@ lazy_static! {
     .unwrap();
 }
 
-pub struct Commit {
+pub(crate) struct Commit {
     message: String,
 }
 
 impl Commit {
-    pub fn from(message: String) -> Commit {
+    pub(crate) fn from(message: String) -> Commit {
         Commit { message }
     }
 
-    pub fn from_git(repository: &Repository, oid: Oid, monorepos: &Monorepos) -> Option<Self> {
+    pub(crate) fn from_git(
+        repository: &Repository,
+        oid: Oid,
+        monorepos: &Monorepos,
+    ) -> Option<Self> {
         match repository.find_commit(oid) {
             Ok(commit) => match commit.message().map(|m| m.to_string()) {
                 Some(message) => {
@@ -81,7 +85,7 @@ impl Commit {
         }
     }
 
-    pub fn is_major_increment(&self) -> bool {
+    pub(crate) fn is_major_increment(&self) -> bool {
         self.is_major_title_increment() || self.is_major_footer_increment()
     }
 
@@ -111,7 +115,7 @@ impl Commit {
         }
     }
 
-    pub fn is_minor_increment(&self) -> bool {
+    pub(crate) fn is_minor_increment(&self) -> bool {
         match MINOR_INCREMENT_REGEX.is_match(&self.message) {
             true => {
                 debug!(
@@ -124,7 +128,7 @@ impl Commit {
         }
     }
 
-    pub fn is_patch_increment(&self) -> bool {
+    pub(crate) fn is_patch_increment(&self) -> bool {
         match PATCH_INCREMENT_REGEX.is_match(&self.message) {
             true => {
                 debug!(

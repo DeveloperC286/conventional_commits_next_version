@@ -10,12 +10,12 @@ use crate::utilities::version::*;
 
 mod commit;
 
-pub struct Commits {
+pub(crate) struct Commits {
     commits: Vec<Commit>,
 }
 
 impl Commits {
-    pub fn from_stdin() -> Self {
+    pub(crate) fn from_stdin() -> Self {
         let mut message = String::new();
         stdin().read_to_string(&mut message).unwrap();
 
@@ -24,7 +24,7 @@ impl Commits {
         }
     }
 
-    pub fn from_git(
+    pub(crate) fn from_git(
         from_commit_hash: Option<String>,
         from_reference: Option<String>,
         monorepos: Vec<String>,
@@ -215,7 +215,11 @@ impl Commits {
         exit(crate::ERROR_EXIT_CODE);
     }
 
-    pub fn get_next_version(&self, mut from_version: Version, batch_commits: bool) -> Version {
+    pub(crate) fn get_next_version(
+        &self,
+        mut from_version: Version,
+        batch_commits: bool,
+    ) -> Version {
         fn increment_version_batch(commits: &[Commit], version: &mut Version, pre_major: bool) {
             if commits
                 .iter()

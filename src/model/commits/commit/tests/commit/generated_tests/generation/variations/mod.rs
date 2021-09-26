@@ -1,7 +1,7 @@
 const PRECEDING_WHITESPACE_VARIATIONS: &[&str] = &["  ", " ", "\t", "\n", "\n\r"];
 const NON_PRECEDING_WHITESPACE_VARIATIONS: &[&str] = &[""];
 
-pub fn get_preceding_whitespace_variations(
+pub(crate) fn get_preceding_whitespace_variations(
     should_generate_preceding_whitespace: bool,
 ) -> &'static [&'static str] {
     match should_generate_preceding_whitespace {
@@ -10,27 +10,27 @@ pub fn get_preceding_whitespace_variations(
     }
 }
 
-pub const MAJOR_TITLE_COMMIT_TYPE_VARIATIONS: &[&str] =
+pub(crate) const MAJOR_TITLE_COMMIT_TYPE_VARIATIONS: &[&str] =
     &["feat!", "fix!", "FIX!", "Build!", "Feat!"];
 
-pub const MINOR_COMMIT_TYPE_VARIATIONS: &[&str] = &["feat", "FEAT", "Feat"];
+pub(crate) const MINOR_COMMIT_TYPE_VARIATIONS: &[&str] = &["feat", "FEAT", "Feat"];
 
-pub const PATCH_COMMIT_TYPE_VARIATIONS: &[&str] = &["fix", "FIX", "Fix"];
+pub(crate) const PATCH_COMMIT_TYPE_VARIATIONS: &[&str] = &["fix", "FIX", "Fix"];
 
-pub const COMMIT_TYPE_VARIATIONS: &[&str] =
+pub(crate) const COMMIT_TYPE_VARIATIONS: &[&str] =
     &["Lint", "bug", "fix", "feat", "ci", "chore", "docs", "CI"];
 
 const EMPTY_SCOPE_VARIATIONS: &[&str] = &["()", "(  )"];
 const NON_EMPTY_SCOPE_VARIATIONS: &[&str] = &["", "(i18n)", "(parser)", "(strict mode)"];
 
-pub fn get_scope_variations(should_generate_empty_scope: bool) -> &'static [&'static str] {
+pub(crate) fn get_scope_variations(should_generate_empty_scope: bool) -> &'static [&'static str] {
     match should_generate_empty_scope {
         true => EMPTY_SCOPE_VARIATIONS,
         false => NON_EMPTY_SCOPE_VARIATIONS,
     }
 }
 
-pub fn get_after_type_variation(should_generate_space_after_type: bool) -> &'static str {
+pub(crate) fn get_after_type_variation(should_generate_space_after_type: bool) -> &'static str {
     match should_generate_space_after_type {
         true => " ",
         false => "",
@@ -45,7 +45,9 @@ const DESCRIPTION_VARIATIONS: &[&str] = &[
 ];
 const NON_DESCRIPTION_VARIATIONS: &[&str] = &["", "\t", "      "];
 
-pub fn get_description_variations(should_generate_description: bool) -> &'static [&'static str] {
+pub(crate) fn get_description_variations(
+    should_generate_description: bool,
+) -> &'static [&'static str] {
     match should_generate_description {
         true => DESCRIPTION_VARIATIONS,
         false => NON_DESCRIPTION_VARIATIONS,
@@ -55,7 +57,7 @@ pub fn get_description_variations(should_generate_description: bool) -> &'static
 const DESCRIPTION_TERMINATION_VARIATIONS: &[&str] = &["\n\n"];
 const NON_DESCRIPTION_TERMINATION_VARIATIONS: &[&str] = &[""];
 
-pub fn get_description_termination_variations(
+pub(crate) fn get_description_termination_variations(
     should_generate_description_termination: bool,
 ) -> &'static [&'static str] {
     match should_generate_description_termination {
@@ -73,14 +75,14 @@ const BODY_VARIATIONS: &[&str] = &[
 ];
 const NON_BODY_VARIATIONS: &[&str] = &["", "\n", "\n\n"];
 
-pub fn get_body_variations(should_generate_body: bool) -> &'static [&'static str] {
+pub(crate) fn get_body_variations(should_generate_body: bool) -> &'static [&'static str] {
     match should_generate_body {
         true => BODY_VARIATIONS,
         false => NON_BODY_VARIATIONS,
     }
 }
 
-pub const MAJOR_FOOTER_VARIATIONS: &[&str] = &[
+pub(crate) const MAJOR_FOOTER_VARIATIONS: &[&str] = &[
     "BREAKING CHANGE:\r\n\r\nremoved undocumented `defaults` alias for `default`.",
     "BREAKING CHANGE: find-up replaced with escalade; export map added (limits importable files in Node >= 12); yarser-parser@19.x.x (new decamelize/camelcase implementation).",
     "* chore: upgrade yargs-parser\r\nBREAKING-CHANGE: coerce is now applied as a final step after other parsing is complete\r\n\r\n* add documentation for breaking changes in yargs-parser@4\r\n\r\n* fix: a few small editing nits\r\n\r\n* fix: bump yargs-parser again\r\n",

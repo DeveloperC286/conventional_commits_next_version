@@ -2,7 +2,7 @@ use super::*;
 
 mod variations;
 
-pub fn test_major_title_commits(
+pub(crate) fn test_major_title_commits(
     should_generate_preceding_whitespace: bool,
     should_generate_empty_scope: bool,
     should_generate_space_after_type: bool,
@@ -25,7 +25,7 @@ pub fn test_major_title_commits(
     }
 }
 
-pub fn test_major_footer_commits(
+pub(crate) fn test_major_footer_commits(
     should_generate_preceding_whitespace: bool,
     should_generate_empty_scope: bool,
     should_generate_space_after_type: bool,
@@ -44,7 +44,7 @@ pub fn test_major_footer_commits(
     }
 }
 
-pub fn test_minor_commits(
+pub(crate) fn test_minor_commits(
     should_generate_preceding_whitespace: bool,
     should_generate_empty_scope: bool,
     should_generate_space_after_type: bool,
@@ -67,7 +67,7 @@ pub fn test_minor_commits(
     }
 }
 
-pub fn test_patch_commits(
+pub(crate) fn test_patch_commits(
     should_generate_preceding_whitespace: bool,
     should_generate_empty_scope: bool,
     should_generate_space_after_type: bool,

@@ -1,2 +1,2 @@
-pub mod commits;
-pub mod monorepos;
+pub(crate) mod commits;
+pub(crate) mod monorepos;

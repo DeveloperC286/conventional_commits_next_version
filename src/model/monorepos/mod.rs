@@ -3,16 +3,20 @@ use std::process::exit;
 
 use git2::{Repository, TreeWalkMode, TreeWalkResult};
 
-pub struct Monorepos {
+pub(crate) struct Monorepos {
     monorepos: Vec<String>,
 }
 
 impl Monorepos {
-    pub fn from(monorepos: Vec<String>) -> Self {
+    pub(crate) fn from(monorepos: Vec<String>) -> Self {
         Monorepos { monorepos }
     }
 
-    pub fn does_commit_effect(&self, repository: &Repository, commit: &git2::Commit) -> bool {
+    pub(crate) fn does_commit_effect(
+        &self,
+        repository: &Repository,
+        commit: &git2::Commit,
+    ) -> bool {
         fn get_all_files_changed_in_commit(
             repository: &Repository,
             commit: &git2::Commit,
