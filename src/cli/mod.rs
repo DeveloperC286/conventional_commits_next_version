@@ -51,7 +51,7 @@ pub(crate) struct Arguments {
 
     #[structopt(
         long,
-        help = "Monorepo usage is supported, the version is calculated only from commits altering the specified directory."
+        help = "The the next semantic version is calculated only from commits altering files which match any of these provided regexes, enabling usage within monorepos."
     )]
     pub(crate) monorepo: Vec<String>,
 }

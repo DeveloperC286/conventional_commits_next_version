@@ -128,7 +128,7 @@ Additional command line flags can be passed to alter what and how the next Seman
 |---------------------------|-|
 | --batch-commits | In batch mode the largest Semantic Versioning increment determined by the Conventional Commits type across all the commits is the only increment applied. |
 | --current-version | This Semantic Versioning is asserted to be equal or larger than the calculated Semantic Versioning. The calculated Semantic Versioning is not printed to standard out. If the assertion is not met then it exits with a non zero exit code. |
-| --monorepo | Monorepo usage is supported, the version is calculated only from commits altering the specified directory. |
+| --monorepo | The the next semantic version is calculated only from commits altering files which match any of these provided regexes, enabling usage within monorepos. |
 
 
 ### Usage - Git Environment Variables
