@@ -1,4 +1,3 @@
-import os
 from behave import then
 
 from utilities import execute_conventional_commits_next_version
