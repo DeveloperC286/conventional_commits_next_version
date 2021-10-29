@@ -9,7 +9,7 @@ macro_rules! monorepos {
                 .iter()
                 .map(|monorepo| monorepo.to_string())
                 .collect(),
-        };
+        }
     };
 }
 
