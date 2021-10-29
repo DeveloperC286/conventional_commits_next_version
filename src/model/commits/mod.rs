@@ -1,8 +1,7 @@
-use std::io::{stdin, Read};
-use std::process::exit;
-
 use git2::{Oid, Repository, Revwalk};
 use semver::Version;
+use std::io::{stdin, Read};
+use std::process::exit;
 
 use crate::model::commits::commit::Commit;
 use crate::model::monorepos::Monorepos;
