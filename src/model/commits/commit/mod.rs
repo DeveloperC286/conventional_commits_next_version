@@ -1,6 +1,7 @@
+use std::process::exit;
+
 use git2::{Oid, Repository};
 use regex::Regex;
-use std::process::exit;
 
 use crate::model::monorepos::Monorepos;
 

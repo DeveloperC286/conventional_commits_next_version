@@ -1,6 +1,7 @@
-use git2::{Repository, TreeWalkMode, TreeWalkResult};
 use std::collections::HashSet;
 use std::process::exit;
+
+use git2::{Repository, TreeWalkMode, TreeWalkResult};
 
 pub(crate) struct Monorepos {
     monorepos: Vec<String>,
