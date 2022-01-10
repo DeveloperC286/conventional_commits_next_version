@@ -1,5 +1,8 @@
 # Conventional Commits Next Version
-[![crates.io](https://img.shields.io/crates/v/conventional_commits_next_version)](https://crates.io/crates/conventional_commits_next_version) [![pipeline status](https://gitlab.com/DeveloperC/conventional_commits_next_version/badges/master/pipeline.svg)](https://gitlab.com/DeveloperC/conventional_commits_next_version/commits/master) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org) [![License: AGPL v3](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![crates.io](https://img.shields.io/crates/v/conventional_commits_next_version)](https://crates.io/crates/conventional_commits_next_version)
+[![pipeline status](https://gitlab.com/DeveloperC/conventional_commits_next_version/badges/master/pipeline.svg)](https://gitlab.com/DeveloperC/conventional_commits_next_version/commits/master)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 
 A tooling and language agnostic utility to calculate the next semantic version based on the Conventional Commits since the prior version. Supports monorepos.
@@ -157,14 +160,12 @@ conventional-commits-next-version-checking:
     before_script:
         - cargo install conventional_commits_next_version --version ^4
     script:
-        # Get current version and latest tag.
-        - CURRENT_VERSION=$(grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2)
+        # Get current version.
+        - current_version=$(grep "^version = \"[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*\"$" "Cargo.toml" | cut -d '"' -f 2)
         # Get latest tag.
-        - LATEST_TAG=$(git describe --tags --abbrev=0)
-        # Check latest tag is in semantic versioning.
-        - echo "$LATEST_TAG" | grep "^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*$"
+        - latest_tag=$(git tag --sort=-committerdate | head -1)
         # Check current vs expected.
-        - /usr/local/cargo/bin/conventional_commits_next_version --batch-commits --from-reference "$LATEST_TAG" --from-version "$LATEST_TAG" --current-version "$CURRENT_VERSION"
+        - /usr/local/cargo/bin/conventional_commits_next_version --batch-commits --from-reference "${latest_tag}" --from-version "${latest_tag}" --current-version "${current_version}"
     rules:
         - if: $CI_MERGE_REQUEST_ID
 ```
@@ -182,14 +183,12 @@ conventional-commits-next-version-checking:
     before_script:
         - wget -q -O tmp.zip "https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/artifacts/4.0.0/download?job=release-binary-compiling-x86_64-linux-musl" && unzip tmp.zip && rm tmp.zip
     script:
-        # Get current version and latest tag.
-        - CURRENT_VERSION=$(grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2)
+        # Get current version.
+        - current_version=$(grep "^version = \"[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*\"$" "Cargo.toml" | cut -d '"' -f 2)
         # Get latest tag.
-        - LATEST_TAG=$(git describe --tags --abbrev=0)
-        # Check latest tag is in semantic versioning.
-        - echo "$LATEST_TAG" | grep "^[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*$"
+        - latest_tag=$(git tag --sort=-committerdate | head -1)
         # Check current vs expected.
-        - ./conventional_commits_next_version --batch-commits --from-reference "$LATEST_TAG" --from-version "$LATEST_TAG" --current-version "$CURRENT_VERSION"
+        - ./conventional_commits_next_version --batch-commits --from-reference "${latest_tag}" --from-version "${latest_tag}" --current-version "${current_version}"
     rules:
         - if: $CI_MERGE_REQUEST_ID
 ```
@@ -208,12 +207,12 @@ set -o pipefail
 commit_message=$(cat "${1}")
 
 # Get current version in the commit to be made.
-current_version=$(grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' Cargo.toml | cut -d '"' -f 2)
+current_version=$(grep "^version = \"[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*\"$" "Cargo.toml" | cut -d '"' -f 2)
 # Get latest version on the remote HEAD.
-head_version=$(git show remotes/origin/HEAD:Cargo.toml | grep '^version = "[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*"$' | cut -d '"' -f 2)
+head_version=$(git show remotes/origin/HEAD:Cargo.toml | grep "^version = \"[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*\"$" "Cargo.toml" | cut -d '"' -f 2)
 
 # Check current commits version vs expected because of the new commit's message.
-echo "${commit_message}" | "/home/${USER}/.cargo/bin/conventional_commits_next_version" --from-stdin --from-version "${head_version}" --current-version "${current_version}"
+echo "${commit_message}" | "${HOME}/.cargo/bin/conventional_commits_next_version" --from-stdin --from-version "${head_version}" --current-version "${current_version}"
 ```
 
 
@@ -238,7 +237,7 @@ The compiled binary is present in `target/release/conventional_commits_next_vers
 
 
 ## Compiling via Cargo
-Cargo is the Rust package manager, the `install` sub-command pulls from [crates.io](https://crates.io/crates/conventional_commits_next_version) and then compiles the binary locally, placing the compiled binary at `$HOME/.cargo/bin/conventional_commits_next_version`.
+Cargo is the Rust package manager, the `install` sub-command pulls from [crates.io](https://crates.io/crates/conventional_commits_next_version) and then compiles the binary locally, placing the compiled binary at `${HOME}/.cargo/bin/conventional_commits_next_version`.
 
 ```
 cargo install conventional_commits_next_version
