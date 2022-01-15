@@ -46,6 +46,6 @@ fn main() {
             current_version, expected_version
         );
     } else {
-        print!("{}", expected_version.to_string());
+        print!("{}", expected_version);
     }
 }
