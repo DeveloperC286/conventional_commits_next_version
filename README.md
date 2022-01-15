@@ -136,8 +136,8 @@ Additional command line flags can be passed to alter what and how the next Seman
 
 ### Usage - Git Environment Variables
 When looking for a repository the Git environment variables are respected.
-When `$GIT_DIR` is set, it takes precedence and Conventional Commits Next Version begins searching for a repository in the directory specified in `$GIT_DIR`.
-When `$GIT_DIR` is not set, Conventional Commits Next Version searches for a repository beginning in the current directory.
+When `${GIT_DIR}` is set, it takes precedence and Conventional Commits Next Version begins searching for a repository in the directory specified in `${GIT_DIR}`.
+When `${GIT_DIR}` is not set, Conventional Commits Next Version searches for a repository beginning in the current directory.
 
 
 ### Usage - Logging
