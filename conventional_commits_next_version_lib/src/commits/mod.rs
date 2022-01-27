@@ -15,6 +15,16 @@ pub struct Commits {
 }
 
 impl Commits {
+    /// Create a new range of commits containing a singular commit created from the commit_message.
+    ///
+    /// This functionality is intended to allow you to lint a commit message before creating the
+    /// commit, e.g. in a Git hook etc.
+    ///
+    ///```
+    ///use conventional_commits_next_version_lib::Commits;
+    ///
+    ///let commits = Commits::from_commit_message("feat: adding stdin support");
+    ///```
     pub fn from_commit_message<T: Into<String>>(commit_message: T) -> Commits {
         Commits {
             commits: VecDeque::from(vec![Commit::from_commit_message(commit_message)]),
@@ -85,10 +95,28 @@ impl Commits {
         get_commits_till_head_from_oid(repository, commit_oid, commit_filters)
     }
 
-    pub fn get_next_version(&self, mut from_version: Version, batch_commits: bool) -> Version {
+    /// Calculate the next semantic version based upon the provided from version and the commits
+    /// conforming to the Conventional Commits v1.0.0 specification wihtin the range of commits.
+    ///
+    /// There are two modes of calculating the next semantic version, consecutive mode and batch mode.
+    ///
+    /// In consecutive mode each Git commit in the Conventional Commits specification is applied to Semantic Versioning calculation in chronological order.
+    ///
+    /// In batch mode the largest Semantic Versioning increment determined by the Conventional
+    /// Commits type across all the commits is the only increment applied.
+    /// Batch mode is useful for feature branches, if it has multiple types all being merged
+    /// together.
+    ///
+    /// Consecutive mode is the default, to use batch mode set the parameter `calculate_in_batch_mode`
+    /// to true when calling this method.
+    pub fn get_next_version(
+        &self,
+        mut from_version: Version,
+        calculate_in_batch_mode: bool,
+    ) -> Version {
         let pre_major = from_version.major.eq(&0);
 
-        if batch_commits {
+        if calculate_in_batch_mode {
             info!("Operating in batch mode.");
             self.increment_version_batch(&mut from_version, pre_major);
         } else {
