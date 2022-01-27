@@ -1,38 +1,13 @@
-[package]
-name = "conventional_commits_next_version"
-version = "4.0.0"
-description = "A tooling and language agnostic utility to calculate the next semantic version based on the Conventional Commits since the prior version. Supports monorepos."
-authors = ["C <DeveloperC@protonmail.com>"]
-edition = "2021"
-license = "AGPL-3.0"
-repository = "https://gitlab.com/DeveloperC/conventional_commits_next_version"
-readme = "README.md"
-keywords = ["conventional", "commits", "semantic", "versioning", "git"]
-categories = ["command-line-utilities", "development-tools"]
+[workspace]
+
+members = [
+    "conventional_commits_next_version",
+    "conventional_commits_next_version_lib",
+]
 
 
-[dependencies]
-# For parsing commit messages.
-regex = "1.5.4"
-lazy_static = "1.4.0"
-
-# For CLI parsing.
-structopt = "0.3.25"
-
-# For logging.
-log = "0.4.14"
-pretty_env_logger = "0.4.0"
-
-# For reading Git commits.
-git2 = { version = "0.13.25", default-features = false, features=[] }
-
-# For Semantic Versioning parsing.
-semver = "1.0.4"
-
-
-[dev-dependencies]
-# For parameterized testing.
-rstest = "0.12.0"
+[patch.crates-io]
+conventional_commits_next_version_lib = { path = "conventional_commits_next_version_lib" }
 
 
 [profile.release]
