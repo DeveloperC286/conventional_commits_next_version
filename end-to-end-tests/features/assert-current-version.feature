@@ -13,8 +13,8 @@ Feature: The current version argument supplied is asserted to be equal or greate
     Examples:
       | repository                                 | checkout_commit                          | from_commit_hash                         | from_version | current_version |
       | https://github.com/yargs/yargs.git         | 089417550ef5a5b8ce3578dd2a989191300b64cd | 262e796329f4a09083ca07e49f926ae43ac850e9 | 0.2.1        | 0.2.2           |
-      | https://github.com/monicahq/monica.git     | c1e91b32b4874253a2d74ed786c3b98780a60320 | 51901e7622a9227a396704532c50051c21075d35 | 1.5.2        | 1.6.0           |
-      | https://github.com/BlazeSoftware/atoms.git | c2dcb3e97a1bd3516bed85ff1769c30211f2337a | 46dd08718905cbdd2d056a2eac720052b9691985 | 11.0.0       | 12.0.1          |
+	  | https://github.com/BlazeSoftware/atoms.git | c2dcb3e97a1bd3516bed85ff1769c30211f2337a | 46dd08718905cbdd2d056a2eac720052b9691985 | 11.0.0       | 12.0.1          |
+	  | https://github.com/gembaadvantage/uplift | ca8345039fbaceb667928d65741a43df3f72e1e6 | 30f8c01e28c70d53a25f7b20d93679d23ae0830b | 1.12.1 | 1.13.0 |
 
 
   Scenario Outline: The current version assertion fails with batched together increments.
@@ -29,7 +29,6 @@ Feature: The current version argument supplied is asserted to be equal or greate
     Examples:
       | repository                                 | checkout_commit                          | from_commit_hash                         | from_version | current_version |
       | https://github.com/yargs/yargs.git         | 089417550ef5a5b8ce3578dd2a989191300b64cd | 262e796329f4a09083ca07e49f926ae43ac850e9 | 0.2.1        | 0.2.1           |
-      | https://github.com/monicahq/monica.git     | c1e91b32b4874253a2d74ed786c3b98780a60320 | 51901e7622a9227a396704532c50051c21075d35 | 1.5.2        | 1.5.2           |
       | https://github.com/BlazeSoftware/atoms.git | c2dcb3e97a1bd3516bed85ff1769c30211f2337a | 46dd08718905cbdd2d056a2eac720052b9691985 | 11.0.0       | 11.0.3          |
 
 
