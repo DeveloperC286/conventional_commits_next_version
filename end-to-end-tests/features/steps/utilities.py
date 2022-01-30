@@ -17,7 +17,11 @@ def execute_command(command):
 
 
 def execute_conventional_commits_next_version(context):
-    os.chdir(context.remote_repository_cache)
+    if "GIT_DIR" not in os.environ:
+        os.chdir(context.remote_repository_cache)
+
     (context.exit_code, context.stdout, context.stderr) = execute_command(
         context.pre_command + context.conventional_commits_next_version_path + context.arguments)
-    os.chdir(context.behave_directory)
+
+    if "GIT_DIR" not in os.environ:
+        os.chdir(context.behave_directory)
