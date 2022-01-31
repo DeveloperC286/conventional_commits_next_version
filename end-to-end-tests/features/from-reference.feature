@@ -21,9 +21,9 @@ Feature: A Git reference can be used to indicate where to start the calculations
 
 
     Examples:
-      | repository                             | checkout_commit                          | from_reference    | from_version | expected_version |
-	  | https://github.com/Netflix/unleash.git | 238ce019c3a7b3302721fc1ae5b8ad2bdd50a706 | refs/tags/v2.0.0 | 2.0.0 | 2.0.1 |
-	  | https://github.com/Netflix/unleash.git | 238ce019c3a7b3302721fc1ae5b8ad2bdd50a706 | tags/v2.0.0 | 2.0.0 | 2.0.1 |
+      | repository                             | checkout_commit                          | from_reference   | from_version | expected_version |
+      | https://github.com/Netflix/unleash.git | 238ce019c3a7b3302721fc1ae5b8ad2bdd50a706 | refs/tags/v2.0.0 | 2.0.0        | 2.0.1            |
+      | https://github.com/Netflix/unleash.git | 238ce019c3a7b3302721fc1ae5b8ad2bdd50a706 | tags/v2.0.0      | 2.0.0        | 2.0.1            |
 
 
   Scenario Outline: When you provide an invalid reference a relevant error message is returned.
