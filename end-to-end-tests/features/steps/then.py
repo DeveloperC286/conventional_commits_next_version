@@ -68,21 +68,21 @@ def then_could_not_find_reference(context, reference):
     'their is a could not find shortened commit hash "{shortened_commit_hash}" error.')
 def then_could_not_find_shortened_commit_hash(context, shortened_commit_hash):
     # Given
-    could_not_find_shortened_commit_hash = " ERROR conventional_commits_next_version::model::commits > No actual commit hashes start with the provided short commit hash \"" + \
+    could_not_find_shortened_commit_hash_error = " ERROR conventional_commits_next_version::model::commits > No actual commit hashes start with the provided short commit hash \"" + \
         shortened_commit_hash + "\".\n"
 
     # When/Then
     current_version_assertion_fails(context)
 
     # Then
-    assert context.stderr == could_not_find_shortened_commit_hash
+    assert context.stderr == could_not_find_shortened_commit_hash_error
 
 
 @then(
     'their is a ambiguous shortened commit hash "{shortened_commit_hash}" error.')
-def then_could_not_find_shortened_commit_hash(context, shortened_commit_hash):
+def then_ambiguous_shortened_commit_hash(context, shortened_commit_hash):
     # Given
-    ambiguous_shortened_commit_hash = re.compile(
+    ambiguous_shortened_commit_hash_error = re.compile(
         '^ ERROR conventional_commits_next_version::model::commits > Ambiguous short commit hash, the commit hashes [[](' +
         shortened_commit_hash +
         '[a-f0-9]*(, )?)*[]] all start with the provided short commit hash "' +
@@ -93,7 +93,8 @@ def then_could_not_find_shortened_commit_hash(context, shortened_commit_hash):
     current_version_assertion_fails(context)
 
     # Then
-    assert ambiguous_shortened_commit_hash.match(context.stderr) is not None
+    assert ambiguous_shortened_commit_hash_error.match(
+        context.stderr) is not None
 
 
 @then('their is a missing from argument error.')
@@ -131,4 +132,7 @@ def then_conflicting_from_arguments_error(context):
     current_version_assertion_fails(context)
 
     # Then
-    assert context.stderr == conflicting_from_commit_hash_error or context.stderr == conflicting_from_reference_error or context.stderr == conflicting_from_stdin_error
+    assert context.stderr in [
+        conflicting_from_commit_hash_error,
+        conflicting_from_reference_error,
+        conflicting_from_stdin_error]
