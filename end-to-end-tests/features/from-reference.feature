@@ -30,7 +30,7 @@ Feature: A Git reference can be used to indicate where to start the calculations
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-reference is provided as "<from_reference>".
-    Then the error message is "ERROR conventional_commits_next_version::model::commits > Could not find a reference with the name ".
+    Then their is a could not find reference "<from_reference>" error.
 
 
     Examples:

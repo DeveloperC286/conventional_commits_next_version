@@ -81,6 +81,19 @@ def starts_with(searching, searching_for):
     return searching.strip().startswith(searching_for.strip())
 
 
+@then('their is a could not find reference "{reference}" error.')
+def then_could_not_find_reference(context, reference):
+    # Given
+    could_not_find_reference_error = " ERROR conventional_commits_next_version::model::commits > Could not find a reference with the name \"" + \
+                                     reference + "\".\n"
+
+    # When/Then
+    current_version_assertion_fails(context)
+
+    # Then
+    assert context.stderr == could_not_find_reference_error
+
+
 @then(
     'their is a could not find shortened commit hash "{shortened_commit_hash}" error.')
 def then_could_not_find_shortened_commit_hash(context, shortened_commit_hash):
