@@ -44,24 +44,24 @@ Feature: Shortened commit hashes are supported and can be supplied in place of f
   Scenario Outline: The short commit hash matches no commit hashes. So an error is printed and it exits unsuccessfully.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
-    Then the error message is "ERROR conventional_commits_next_version::model::commits > No actual commit hashes start with the provided short commit hash ".
+    And the argument --from-commit-hash is provided as "<from_shortened_commit_hash>".
+    Then their is a could not find shortened commit hash "<from_shortened_commit_hash>" error.
 
 
     Examples:
-      | repository                              | checkout_commit                          | from_commit_hash | from_version |
-      | https://github.com/yargs/yargs.git      | 089417550ef5a5b8ce3578dd2a989191300b64cd | 272a194          | 0.2.1        |
-      | https://github.com/dcyou/resume.git     | 9015044aba82dbe8aa0119bffd7ea73cad171dd0 | fd13487          | 1.2.2        |
-      | https://gitlab.com/dmfay/massive-js.git | 482c364acf5505b81c55245fac0472890d351662 | 3f235ee          | 7.2.0        |
+      | repository                              | checkout_commit                          | from_shortened_commit_hash | from_version |
+      | https://github.com/yargs/yargs.git      | 089417550ef5a5b8ce3578dd2a989191300b64cd | 272a194                    | 0.2.1        |
+      | https://github.com/dcyou/resume.git     | 9015044aba82dbe8aa0119bffd7ea73cad171dd0 | fd13487                    | 1.2.2        |
+      | https://gitlab.com/dmfay/massive-js.git | 482c364acf5505b81c55245fac0472890d351662 | 3f235ee                    | 7.2.0        |
 
 
   Scenario Outline: The short commit hash is ambiguous, multiple commit hashes match it. So an error is printed and it exits unsuccessfully.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
-    Then the error message is "ERROR conventional_commits_next_version::model::commits > Ambiguous short commit hash, the commit hashes ".
+    And the argument --from-commit-hash is provided as "<from_shortened_commit_hash>".
+    Then their is a ambiguous shortened commit hash "<from_shortened_commit_hash>" error.
 
 
     Examples:
-      | repository                         | checkout_commit                          | from_commit_hash | from_version |
-      | https://github.com/yargs/yargs.git | 089417550ef5a5b8ce3578dd2a989191300b64cd | 3f6              | 0.2.1        |
+      | repository                         | checkout_commit                          | from_shortened_commit_hash | from_version |
+      | https://github.com/yargs/yargs.git | 089417550ef5a5b8ce3578dd2a989191300b64cd | 3f6                        | 0.2.1        |
