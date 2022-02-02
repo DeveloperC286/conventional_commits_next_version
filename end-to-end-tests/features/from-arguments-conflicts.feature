@@ -6,7 +6,7 @@ Feature: The from arguments conflict with one another and can not be provided at
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --from-reference is provided as "<from_reference>".
-    Then the error message is either "error: The argument '--from-reference <from-reference>' cannot be used with one or more of the other specified arguments" or "error: The argument '--from-commit-hash <from-commit-hash>' cannot be used with one or more of the other specified arguments".
+    Then their is a conflicting from arguments error.
 
 
     Examples:
@@ -19,7 +19,7 @@ Feature: The from arguments conflict with one another and can not be provided at
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-stdin is provided as "<from_stdin>".
     And the argument --from-reference is provided as "<from_reference>".
-    Then the error message is either "error: The argument '--from-reference <from-reference>' cannot be used with one or more of the other specified arguments" or "error: The argument '--from-stdin' cannot be used with one or more of the other specified arguments".
+    Then their is a conflicting from arguments error.
 
 
     Examples:
@@ -32,7 +32,7 @@ Feature: The from arguments conflict with one another and can not be provided at
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-stdin is provided as "<from_stdin>".
     And the argument --from-commit-hash is provided as "<from_commit_hash>".
-    Then the error message is either "error: The argument '--from-stdin' cannot be used with one or more of the other specified arguments" or "error: The argument '--from-commit-hash <from-commit-hash>' cannot be used with one or more of the other specified arguments".
+    Then their is a conflicting from arguments error.
 
 
     Examples:
@@ -43,7 +43,7 @@ Feature: The from arguments conflict with one another and can not be provided at
   Scenario Outline: You must provide one of the from arguments.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     When the argument --from-version is provided as "<from_version>".
-    Then the error message is "error: The following required arguments were not provided:".
+    Then their is a missing from argument error.
 
 
     Examples:

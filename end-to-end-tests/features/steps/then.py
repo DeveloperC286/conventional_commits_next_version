@@ -36,32 +36,6 @@ def current_version_assertion_fails(context):
     assert int(context.exit_code) != 0
 
 
-@then('the error message is "{error_message}".')
-def then_the_error_message_is(context, error_message):
-    # When
-    execute_conventional_commits_next_version(context)
-
-    # Then
-    assert context.stdout == ""
-    assert int(context.exit_code) != 0
-    assert starts_with(context.stderr, error_message)
-
-
-@then('the error message is either "{error_message}" or "{error_message2}".')
-def then_the_error_message_is_either(context, error_message, error_message2):
-    # When
-    execute_conventional_commits_next_version(context)
-
-    # Then
-    assert context.stdout == ""
-    assert int(context.exit_code) != 0
-    assert starts_with(
-        context.stderr,
-        error_message) or starts_with(
-        context.stderr,
-        error_message2)
-
-
 @then('their is a could not find commit hash "{commit_hash}" error.')
 def then_could_not_find_commit_hash(context, commit_hash):
     # Given
@@ -75,10 +49,6 @@ def then_could_not_find_commit_hash(context, commit_hash):
     assert context.stdout == ""
     assert int(context.exit_code) != 0
     assert context.stderr == could_not_find_commit_hash_error
-
-
-def starts_with(searching, searching_for):
-    return searching.strip().startswith(searching_for.strip())
 
 
 @then('their is a could not find reference "{reference}" error.')
@@ -124,3 +94,41 @@ def then_could_not_find_shortened_commit_hash(context, shortened_commit_hash):
 
     # Then
     assert ambiguous_shortened_commit_hash.match(context.stderr) is not None
+
+
+@then('their is a missing from argument error.')
+def then_missing_from_argument_error(context):
+    # Given
+    missing_from_argument_error = "error: The following required arguments were not provided:\n" + \
+                                  "    <--from-stdin|--from-commit-hash <from-commit-hash>|--from-reference <from-reference>>\n" + \
+                                  "\n" + \
+                                  "USAGE:\n" + \
+                                  "    conventional_commits_next_version [FLAGS] [OPTIONS] --from-version <from-version> <--from-stdin|--from-commit-hash <from-commit-hash>|--from-reference <from-reference>>\n" + \
+                                  "\n" + \
+                                  "For more information try --help\n"
+
+    # When/Then
+    current_version_assertion_fails(context)
+
+    # Then
+    assert context.stderr == missing_from_argument_error
+
+
+@then('their is a conflicting from arguments error.')
+def then_conflicting_from_arguments_error(context):
+    # Given
+    conflicting_arguments_end = "\n" + \
+        "USAGE:\n" + \
+        "    conventional_commits_next_version --from-version <from-version> <--from-stdin|--from-commit-hash <from-commit-hash>|--from-reference <from-reference>>\n" + \
+        "\n" + \
+        "For more information try --help\n"
+
+    conflicting_from_commit_hash_error = "error: The argument '--from-commit-hash <from-commit-hash>' cannot be used with one or more of the other specified arguments\n" + conflicting_arguments_end
+    conflicting_from_reference_error = "error: The argument '--from-reference <from-reference>' cannot be used with one or more of the other specified arguments\n" + conflicting_arguments_end
+    conflicting_from_stdin_error = "error: The argument '--from-stdin' cannot be used with one or more of the other specified arguments\n" + conflicting_arguments_end
+
+    # When/Then
+    current_version_assertion_fails(context)
+
+    # Then
+    assert context.stderr == conflicting_from_commit_hash_error or context.stderr == conflicting_from_reference_error or context.stderr == conflicting_from_stdin_error
