@@ -37,7 +37,7 @@ def current_version_assertion_fails(context):
 
 
 @then('their is a could not find commit hash "{commit_hash}" error.')
-def then_could_not_find_commit_hash(context, commit_hash):
+def then_could_not_find_commit_hash_error(context, commit_hash):
     # Given
     could_not_find_commit_hash_error = " ERROR conventional_commits_next_version::model::commits > Can not find commit hash '" + \
         commit_hash + "' on the Git revision walker.\n"
@@ -52,7 +52,7 @@ def then_could_not_find_commit_hash(context, commit_hash):
 
 
 @then('their is a could not find reference "{reference}" error.')
-def then_could_not_find_reference(context, reference):
+def then_could_not_find_reference_error(context, reference):
     # Given
     could_not_find_reference_error = " ERROR conventional_commits_next_version::model::commits > Could not find a reference with the name \"" + \
                                      reference + "\".\n"
@@ -66,7 +66,8 @@ def then_could_not_find_reference(context, reference):
 
 @then(
     'their is a could not find shortened commit hash "{shortened_commit_hash}" error.')
-def then_could_not_find_shortened_commit_hash(context, shortened_commit_hash):
+def then_could_not_find_shortened_commit_hash_error(
+        context, shortened_commit_hash):
     # Given
     could_not_find_shortened_commit_hash_error = " ERROR conventional_commits_next_version::model::commits > No actual commit hashes start with the provided short commit hash \"" + \
         shortened_commit_hash + "\".\n"
@@ -80,7 +81,7 @@ def then_could_not_find_shortened_commit_hash(context, shortened_commit_hash):
 
 @then(
     'their is a ambiguous shortened commit hash "{shortened_commit_hash}" error.')
-def then_ambiguous_shortened_commit_hash(context, shortened_commit_hash):
+def then_ambiguous_shortened_commit_hash_error(context, shortened_commit_hash):
     # Given
     ambiguous_shortened_commit_hash_error = re.compile(
         '^ ERROR conventional_commits_next_version::model::commits > Ambiguous short commit hash, the commit hashes [[](' +
