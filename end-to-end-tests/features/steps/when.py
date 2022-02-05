@@ -1,9 +1,11 @@
 from behave import when
 
 
-@when('the argument --from-stdin is provided as "{from_stdin}".')
-def set_from_commit_hash(context, from_stdin):
-    context.pre_command = "echo " + from_stdin + " | "
+@when(
+    'the flag --from-stdin is set and the standard input is "{standard_input}".')
+def set_from_stdin(context, standard_input):
+    context.standard_input = standard_input.strip()
+    context.pre_command = "echo " + context.standard_input + " | "
     context.arguments += " --from-stdin "
 
 
@@ -23,7 +25,7 @@ def set_batch_commits_flag(context):
 
 
 @when('the argument --monorepo is provided as "{monorepo}".')
-def set_from_version(context, monorepo):
+def set_monorepo(context, monorepo):
     context.arguments += " --monorepo " + monorepo + " "
 
 
