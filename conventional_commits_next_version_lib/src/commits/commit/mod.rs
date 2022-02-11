@@ -5,14 +5,11 @@ const ANY_CHARACTER_REGEX: &str = "([[:digit:]]|[[:alpha:]])+";
 const OPTIONAL_ANY_REGEX: &str = "([[:digit:]]|[[:alpha:]]|_|-|[[:space:]])*";
 
 lazy_static! {
-    static ref OPTIONAL_SCOPE_REGEX: String = format!(r"(\({}\))?", OPTIONAL_ANY_REGEX);
+    static ref OPTIONAL_SCOPE_REGEX: String = format!(r"(\({OPTIONAL_ANY_REGEX}\))?");
     static ref MAJOR_TITLE_INCREMENT_REGEX: Regex = Regex::new(
         format!(
-            r"(?i){}({})(!{}|{}!):",
-            &*OPTIONAL_PRECEDING_WHITESPACE,
-            &*ANY_CHARACTER_REGEX,
-            &*OPTIONAL_SCOPE_REGEX,
-            &*OPTIONAL_SCOPE_REGEX
+            r"(?i){OPTIONAL_PRECEDING_WHITESPACE}({ANY_CHARACTER_REGEX})(!{}|{}!):",
+            &*OPTIONAL_SCOPE_REGEX, &*OPTIONAL_SCOPE_REGEX
         )
         .as_str()
     )
@@ -20,16 +17,16 @@ lazy_static! {
     static ref MAJOR_FOOTER_INCREMENT_REGEX: Regex = Regex::new("\nBREAKING( |-)CHANGE:").unwrap();
     static ref PATCH_INCREMENT_REGEX: Regex = Regex::new(
         format!(
-            r"(?i){}fix{}:",
-            &*OPTIONAL_PRECEDING_WHITESPACE, &*OPTIONAL_SCOPE_REGEX
+            r"(?i){OPTIONAL_PRECEDING_WHITESPACE}fix{}:",
+            &*OPTIONAL_SCOPE_REGEX
         )
         .as_str()
     )
     .unwrap();
     static ref MINOR_INCREMENT_REGEX: Regex = Regex::new(
         format!(
-            r"(?i){}feat{}:",
-            &*OPTIONAL_PRECEDING_WHITESPACE, &*OPTIONAL_SCOPE_REGEX
+            r"(?i){OPTIONAL_PRECEDING_WHITESPACE}feat{}:",
+            &*OPTIONAL_SCOPE_REGEX
         )
         .as_str()
     )
@@ -51,8 +48,7 @@ impl Commit {
         let message = match commit.message().map(|m| m.to_string()) {
             Some(message) => {
                 trace!(
-                    "Found the commit message {:?} for the commit with the hash '{}'.",
-                    message,
+                    "Found the commit message {message:?} for the commit with the hash '{}'.",
                     commit.id()
                 );
 

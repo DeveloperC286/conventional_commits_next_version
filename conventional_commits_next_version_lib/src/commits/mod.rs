@@ -212,10 +212,7 @@ fn get_commits_till_head_from_oid(
         match commits.hide(from_commit_hash) {
             Ok(_) => Ok(commits),
             Err(error) => {
-                error!(
-                    "Can not find a commit with the hash '{}'.",
-                    from_commit_hash
-                );
+                error!("Can not find a commit with the hash '{from_commit_hash}'.");
                 Err(error)
             }
         }
@@ -244,15 +241,14 @@ fn get_reference_oid(repository: &Repository, matching: &str) -> Result<Oid, git
     match repository.resolve_reference_from_short_name(matching) {
         Ok(reference) => {
             trace!(
-                "Matched {:?} to the reference {:?}.",
-                matching,
+                "Matched {matching:?} to the reference {:?}.",
                 reference.name().unwrap()
             );
             let commit = reference.peel_to_commit()?;
             Ok(commit.id())
         }
         Err(error) => {
-            error!("Could not find a reference with the name {:?}.", matching);
+            error!("Could not find a reference with the name {matching:?}.");
             Err(error)
         }
     }
@@ -261,10 +257,7 @@ fn get_reference_oid(repository: &Repository, matching: &str) -> Result<Oid, git
 fn parse_to_oid(repository: &Repository, oid: &str) -> Result<Oid, git2::Error> {
     match oid.len() {
         1..=39 => {
-            trace!(
-                "Attempting to find a match for the short commit hash {:?}.",
-                oid
-            );
+            trace!("Attempting to find a match for the short commit hash {oid:?}.");
             let matching_oid_lowercase = oid.to_lowercase();
 
             let mut revwalker = repository.revwalk()?;
@@ -283,8 +276,7 @@ fn parse_to_oid(repository: &Repository, oid: &str) -> Result<Oid, git2::Error> 
                         None
                     }
                     Err(error) => {
-                        error!("{:?}", error);
-
+                        error!("{error:?}");
                         None
                     }
                 })
@@ -294,16 +286,15 @@ fn parse_to_oid(repository: &Repository, oid: &str) -> Result<Oid, git2::Error> 
             match matched_commit_hashes.len() {
                 0 => {
                     let error_message = format!(
-                        "No commit hashes start with the provided short commit hash {:?}.",
-                        matching_oid_lowercase
+                        "No commit hashes start with the provided short commit hash {matching_oid_lowercase:?}."
                     );
-                    error!("{}", error_message);
+                    error!("{error_message}");
                     Err(git2::Error::from_str(&error_message))
                 }
                 1 => Ok(*matched_commit_hashes.first().unwrap()),
                 _ => {
-                    let error_message = format!("Ambiguous short commit hash, the commit hashes {:?} all start with the provided short commit hash {:?}.", matched_commit_hashes, matching_oid_lowercase);
-                    error!("{}", error_message);
+                    let error_message = format!("Ambiguous short commit hash, the commit hashes {matched_commit_hashes:?} all start with the provided short commit hash {matching_oid_lowercase:?}.");
+                    error!("{error_message}");
                     Err(git2::Error::from_str(&error_message))
                 }
             }
@@ -311,7 +302,7 @@ fn parse_to_oid(repository: &Repository, oid: &str) -> Result<Oid, git2::Error> 
         _ => match git2::Oid::from_str(oid) {
             Ok(oid) => Ok(oid),
             Err(error) => {
-                error!("{:?} is not a valid commit hash.", oid);
+                error!("{oid:?} is not a valid commit hash.");
                 Err(error)
             }
         },

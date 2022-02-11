@@ -17,7 +17,7 @@ fn main() {
     pretty_env_logger::init();
     trace!("Version {}.", env!("CARGO_PKG_VERSION"));
     let arguments = cli::Arguments::from_args();
-    trace!("The command line arguments provided are {:?}.", arguments);
+    trace!("The command line arguments provided are {arguments:?}.");
 
     match Repository::open_from_env() {
         Ok(repository) => {
@@ -53,17 +53,15 @@ fn main() {
                     if let Some(current_version) = arguments.current_version {
                         if current_version < expected_version {
                             error!(
-                "The current version {} is not larger or equal to the expected version {}.",
-                current_version, expected_version
+                "The current version {current_version} is not larger or equal to the expected version {expected_version}."
             );
                             exit(ERROR_EXIT_CODE);
                         }
                         info!(
-                            "The current version {} is larger or equal to the expected version {}.",
-                            current_version, expected_version
+                            "The current version {current_version} is larger or equal to the expected version {expected_version}."
                         );
                     } else {
-                        print!("{}", expected_version);
+                        print!("{expected_version}");
                     }
                 }
                 Err(_) => {

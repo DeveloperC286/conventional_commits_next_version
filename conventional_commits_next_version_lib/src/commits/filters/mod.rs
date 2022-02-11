@@ -31,7 +31,7 @@ impl Filters {
                     .walk(TreeWalkMode::PostOrder, |directory, entry| {
                         match entry.name() {
                             Some(name) => {
-                                let file = format!("{}{}", directory, name);
+                                let file = format!("{directory}{name}");
                                 files.insert(file);
                             }
                             None => {
@@ -71,9 +71,8 @@ impl Filters {
         if !self.commits_must_effect.is_empty() {
             let files_in_commit = get_all_files_changed_in_commit(repository, commit)?;
             trace!(
-                "Commit with the hash '{}' changes the files {:?}.",
+                "Commit with the hash '{}' changes the files {files_in_commit:?}.",
                 commit.id(),
-                files_in_commit
             );
             return Ok(self.is_files_within(files_in_commit));
         }
@@ -85,10 +84,7 @@ impl Filters {
         for file_in_commit in files_in_commit {
             for filter in &self.commits_must_effect {
                 if file_in_commit.starts_with(filter) {
-                    debug!(
-                        "The file {:?} affects the path {:?}.",
-                        file_in_commit, filter
-                    );
+                    debug!("The file {file_in_commit:?} affects the path {filter:?}.");
                     return true;
                 }
             }
