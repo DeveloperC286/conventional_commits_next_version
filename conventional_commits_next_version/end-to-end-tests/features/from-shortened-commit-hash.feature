@@ -1,7 +1,7 @@
-Feature: Shortened commit hashes are supported and can be supplied in place of full commit hashes.
+Feature: A shortened Git commit hash can be provided as an argument to indicate where to start taking the range of commits from till HEAD, instead of a full Git commit hash.
 
 
-  Scenario Outline:
+  Scenario Outline: A shortened and full Git commit hash can be used interchangeably.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-commit-hash is provided as "<from_commit_hash>".
@@ -22,7 +22,7 @@ Feature: Shortened commit hashes are supported and can be supplied in place of f
       | https://gitlab.com/DeveloperC/port-scanner | cb2cd79eac4a8f82d4029a998c59757f93b69a8f | 5b74e60ff6eb2eb575c4fb7cecbf3036b89de8d8 | 0.0.1        | 0.1.0            | 5b74e60                    |
 
 
-  Scenario Outline:
+  Scenario Outline: A shortened and full Git commit hash can be used interchangeably.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-commit-hash is provided as "<from_commit_hash>".
@@ -41,7 +41,7 @@ Feature: Shortened commit hashes are supported and can be supplied in place of f
       | https://gitlab.com/dmfay/massive-js.git | 482c364acf5505b81c55245fac0472890d351662 | 3f20134864b19b11541287af440540c7ad0ed986 | 7.2.0        | 7.5.3            | 3f20134                    |
 
 
-  Scenario Outline: The short commit hash matches no commit hashes. So an error is printed and it exits unsuccessfully.
+  Scenario Outline: The shortened Git commit hash has no matches, so an error is returned.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-commit-hash is provided as "<from_shortened_commit_hash>".
@@ -55,7 +55,7 @@ Feature: Shortened commit hashes are supported and can be supplied in place of f
       | https://gitlab.com/dmfay/massive-js.git | 482c364acf5505b81c55245fac0472890d351662 | 3f235ee                    | 7.2.0        |
 
 
-  Scenario Outline: The short commit hash is ambiguous, multiple commit hashes match it. So an error is printed and it exits unsuccessfully.
+  Scenario Outline: The shortened Git commit hash is ambiguous as multiple commit hashes match it, so an error is returned.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     When the argument --from-version is provided as "<from_version>".
     And the argument --from-commit-hash is provided as "<from_shortened_commit_hash>".
