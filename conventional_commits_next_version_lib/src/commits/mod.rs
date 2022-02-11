@@ -226,13 +226,17 @@ fn get_commits_till_head_from_oid(
         let oid = oid?;
         let commit = repository.find_commit(oid)?;
 
-        let is_commit_filtered_out = filters.does_commit_effect(repository, &commit)?;
+        let is_commit_filtered_out = !filters.does_commit_effect(repository, &commit)?;
 
         if is_commit_filtered_out {
+            debug!("Commit with the hash {oid:?} is being filtered out.");
+        } else {
             let commit = Commit::from_git(&commit);
             commits.push_front(commit);
         }
     }
+
+    debug!("Operating upon {} commits.", commits.len());
 
     Ok(Commits { commits })
 }

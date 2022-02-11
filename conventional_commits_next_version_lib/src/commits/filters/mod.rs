@@ -84,7 +84,7 @@ impl Filters {
         for file_in_commit in files_in_commit {
             for filter in &self.commits_must_effect {
                 if file_in_commit.starts_with(filter) {
-                    debug!("The file {file_in_commit:?} affects the path {filter:?}.");
+                    trace!("The file {file_in_commit:?} affects the path {filter:?}.");
                     return true;
                 }
             }
