@@ -4,7 +4,7 @@ use super::*;
 fn test_mhy() {
     //https://github.com/wintercounter/mhy
     //Given
-    let batch_commits = false;
+    let calculation_mode = CalculationMode::Consecutive;
     let from_version = Version::parse("1.2.1").unwrap();
     let expected_version = Version::parse("1.3.2").unwrap();
 
@@ -38,7 +38,7 @@ fn test_mhy() {
     };
 
     //When
-    let returned_version = commits.get_next_version(from_version, batch_commits);
+    let returned_version = commits.get_next_version(from_version, calculation_mode);
 
     //Then
     assert_eq!(returned_version, expected_version);

@@ -38,9 +38,10 @@ pub(crate) struct Arguments {
 
     #[structopt(
         long,
-        help = "In batch mode the largest Semantic Versioning increment determined by the Conventional Commits type across all the commits is the only increment applied."
+        default_value = "Consecutive",
+        help = "The mode of calculation to use on the range of Commits to calculate the next semantic version."
     )]
-    pub(crate) batch_commits: bool,
+    pub(crate) calculation_mode: conventional_commits_next_version_lib::CalculationMode,
 
     #[structopt(
         long,

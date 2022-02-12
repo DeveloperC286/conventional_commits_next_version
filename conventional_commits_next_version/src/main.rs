@@ -20,7 +20,7 @@ fn main() {
     let arguments = Arguments::from_args();
     trace!("The command line arguments provided are {arguments:?}.");
 
-    if let Err(_) = run(arguments) {
+    if run(arguments).is_err() {
         std::process::exit(ERROR_EXIT_CODE);
     }
 }
@@ -51,7 +51,7 @@ fn run(arguments: Arguments) -> Result<(), git2::Error> {
         }
     }?;
     let expected_version =
-        commits.get_next_version(arguments.from_version, arguments.batch_commits);
+        commits.get_next_version(arguments.from_version, arguments.calculation_mode);
 
     if let Some(current_version) = arguments.current_version {
         if current_version < expected_version {

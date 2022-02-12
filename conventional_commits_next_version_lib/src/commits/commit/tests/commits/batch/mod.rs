@@ -4,7 +4,7 @@ use super::*;
 fn test_nfpm_version_2_5_1() {
     //https://github.com/goreleaser/nfpm/releases/tag/v2.5.1
     //Given
-    let batch_commits = true;
+    let calculation_mode = CalculationMode::Batch;
     let from_version = Version::parse("2.5.0").unwrap();
     let expected_version = Version::parse("2.5.1").unwrap();
 
@@ -35,7 +35,7 @@ fn test_nfpm_version_2_5_1() {
     };
 
     //When
-    let returned_version = commits.get_next_version(from_version, batch_commits);
+    let returned_version = commits.get_next_version(from_version, calculation_mode);
 
     //Then
     assert_eq!(returned_version, expected_version);

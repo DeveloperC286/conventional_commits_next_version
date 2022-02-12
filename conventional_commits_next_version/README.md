@@ -37,7 +37,7 @@ A tooling and language agnostic utility to calculate the next semantic version b
 
 
 ## Usage
-Conventional Commits Next Version can either operate upon a range of Git commits in the repositories' history or on a commit message from standard in.
+Conventional Commits Next Version can either operate upon a range of Git commits in the repositories' history or on a commit message provided by standard in.
 To provide a commit message by standard in simple add the flag `--from-stdin` and standard in will be read.
 Otherwise to specify the range of commits you can add either the `--from-commit-hash <commit-hash>` or `--from-reference <reference>` arguments.
 The range of commits starts exclusively from the commit specified till inclusively of `HEAD`.
@@ -46,7 +46,8 @@ Any commits which conform to the Conventional Commits v1.0.0 specification are u
 
 The only required arguments is `--from-version <version>` and any of `--from-stdin`, `--from-commit-hash <commit-hash>` or `--from-reference <reference>` arguments.
 
-While operating on a range of commits there are two modes of calculating the next semantic version, consecutive mode and batch mode.
+The next semantic version can be calculated using a variety of calculation modes.
+Currently there are two modes, consecutive and batch mode.
 
 
 ### Usage - Consecutive Mode
@@ -54,7 +55,7 @@ In consecutive mode each Git commit in the Conventional Commits specification is
 
 Consecutive mode is the default, so no additional flags or configuration needs supplied.
 
-e.g.
+E.g.
 
 ```
 git clone https://github.com/yargs/yargs.git
@@ -66,21 +67,21 @@ RUST_LOG=trace conventional_commits_next_version --from-commit-hash c36c571e4e15
 Using the environment variable `RUST_LOG` we can enable more detailed logging, so we can see the logic of consecutive mode.
 
 ```
-DEBUG conventional_commits_next_version::model::commits::commit > "fix: address ambiguity between nargs of 1 and requiresArg (#1572)\n\n" matches a patch Semantic Versioning increment commit message.
+DEBUG conventional_commits_next_version_lib::commits::commit > "fix: address ambiguity between nargs of 1 and requiresArg (#1572)\n\n" matches a patch Semantic Versioning increment commit message.
 ```
 
 From the logs we can see that the commit `a5edc328ecb3f90d1ba09cfe70a0040f68adf50a` has the Conventional Commits type of `fix`.
 The fix type will cause the increment of the initial Semantic Versioning provided via `--from-version` from `15.2.0` to `15.2.1`.
 
 ```
-DEBUG conventional_commits_next_version::model::commits::commit > "feat(yargs-parser): introduce single-digit boolean aliases (#1576)\n\n" matches a minor Semantic Versioning increment commit message.
+DEBUG conventional_commits_next_version_lib::commits::commit > "feat(yargs-parser): introduce single-digit boolean aliases (#1576)\n\n" matches a minor Semantic Versioning increment commit message.
 ```
 
 From the logs we can see that the commit `3af7f04cdbfcbd4b3f432aca5144d43f21958c39` has the Conventional Commits type of `feat`.
 The feat type encountered will increment the minor Semantic Versioning from `15.2.1` to `15.3.0`.
 
 ```
-DEBUG conventional_commits_next_version::model::commits::commit > "feat: add usage for single-digit boolean aliases (#1580)\n\n" matches a minor Semantic Versioning increment commit message.
+DEBUG conventional_commits_next_version_lib::commits::commit > "feat: add usage for single-digit boolean aliases (#1580)\n\n" matches a minor Semantic Versioning increment commit message.
 ```
 
 From the logs we can see that the commit `6014e39bca3a1e8445aa0fb2a435f6181e344c451` has the Conventional Commits type of `feat`.
@@ -95,24 +96,23 @@ There are no more Conventional Commits which will increment the Semantic Version
 
 ### Usage - Batch Mode
 In batch mode the largest Semantic Versioning increment determined by the Conventional Commits type across all the commits is the only increment applied.
-Batch mode is useful for feature branches, if it has multiple types all being merged together.
 
-Batch mode is enabled via the `--batch-commits` flag.
+Batch mode can be selected via the `--calculation-mode "Batch"` argument.
 
-e.g.
+E.g.
 
 ```
 git clone https://github.com/yargs/yargs.git
 cd yargs
 git checkout 6014e39bca3a1e8445aa0fb2a435f6181e344c45
-RUST_LOG=trace conventional_commits_next_version --from-commit-hash c36c571e4e15dfe26be1d919e4991fb6ab6ed9fd --from-version 15.2.0 --batch-commits
+RUST_LOG=trace conventional_commits_next_version --calculation-mode "Batch" --from-commit-hash c36c571e4e15dfe26be1d919e4991fb6ab6ed9fd --from-version 15.2.0
 ```
 
 Using the environment variable `RUST_LOG` we can see more detailed logs, to see how batch mode behaves differently.
 
 ```
-DEBUG conventional_commits_next_version::model::commits::commit > "feat(yargs-parser): introduce single-digit boolean aliases (#1576)\n\n" matches a minor Semantic Versioning increment commit message.
-DEBUG conventional_commits_next_version::model::commits::commit > "feat: add usage for single-digit boolean aliases (#1580)\n\n" matches a minor Semantic Versioning increment commit message.
+DEBUG conventional_commits_next_version_lib::commits::commit > "feat(yargs-parser): introduce single-digit boolean aliases (#1576)\n\n" matches a minor Semantic Versioning increment commit message.
+DEBUG conventional_commits_next_version_lib::commits::commit > "feat: add usage for single-digit boolean aliases (#1580)\n\n" matches a minor Semantic Versioning increment commit message.
 ```
 
 The largest increment is a minor Semantic Versioning increment, because of the two commits `3af7f04cdbfcbd4b3f432aca5144d43f21958c39` and `6014e39bca3a1e8445aa0fb2a435f6181e344c45` with `feat` as the Conventional Commits' type.
@@ -129,7 +129,7 @@ Additional command line flags can be passed to alter what and how the next Seman
 
 | Flag                      | |
 |---------------------------|-|
-| --batch-commits | In batch mode the largest Semantic Versioning increment determined by the Conventional Commits type across all the commits is the only increment applied. |
+| --calculation-mode | The mode of calculation to use on the range of Commits to calculate the next semantic version. |
 | --current-version | This Semantic Versioning is asserted to be equal or larger than the calculated Semantic Versioning. The calculated Semantic Versioning is not printed to standard out. If the assertion is not met then it exits with a non zero exit code. |
 | --monorepo | The the next semantic version is calculated only from commits altering files which match any of these provided regexes, enabling usage within monorepos. |
 
@@ -165,7 +165,7 @@ conventional-commits-next-version-checking:
         # Get latest tag.
         - latest_tag=$(git tag --sort=-committerdate | head -1)
         # Check current vs expected.
-        - /usr/local/cargo/bin/conventional_commits_next_version --batch-commits --from-reference "${latest_tag}" --from-version "${latest_tag}" --current-version "${current_version}"
+        - /usr/local/cargo/bin/conventional_commits_next_version --calculation-mode "Batch" --from-reference "${latest_tag}" --from-version "${latest_tag}" --current-version "${current_version}"
     rules:
         - if: $CI_MERGE_REQUEST_ID
 ```
@@ -188,7 +188,7 @@ conventional-commits-next-version-checking:
         # Get latest tag.
         - latest_tag=$(git tag --sort=-committerdate | head -1)
         # Check current vs expected.
-        - ./conventional_commits_next_version --batch-commits --from-reference "${latest_tag}" --from-version "${latest_tag}" --current-version "${current_version}"
+        - ./conventional_commits_next_version --calculation-mode "Batch" --from-reference "${latest_tag}" --from-version "${latest_tag}" --current-version "${current_version}"
     rules:
         - if: $CI_MERGE_REQUEST_ID
 ```
@@ -247,7 +247,7 @@ By default it installs the latest version at the time of execution.
 You can specify a specific version to install using the `--version` argument.
 For certain environments such as CICD etc you may want to pin the version.
 
-e.g.
+E.g.
 
 ```
 cargo install conventional_commits_next_version --version 4.0.0
@@ -255,7 +255,7 @@ cargo install conventional_commits_next_version --version 4.0.0
 
 Rather than pinning to a specific version you can specify the major or minor version.
 
-e.g.
+E.g.
 
 ```
 cargo install conventional_commits_next_version --version ^4

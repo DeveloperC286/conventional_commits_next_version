@@ -3,6 +3,7 @@ use std::collections::VecDeque;
 use git2::{Oid, Repository, Revwalk};
 use semver::{BuildMetadata, Prerelease, Version};
 
+use crate::calculation_mode::CalculationMode;
 use crate::commits::commit::Commit;
 use crate::commits::filters::Filters;
 
@@ -38,8 +39,8 @@ impl Commits {
     /// E.g. short name.
     ///
     /// ```
-    /// use git2::Repository;
     /// use conventional_commits_next_version_lib::Commits;
+    /// use git2::Repository;
     ///
     /// let repository = Repository::open_from_env().unwrap();
     /// let commits = Commits::from_reference(&repository, "2.5.0", vec![]).unwrap();
@@ -48,8 +49,8 @@ impl Commits {
     /// E.g. full name.
     ///
     /// ```
-    /// use git2::Repository;
     /// use conventional_commits_next_version_lib::Commits;
+    /// use git2::Repository;
     ///
     /// let repository = Repository::open_from_env().unwrap();
     /// let commits = Commits::from_reference(&repository, "refs/tags/2.5.0", vec![]).unwrap();
@@ -70,8 +71,8 @@ impl Commits {
     /// E.g. shortened commit hash.
     ///
     /// ```
-    /// use git2::Repository;
     /// use conventional_commits_next_version_lib::Commits;
+    /// use git2::Repository;
     ///
     /// let repository = Repository::open_from_env().unwrap();
     /// let commits = Commits::from_commit_hash(&repository, "2c4aa4d", vec![]).unwrap();
@@ -80,8 +81,8 @@ impl Commits {
     /// E.g. full commit hash.
     ///
     /// ```
-    /// use git2::Repository;
     /// use conventional_commits_next_version_lib::Commits;
+    /// use git2::Repository;
     ///
     /// let repository = Repository::open_from_env().unwrap();
     /// let commits = Commits::from_commit_hash(&repository, "2e785d13a988e95658ace5bf9027aa678eb73c5f", vec![]).unwrap();
@@ -98,30 +99,47 @@ impl Commits {
     /// Calculate the next semantic version based upon the provided from version and the commits
     /// conforming to the Conventional Commits v1.0.0 specification wihtin the range of commits.
     ///
-    /// There are two modes of calculating the next semantic version, consecutive mode and batch mode.
+    /// E.g. calculate the next semantic version in batch mode.
     ///
-    /// In consecutive mode each Git commit in the Conventional Commits specification is applied to Semantic Versioning calculation in chronological order.
+    /// ```
+    /// use conventional_commits_next_version_lib::{Commits, CalculationMode};
+    /// use git2::Repository;
+    /// use semver::Version;
     ///
-    /// In batch mode the largest Semantic Versioning increment determined by the Conventional
-    /// Commits type across all the commits is the only increment applied.
-    /// Batch mode is useful for feature branches, if it has multiple types all being merged
-    /// together.
+    /// let from_version = Version::parse("1.3.0").unwrap();
+    /// let repository = Repository::open_from_env().unwrap();
+    /// let commits = Commits::from_commit_hash(&repository, "2e785d13a988e95658ace5bf9027aa678eb73c5f", vec![]).unwrap();
+    /// let returned_version = commits.get_next_version(from_version, CalculationMode::Batch);
+    /// ```
     ///
-    /// Consecutive mode is the default, to use batch mode set the parameter `calculate_in_batch_mode`
-    /// to true when calling this method.
+    /// E.g. calculate the next semantic version in consecutive mode.
+    ///
+    /// ```
+    /// use conventional_commits_next_version_lib::{Commits, CalculationMode};
+    /// use git2::Repository;
+    /// use semver::Version;
+    ///
+    /// let from_version = Version::parse("1.3.0").unwrap();
+    /// let repository = Repository::open_from_env().unwrap();
+    /// let commits = Commits::from_commit_hash(&repository, "2e785d13a988e95658ace5bf9027aa678eb73c5f", vec![]).unwrap();
+    /// let returned_version = commits.get_next_version(from_version, CalculationMode::Consecutive);
+    /// ```
     pub fn get_next_version(
         &self,
         mut from_version: Version,
-        calculate_in_batch_mode: bool,
+        calculation_mode: CalculationMode,
     ) -> Version {
         let pre_major = from_version.major.eq(&0);
 
-        if calculate_in_batch_mode {
-            info!("Operating in batch mode.");
-            self.increment_version_batch(&mut from_version, pre_major);
-        } else {
-            info!("Operating in consecutive mode.");
-            self.increment_version_consecutive(&mut from_version, pre_major);
+        match calculation_mode {
+            CalculationMode::Batch => {
+                info!("Calculating in batch mode.");
+                self.increment_version_batch(&mut from_version, pre_major);
+            }
+            CalculationMode::Consecutive => {
+                info!("Calculating in consecutive mode.");
+                self.increment_version_consecutive(&mut from_version, pre_major);
+            }
         }
 
         from_version

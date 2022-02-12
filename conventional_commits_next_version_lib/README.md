@@ -6,7 +6,7 @@
 [![License](https://img.shields.io/badge/License-AGPLv3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 
-A tooling and language agnostic utility to calculate the next semantic version based on the Conventional Commits since the prior version. Supports monorepos.
+A tooling and language agnostic library to calculate the next semantic version based on the Conventional Commits since the prior version. Supports monorepos.
 
 
 ## Content

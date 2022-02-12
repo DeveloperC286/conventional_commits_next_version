@@ -3,7 +3,7 @@ use super::*;
 #[test]
 fn test_major_footer_increment() {
     //Given
-    let batch_commits = false;
+    let calculation_mode = CalculationMode::Consecutive;
     let from_version = Version::parse("0.2.1").unwrap();
     let expected_version = Version::parse("0.3.1").unwrap();
 
@@ -26,7 +26,7 @@ fn test_major_footer_increment() {
     };
 
     //When
-    let returned_version = commits.get_next_version(from_version, batch_commits);
+    let returned_version = commits.get_next_version(from_version, calculation_mode);
 
     //Then
     assert_eq!(returned_version, expected_version);
@@ -35,7 +35,7 @@ fn test_major_footer_increment() {
 #[test]
 fn test_major_title_increment() {
     //Given
-    let batch_commits = false;
+    let calculation_mode = CalculationMode::Consecutive;
     let from_version = Version::parse("0.7.2").unwrap();
     let expected_version = Version::parse("0.9.0").unwrap();
 
@@ -55,7 +55,7 @@ fn test_major_title_increment() {
     };
 
     //When
-    let returned_version = commits.get_next_version(from_version, batch_commits);
+    let returned_version = commits.get_next_version(from_version, calculation_mode);
 
     //Then
     assert_eq!(returned_version, expected_version);

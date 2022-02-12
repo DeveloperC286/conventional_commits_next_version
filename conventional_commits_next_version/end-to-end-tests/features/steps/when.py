@@ -19,9 +19,9 @@ def set_from_version(context, from_version):
     context.arguments += " --from-version " + from_version + " "
 
 
-@when('the --batch-commits flag is set.')
+@when('the argument --calculation-mode is provided as "Batch".')
 def set_batch_commits_flag(context):
-    context.arguments += " --batch-commits "
+    context.arguments += " --calculation-mode \"Batch\" "
 
 
 @when('the argument --monorepo is provided as "{monorepo}".')
