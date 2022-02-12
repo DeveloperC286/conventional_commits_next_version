@@ -13,7 +13,7 @@ impl Filters {
         }
     }
 
-    pub(crate) fn does_commit_effect(
+    pub(super) fn does_commit_effect(
         &self,
         repository: &Repository,
         commit: &git2::Commit,
