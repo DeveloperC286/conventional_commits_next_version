@@ -27,23 +27,21 @@ impl Filters {
             let commit_tree = commit.tree()?;
             if commit.parent_count() == 0 {
                 // Root Commit
-                commit_tree
-                    .walk(TreeWalkMode::PostOrder, |directory, entry| {
-                        match entry.name() {
-                            Some(name) => {
-                                let file = format!("{directory}{name}");
-                                files.insert(file);
-                            }
-                            None => {
-                                warn!(
-                                    "Commit with the hash '{}' has not valid utf-8 files.",
-                                    commit.id()
-                                )
-                            }
+                commit_tree.walk(TreeWalkMode::PostOrder, |directory, entry| {
+                    match entry.name() {
+                        Some(name) => {
+                            let file = format!("{directory}{name}");
+                            files.insert(file);
                         }
-                        TreeWalkResult::Ok
-                    })
-                    .unwrap();
+                        None => {
+                            warn!(
+                                "Commit with the hash '{}' has not valid utf-8 files.",
+                                commit.id()
+                            )
+                        }
+                    }
+                    TreeWalkResult::Ok
+                })?;
             } else {
                 // Some merge commits can have multiple parents.
                 for parent in commit.parents() {
@@ -53,6 +51,7 @@ impl Filters {
                         Some(&commit_tree),
                         None,
                     )?;
+
                     for delta in diff.deltas() {
                         if let Some(new_file) = delta.new_file().path() {
                             files.insert(new_file.display().to_string());
