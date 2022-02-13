@@ -6,6 +6,7 @@ use semver::{BuildMetadata, Prerelease, Version};
 use crate::calculation_mode::CalculationMode;
 use crate::commits::commit::Commit;
 use crate::commits::filters::Filters;
+use crate::git_history_mode::GitHistoryMode;
 
 mod commit;
 mod filters;
@@ -39,29 +40,30 @@ impl Commits {
     /// E.g. short name.
     ///
     /// ```
-    /// use conventional_commits_next_version_lib::Commits;
+    /// use conventional_commits_next_version_lib::{Commits, GitHistoryMode};
     /// use git2::Repository;
     ///
     /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_reference(&repository, "2.5.0", vec![]).unwrap();
+    /// let commits = Commits::from_reference(&repository, "2.5.0", vec![], GitHistoryMode::FirstParent).unwrap();
     /// ```
     ///
     /// E.g. full name.
     ///
     /// ```
-    /// use conventional_commits_next_version_lib::Commits;
+    /// use conventional_commits_next_version_lib::{Commits, GitHistoryMode};
     /// use git2::Repository;
     ///
     /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_reference(&repository, "refs/tags/2.5.0", vec![]).unwrap();
+    /// let commits = Commits::from_reference(&repository, "refs/tags/2.5.0", vec![], GitHistoryMode::FirstParent).unwrap();
     /// ```
     pub fn from_reference<T: AsRef<str>>(
         repository: &Repository,
         reference: T,
         commit_filters: Vec<String>,
+        git_history_mode: GitHistoryMode,
     ) -> Result<Commits, git2::Error> {
         let reference_oid = get_reference_oid(repository, reference.as_ref())?;
-        get_commits_till_head_from_oid(repository, reference_oid, commit_filters)
+        get_commits_till_head_from_oid(repository, reference_oid, commit_filters, git_history_mode)
     }
 
     /// Create a new range of commits from a commit hash exclusively from the commit specified till inclusively of `HEAD`.
@@ -71,29 +73,30 @@ impl Commits {
     /// E.g. shortened commit hash.
     ///
     /// ```
-    /// use conventional_commits_next_version_lib::Commits;
+    /// use conventional_commits_next_version_lib::{Commits, GitHistoryMode};
     /// use git2::Repository;
     ///
     /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_commit_hash(&repository, "2c4aa4d", vec![]).unwrap();
+    /// let commits = Commits::from_commit_hash(&repository, "2c4aa4d", vec![], GitHistoryMode::FirstParent).unwrap();
     /// ```
     ///
     /// E.g. full commit hash.
     ///
     /// ```
-    /// use conventional_commits_next_version_lib::Commits;
+    /// use conventional_commits_next_version_lib::{Commits, GitHistoryMode};
     /// use git2::Repository;
     ///
     /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_commit_hash(&repository, "2e785d13a988e95658ace5bf9027aa678eb73c5f", vec![]).unwrap();
+    /// let commits = Commits::from_commit_hash(&repository, "2e785d13a988e95658ace5bf9027aa678eb73c5f", vec![], GitHistoryMode::FirstParent).unwrap();
     /// ```
     pub fn from_commit_hash<T: AsRef<str>>(
         repository: &Repository,
         commit_hash: T,
         commit_filters: Vec<String>,
+        git_history_mode: GitHistoryMode,
     ) -> Result<Commits, git2::Error> {
         let commit_oid = parse_to_oid(repository, commit_hash.as_ref())?;
-        get_commits_till_head_from_oid(repository, commit_oid, commit_filters)
+        get_commits_till_head_from_oid(repository, commit_oid, commit_filters, git_history_mode)
     }
 
     /// Calculate the next semantic version based upon the provided from version and the commits
@@ -102,26 +105,26 @@ impl Commits {
     /// E.g. calculate the next semantic version in batch mode.
     ///
     /// ```
-    /// use conventional_commits_next_version_lib::{Commits, CalculationMode};
+    /// use conventional_commits_next_version_lib::{Commits, CalculationMode, GitHistoryMode};
     /// use git2::Repository;
     /// use semver::Version;
     ///
     /// let from_version = Version::parse("1.3.0").unwrap();
     /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_commit_hash(&repository, "2e785d13a988e95658ace5bf9027aa678eb73c5f", vec![]).unwrap();
+    /// let commits = Commits::from_commit_hash(&repository, "2e785d13a988e95658ace5bf9027aa678eb73c5f", vec![], GitHistoryMode::FirstParent).unwrap();
     /// let returned_version = commits.get_next_version(from_version, CalculationMode::Batch);
     /// ```
     ///
     /// E.g. calculate the next semantic version in consecutive mode.
     ///
     /// ```
-    /// use conventional_commits_next_version_lib::{Commits, CalculationMode};
+    /// use conventional_commits_next_version_lib::{Commits, CalculationMode, GitHistoryMode};
     /// use git2::Repository;
     /// use semver::Version;
     ///
     /// let from_version = Version::parse("1.3.0").unwrap();
     /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_commit_hash(&repository, "2e785d13a988e95658ace5bf9027aa678eb73c5f", vec![]).unwrap();
+    /// let commits = Commits::from_commit_hash(&repository, "2e785d13a988e95658ace5bf9027aa678eb73c5f", vec![], GitHistoryMode::FirstParent).unwrap();
     /// let returned_version = commits.get_next_version(from_version, CalculationMode::Consecutive);
     /// ```
     pub fn get_next_version(
@@ -219,12 +222,17 @@ fn get_commits_till_head_from_oid(
     repository: &Repository,
     from_commit_hash: Oid,
     commit_filters: Vec<String>,
+    git_history_mode: GitHistoryMode,
 ) -> Result<Commits, git2::Error> {
     fn get_revwalker(
         repository: &Repository,
         from_commit_hash: Oid,
+        git_history_mode: GitHistoryMode,
     ) -> Result<Revwalk, git2::Error> {
         let mut commits = repository.revwalk()?;
+        if git_history_mode == GitHistoryMode::FirstParent {
+            commits.simplify_first_parent()?;
+        }
         commits.push_head()?;
 
         match commits.hide(from_commit_hash) {
@@ -236,7 +244,7 @@ fn get_commits_till_head_from_oid(
         }
     }
 
-    let revwalker = get_revwalker(repository, from_commit_hash)?;
+    let revwalker = get_revwalker(repository, from_commit_hash, git_history_mode)?;
     let mut commits = VecDeque::new();
     let filters = Filters::from(commit_filters);
 

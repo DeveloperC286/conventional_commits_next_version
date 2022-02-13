@@ -37,7 +37,6 @@ Feature: A shortened Git commit hash can be provided as an argument to indicate 
       | repository                              | checkout_commit                          | from_commit_hash                         | from_version | expected_version | shortened_from_commit_hash |
       | https://github.com/yargs/yargs.git      | 089417550ef5a5b8ce3578dd2a989191300b64cd | 262e796329f4a09083ca07e49f926ae43ac850e9 | 0.2.1        | 0.2.2            | 262e796                    |
       | https://github.com/yargs/yargs.git      | 6014e39bca3a1e8445aa0fb2a435f6181e344c45 | 705384762919641fe9d4c0967452a292f5f52c6d | 1.2.0        | 1.4.0            | 7053847                    |
-      | https://github.com/dcyou/resume.git     | 9015044aba82dbe8aa0119bffd7ea73cad171dd0 | fe14480df04f76e6434d45c762ab087df41b8473 | 1.2.2        | 1.3.30           | fe14480                    |
       | https://gitlab.com/dmfay/massive-js.git | 482c364acf5505b81c55245fac0472890d351662 | 3f20134864b19b11541287af440540c7ad0ed986 | 7.2.0        | 7.5.3            | 3f20134                    |
 
 
@@ -51,7 +50,6 @@ Feature: A shortened Git commit hash can be provided as an argument to indicate 
     Examples:
       | repository                              | checkout_commit                          | from_shortened_commit_hash | from_version |
       | https://github.com/yargs/yargs.git      | 089417550ef5a5b8ce3578dd2a989191300b64cd | 272a194                    | 0.2.1        |
-      | https://github.com/dcyou/resume.git     | 9015044aba82dbe8aa0119bffd7ea73cad171dd0 | fd13487                    | 1.2.2        |
       | https://gitlab.com/dmfay/massive-js.git | 482c364acf5505b81c55245fac0472890d351662 | 3f235ee                    | 7.2.0        |
 
 

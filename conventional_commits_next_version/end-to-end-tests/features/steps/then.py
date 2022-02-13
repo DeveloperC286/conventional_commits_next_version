@@ -101,10 +101,10 @@ def then_ambiguous_shortened_commit_hash_error(context, shortened_commit_hash):
 def then_missing_from_argument_error(context):
     # Given
     missing_from_argument_error = "error: The following required arguments were not provided:\n" + \
-                                  "    <--from-stdin|--from-commit-hash <from-commit-hash>|--from-reference <from-reference>>\n" + \
+                                  "    <--from-stdin|--from-reference <from-reference>|--from-commit-hash <from-commit-hash>>\n" + \
                                   "\n" + \
                                   "USAGE:\n" + \
-                                  "    conventional_commits_next_version --calculation-mode <calculation-mode> --from-version <from-version> <--from-stdin|--from-commit-hash <from-commit-hash>|--from-reference <from-reference>>\n" + \
+                                  "    conventional_commits_next_version --calculation-mode <calculation-mode> --from-version <from-version> --git-history-mode <git-history-mode> <--from-stdin|--from-reference <from-reference>|--from-commit-hash <from-commit-hash>>\n" + \
                                   "\n" + \
                                   "For more information try --help\n"
 
@@ -120,7 +120,7 @@ def then_conflicting_from_arguments_error(context):
     # Given
     conflicting_arguments_end = "\n" + \
         "USAGE:\n" + \
-        "    conventional_commits_next_version --calculation-mode <calculation-mode> --from-version <from-version> <--from-stdin|--from-commit-hash <from-commit-hash>|--from-reference <from-reference>>\n" + \
+        "    conventional_commits_next_version --calculation-mode <calculation-mode> --from-version <from-version> --git-history-mode <git-history-mode> <--from-stdin|--from-reference <from-reference>|--from-commit-hash <from-commit-hash>>\n" + \
         "\n" + \
         "For more information try --help\n"
 

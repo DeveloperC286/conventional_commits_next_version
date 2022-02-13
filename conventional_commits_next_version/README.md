@@ -129,9 +129,10 @@ Additional command line flags can be passed to alter what and how the next Seman
 
 | Flag                      | |
 |---------------------------|-|
+| --monorepo | The the next semantic version is calculated only from commits altering files which match any of these provided regexes, enabling usage within monorepos. |
+| --git-history-mode | The mode to use when transversing the Git commit history of the Git commit range, to collect the Git commit messages to use in calculating the next semantic version. |
 | --calculation-mode | The mode of calculation to use on the range of Commits to calculate the next semantic version. |
 | --current-version | This Semantic Versioning is asserted to be equal or larger than the calculated Semantic Versioning. The calculated Semantic Versioning is not printed to standard out. If the assertion is not met then it exits with a non zero exit code. |
-| --monorepo | The the next semantic version is calculated only from commits altering files which match any of these provided regexes, enabling usage within monorepos. |
 
 
 ### Usage - Git Environment Variables

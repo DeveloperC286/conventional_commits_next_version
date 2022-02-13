@@ -18,16 +18,29 @@ pub(crate) struct Arguments {
     #[structopt(
         long,
         group = "from",
+        help = "The Git reference from where to start taking the range of commits from till HEAD. The range is inclusive of HEAD and exclusive of the provided reference."
+    )]
+    pub(crate) from_reference: Option<String>,
+
+    #[structopt(
+        long,
+        group = "from",
         help = "The Git commit hash from where to start taking the range of commits from till HEAD. The range is inclusive of HEAD and exclusive of the provided Git commit hash."
     )]
     pub(crate) from_commit_hash: Option<String>,
 
     #[structopt(
         long,
-        group = "from",
-        help = "The Git reference from where to start taking the range of commits from till HEAD. The range is inclusive of HEAD and exclusive of the provided reference."
+        help = "The the next semantic version is calculated only from commits altering files which match any of these provided regexes, enabling usage within monorepos."
     )]
-    pub(crate) from_reference: Option<String>,
+    pub(crate) monorepo: Vec<String>,
+
+    #[structopt(
+        long,
+        default_value = "FirstParent",
+        help = "The mode to use when transversing the Git commit history of the Git commit range, to collect the Git commit messages to use in calculating the next semantic version."
+    )]
+    pub(crate) git_history_mode: conventional_commits_next_version_lib::GitHistoryMode,
 
     #[structopt(
         long,
@@ -49,12 +62,6 @@ pub(crate) struct Arguments {
         help = "This Semantic Versioning is asserted to be equal or larger than the calculated Semantic Versioning. The calculated Semantic Versioning is not printed to standard out. If the assertion is not met then it exits with a non zero exit code."
     )]
     pub(crate) current_version: Option<Version>,
-
-    #[structopt(
-        long,
-        help = "The the next semantic version is calculated only from commits altering files which match any of these provided regexes, enabling usage within monorepos."
-    )]
-    pub(crate) monorepo: Vec<String>,
 }
 
 fn parse_version(src: &str) -> Result<Version, Error> {

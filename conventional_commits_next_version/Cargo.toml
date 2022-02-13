@@ -1,6 +1,6 @@
 [package]
 name = "conventional_commits_next_version"
-version = "5.0.0"
+version = "6.0.0"
 description = "A tooling and language agnostic utility to calculate the next semantic version based on the Conventional Commits since the prior version. Supports monorepos."
 authors = ["C <DeveloperC@protonmail.com>"]
 edition = "2021"
@@ -25,4 +25,4 @@ git2 = { version = "0.13.25", default-features = false, features=[] }
 # For Semantic Versioning parsing.
 semver = "1.0.5"
 
-conventional_commits_next_version_lib = "0.2.0"
+conventional_commits_next_version_lib = "0.3.0"

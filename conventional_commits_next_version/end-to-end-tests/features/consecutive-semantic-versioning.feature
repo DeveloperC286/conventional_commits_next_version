@@ -17,5 +17,4 @@ Feature: The increments are applied consecutively to calculate the next Semantic
       | https://github.com/yargs/yargs.git      | b9409da199ebca515a848489c206b807fab2e65d | 6e4bc2aa0a6c5560928296f18e008a15b2aaf335 | 1.1.3        | 2.0.0            |
       | https://github.com/yargs/yargs.git      | 0aaa68bf36d35c697426de4dfe2e4e12128c2dc0 | 927810c7615912fb77a160273b2d6a946e9737b8 | 9.4.0        | 10.0.0           |
       | https://github.com/yargs/yargs.git      | 6014e39bca3a1e8445aa0fb2a435f6181e344c45 | 705384762919641fe9d4c0967452a292f5f52c6d | 1.2.0        | 1.4.0            |
-      | https://github.com/dcyou/resume.git     | 9015044aba82dbe8aa0119bffd7ea73cad171dd0 | fe14480df04f76e6434d45c762ab087df41b8473 | 1.2.2        | 1.3.30           |
       | https://gitlab.com/dmfay/massive-js.git | 482c364acf5505b81c55245fac0472890d351662 | 3f20134864b19b11541287af440540c7ad0ed986 | 7.2.0        | 7.5.3            |

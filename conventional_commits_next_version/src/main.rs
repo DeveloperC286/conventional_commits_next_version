@@ -38,12 +38,18 @@ fn run(arguments: Arguments) -> Result<(), git2::Error> {
 
             Ok(Commits::from_commit_message(commit_message))
         }
-        (false, Some(from_commit_hash), None) => {
-            Commits::from_commit_hash(&repository, &from_commit_hash, arguments.monorepo)
-        }
-        (false, None, Some(from_reference)) => {
-            Commits::from_reference(&repository, &from_reference, arguments.monorepo)
-        }
+        (false, Some(from_commit_hash), None) => Commits::from_commit_hash(
+            &repository,
+            &from_commit_hash,
+            arguments.monorepo,
+            arguments.git_history_mode,
+        ),
+        (false, None, Some(from_reference)) => Commits::from_reference(
+            &repository,
+            &from_reference,
+            arguments.monorepo,
+            arguments.git_history_mode,
+        ),
         (_, _, _) => {
             unreachable!(
                 "Invalid combination of from arguments, should have been caught by structopt."
