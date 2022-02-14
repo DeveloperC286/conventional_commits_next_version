@@ -23,7 +23,7 @@ variables:
   END_TO_END_TESTS_DIRECTORY: "${BIN_DIRECTORY}/end-to-end-tests"
   BIN_NAME: "conventional_commits_next_version"
   RELEASE_CLI: "release-cli-linux-amd64"
-  GIT_CLIFF_VERSION: "0.5.0"
+  GIT_CLIFF_VERSION: "0.6.0"
 
 
 clean-git-history-checking:
