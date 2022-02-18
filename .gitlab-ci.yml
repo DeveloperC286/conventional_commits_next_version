@@ -101,7 +101,7 @@ end-to-end-tests-formatting:
   before_script:
     - pip3 install autopep8
   script:
-    - for i in $(du -a "./end-to-end-tests/" | awk '{print $2}' | grep -i "[.]py$"); do
+    - for i in $(find "${END_TO_END_TESTS_DIRECTORY}/features/steps/" -type f | grep -i "[.]py$"); do
     - cp "$i" "temp.txt"
     - autopep8 --in-place --aggressive --aggressive "$i"
     - cmp "$i" "temp.txt" || ( echo "$i needs formatted." && exit 1 )
