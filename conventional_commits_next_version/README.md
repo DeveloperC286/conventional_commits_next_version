@@ -287,7 +287,7 @@ __Note - You can't use --release as the test suite uses `target/debug/convention
 
 ```
 cargo build
-cd end-to-end-tests/
+cd conventional_commits_next_version/end-to-end-tests/
 virtualenv -p python3 .venv
 source .venv/bin/activate
 pip3 install -r requirements.txt
