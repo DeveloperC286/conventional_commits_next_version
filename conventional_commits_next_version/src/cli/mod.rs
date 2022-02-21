@@ -45,7 +45,7 @@ pub(crate) struct Arguments {
     #[structopt(
         long,
         parse(try_from_str = parse_version),
-        help = "The initial Semantic Versioning to begin calculations from."
+        help = "The initial semantic version to begin the calculations from."
     )]
     pub(crate) from_version: Version,
 
@@ -59,7 +59,7 @@ pub(crate) struct Arguments {
     #[structopt(
         long,
         parse(try_from_str = parse_version),
-        help = "This Semantic Versioning is asserted to be equal or larger than the calculated Semantic Versioning. The calculated Semantic Versioning is not printed to standard out. If the assertion is not met then it exits with a non zero exit code."
+        help = "This semantic version is asserted to be equal or larger than the calculated semantic version. The calculated semantic version is not printed to standard out. If the assertion is not met then it exits with a non zero exit code."
     )]
     pub(crate) current_version: Option<Version>,
 }

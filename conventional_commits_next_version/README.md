@@ -42,7 +42,7 @@ To provide a commit message by standard in simple add the flag `--from-stdin` an
 Otherwise to specify the range of commits you can add either the `--from-commit-hash <commit-hash>` or `--from-reference <reference>` arguments.
 The range of commits starts exclusively from the commit specified till inclusively of `HEAD`.
 
-Any commits which conform to the Conventional Commits v1.0.0 specification are used to calculate the next Semantic Versioning, based upon the initial Semantic Versioning provided via the argument `--from-version <version>`.
+Any commits which conform to the Conventional Commits v1.0.0 specification are used to calculate the next Semantic Versioning, based upon the initial semantic version provided via the argument `--from-version <version>`.
 
 The only required arguments is `--from-version <version>` and any of `--from-stdin`, `--from-commit-hash <commit-hash>` or `--from-reference <reference>` arguments.
 
@@ -71,21 +71,21 @@ DEBUG conventional_commits_next_version_lib::commits::commit > "fix: address amb
 ```
 
 From the logs we can see that the commit `a5edc328ecb3f90d1ba09cfe70a0040f68adf50a` has the Conventional Commits type of `fix`.
-The fix type will cause the increment of the initial Semantic Versioning provided via `--from-version` from `15.2.0` to `15.2.1`.
+The fix type will cause the increment of the initial semantic version provided via `--from-version` from `15.2.0` to `15.2.1`.
 
 ```
 DEBUG conventional_commits_next_version_lib::commits::commit > "feat(yargs-parser): introduce single-digit boolean aliases (#1576)\n\n" matches a minor Semantic Versioning increment commit message.
 ```
 
 From the logs we can see that the commit `3af7f04cdbfcbd4b3f432aca5144d43f21958c39` has the Conventional Commits type of `feat`.
-The feat type encountered will increment the minor Semantic Versioning from `15.2.1` to `15.3.0`.
+The feat type encountered will increment the minor semantic version from `15.2.1` to `15.3.0`.
 
 ```
 DEBUG conventional_commits_next_version_lib::commits::commit > "feat: add usage for single-digit boolean aliases (#1580)\n\n" matches a minor Semantic Versioning increment commit message.
 ```
 
 From the logs we can see that the commit `6014e39bca3a1e8445aa0fb2a435f6181e344c451` has the Conventional Commits type of `feat`.
-The feat type will increment the minor Semantic Versioning from `15.3.0` to `15.4.0`.
+The feat type will increment the minor semantic version from `15.3.0` to `15.4.0`.
 
 There are no more Conventional Commits which will increment the Semantic Versioning, so the calculated Semantic Versioning is printed to standard out.
 
@@ -116,7 +116,7 @@ DEBUG conventional_commits_next_version_lib::commits::commit > "feat: add usage 
 ```
 
 The largest increment is a minor Semantic Versioning increment, because of the two commits `3af7f04cdbfcbd4b3f432aca5144d43f21958c39` and `6014e39bca3a1e8445aa0fb2a435f6181e344c45` with `feat` as the Conventional Commits' type.
-The minor Semantic Versioning increment increases the initial Semantic Versioning from `15.2.0` to `15.3.0`, which is then printed to standard out.
+The minor Semantic Versioning increment increases the initial semantic version from `15.2.0` to `15.3.0`, which is then printed to standard out.
 
 ```
 15.3.0
@@ -132,7 +132,7 @@ Additional command line flags can be passed to alter what and how the next Seman
 | --monorepo | The the next semantic version is calculated only from commits altering files which match any of these provided regexes, enabling usage within monorepos. |
 | --git-history-mode | The mode to use when transversing the Git commit history of the Git commit range, to collect the Git commit messages to use in calculating the next semantic version. |
 | --calculation-mode | The mode of calculation to use on the range of Commits to calculate the next semantic version. |
-| --current-version | This Semantic Versioning is asserted to be equal or larger than the calculated Semantic Versioning. The calculated Semantic Versioning is not printed to standard out. If the assertion is not met then it exits with a non zero exit code. |
+| --current-version | This semantic version is asserted to be equal or larger than the calculated semantic version. The calculated semantic version is not printed to standard out. If the assertion is not met then it exits with a non zero exit code. |
 
 
 ### Usage - Git Environment Variables
