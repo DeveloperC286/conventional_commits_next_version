@@ -13,6 +13,7 @@ def reset_arguments(context):
 @given('the context and environment are reset.')
 def reset_context(context):
     context.behave_directory = os.getcwd()
+    context.remote_repository_cache = os.getcwd()
 
     context.pre_command = ""
     context.conventional_commits_next_version_path = context.behave_directory + \
