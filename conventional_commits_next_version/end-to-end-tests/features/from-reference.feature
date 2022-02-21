@@ -1,10 +1,10 @@
-Feature: A Git reference can be used to indicate where to start the calculations from.
+Feature: A Git reference can be provided as an argument to indicate where to start taking the range of commits from till HEAD to calculate the next semantic version.
 
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-reference is provided as "<from_reference>".
+    When the argument --from-reference is provided as "<from_reference>".
+    And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
 
 
@@ -15,8 +15,8 @@ Feature: A Git reference can be used to indicate where to start the calculations
 
   Scenario Outline: You can also provide the long name and partial names not just the short name.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-reference is provided as "<from_reference>".
+    When the argument --from-reference is provided as "<from_reference>".
+    And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
 
 
@@ -28,8 +28,8 @@ Feature: A Git reference can be used to indicate where to start the calculations
 
   Scenario Outline: When you provide an invalid reference a relevant error message is returned.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-reference is provided as "<from_reference>".
+    When the argument --from-reference is provided as "<from_reference>".
+    And the argument --from-version is provided as "<from_version>".
     Then their is a could not find reference "<from_reference>" error.
 
 

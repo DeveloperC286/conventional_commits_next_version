@@ -3,13 +3,13 @@ Feature: Breaking changes for pre-major release semantic versions only increment
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<post_major_release_from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --from-version is provided as "<post_major_release_from_version>".
     And the argument --calculation-mode is provided as "Batch".
     Then the returned version should be "<post_major_release_expected_version>".
     Given the arguments are reset.
-    When the argument --from-version is provided as "<pre_major_release_from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --from-version is provided as "<pre_major_release_from_version>".
     And the argument --calculation-mode is provided as "Batch".
     Then the returned version should be "<pre_major_release_expected_version>".
 
@@ -21,12 +21,12 @@ Feature: Breaking changes for pre-major release semantic versions only increment
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<post_major_release_from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --from-version is provided as "<post_major_release_from_version>".
     Then the returned version should be "<post_major_release_expected_version>".
     Given the arguments are reset.
-    When the argument --from-version is provided as "<pre_major_release_from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --from-version is provided as "<pre_major_release_from_version>".
     Then the returned version should be "<pre_major_release_expected_version>".
 
     Examples:

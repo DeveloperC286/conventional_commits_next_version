@@ -1,10 +1,10 @@
-Feature: The current version argument supplied is asserted to be equal or greater than the calculated next Semantic Versioning.
+Feature: The current version argument supplied is asserted to be equal or greater than the calculated next semantic version.
 
 
   Scenario Outline: The current version assertion passes with batched together increments.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When  the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --from-version is provided as "<from_version>".
     And the argument --current-version is provided as "<current_version>".
     And the argument --calculation-mode is provided as "Batch".
     Then the current version assertion passes.
@@ -19,8 +19,8 @@ Feature: The current version argument supplied is asserted to be equal or greate
 
   Scenario Outline: The current version assertion fails with batched together increments.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --from-version is provided as "<from_version>".
     And the argument --current-version is provided as "<current_version>".
     And the argument --calculation-mode is provided as "Batch".
     Then the current version assertion fails.
@@ -34,8 +34,8 @@ Feature: The current version argument supplied is asserted to be equal or greate
 
   Scenario Outline: The current version assertion passes with consecutive increments.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --from-version is provided as "<from_version>".
     And the argument --current-version is provided as "<current_version>".
     Then the current version assertion passes.
 
@@ -48,8 +48,8 @@ Feature: The current version argument supplied is asserted to be equal or greate
 
   Scenario Outline: The current version assertion fails with consecutive increments.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --from-version is provided as "<from_version>".
     And the argument --current-version is provided as "<current_version>".
     Then the current version assertion fails.
 

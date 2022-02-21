@@ -3,8 +3,8 @@ Feature: Git environment variables are respected and used instead of using the c
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --from-version is provided as "<from_version>".
     And the argument --current-version is provided as "<current_version>".
     Then the current version assertion passes.
     Given the GIT_DIR environment variable is set to the cloned repository.
@@ -19,8 +19,8 @@ Feature: Git environment variables are respected and used instead of using the c
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --from-version is provided as "<from_version>".
     And the argument --current-version is provided as "<current_version>".
     Then the current version assertion fails.
     Given the GIT_DIR environment variable is set to the cloned repository.
@@ -35,8 +35,8 @@ Feature: Git environment variables are respected and used instead of using the c
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-reference is provided as "<from_reference>".
+    When the argument --from-reference is provided as "<from_reference>".
+    And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
     Given the GIT_DIR environment variable is set to the cloned repository.
     Then the returned version should be "<expected_version>".
@@ -49,8 +49,8 @@ Feature: Git environment variables are respected and used instead of using the c
 
   Scenario Outline: You can also provide the long name and partial names not just the short name.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-reference is provided as "<from_reference>".
+    When the argument --from-reference is provided as "<from_reference>".
+    And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
     Given the GIT_DIR environment variable is set to the cloned repository.
     Then the returned version should be "<expected_version>".

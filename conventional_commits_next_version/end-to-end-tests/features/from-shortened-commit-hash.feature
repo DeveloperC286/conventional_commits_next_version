@@ -3,13 +3,13 @@ Feature: A shortened Git commit hash can be provided as an argument to indicate 
 
   Scenario Outline: A shortened and full Git commit hash can be used interchangeably.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --from-version is provided as "<from_version>".
     And the argument --calculation-mode is provided as "Batch".
     Then the returned version should be "<expected_version>".
     Given the arguments are reset.
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<shortened_from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<shortened_from_commit_hash>".
+    And the argument --from-version is provided as "<from_version>".
     And the argument --calculation-mode is provided as "Batch".
     Then the returned version should be "<expected_version>".
 
@@ -24,12 +24,12 @@ Feature: A shortened Git commit hash can be provided as an argument to indicate 
 
   Scenario Outline: A shortened and full Git commit hash can be used interchangeably.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
     Given the arguments are reset.
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<shortened_from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<shortened_from_commit_hash>".
+    And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
 
 
@@ -42,8 +42,8 @@ Feature: A shortened Git commit hash can be provided as an argument to indicate 
 
   Scenario Outline: The shortened Git commit hash has no matches, so an error is returned.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<from_shortened_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_shortened_commit_hash>".
+    And the argument --from-version is provided as "<from_version>".
     Then their is a could not find shortened commit hash "<from_shortened_commit_hash>" error.
 
 
@@ -55,8 +55,8 @@ Feature: A shortened Git commit hash can be provided as an argument to indicate 
 
   Scenario Outline: The shortened Git commit hash is ambiguous as multiple commit hashes match it, so an error is returned.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<from_shortened_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_shortened_commit_hash>".
+    And the argument --from-version is provided as "<from_version>".
     Then their is a ambiguous shortened commit hash "<from_shortened_commit_hash>" error.
 
 

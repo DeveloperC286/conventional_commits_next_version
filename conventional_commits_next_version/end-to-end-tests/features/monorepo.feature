@@ -1,14 +1,14 @@
-Feature: The the next semantic version is calculated only from commits altering files which match any of these provided regexes, enabling usage within monorepos.
+Feature: The next semantic version is calculated only from commits altering files which match any of these provided regexes, enabling usage within monorepos.
 
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
     Given the arguments are reset.
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --from-version is provided as "<from_version>".
     And the argument --monorepo is provided as "<monorepo>".
     Then the returned version should be "<monorepo_expected_version>".
 
@@ -20,12 +20,12 @@ Feature: The the next semantic version is calculated only from commits altering 
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
     Given the arguments are reset.
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --from-version is provided as "<from_version>".
     And the argument --monorepo is provided as "<monorepo_1>".
     And the argument --monorepo is provided as "<monorepo_2>".
     Then the returned version should be "<monorepo_expected_version>".

@@ -1,10 +1,10 @@
-Feature: The increments are applied consecutively to calculate the next Semantic Versioning.
+Feature: The increments are applied consecutively to calculate the next semantic version.
 
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
 
 

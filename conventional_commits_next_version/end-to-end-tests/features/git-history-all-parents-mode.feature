@@ -3,8 +3,8 @@ Feature: All the parents of merge commit's are parsed for their Git commit messa
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-version is provided as "<from_version>".
-    And the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    And the argument --from-version is provided as "<from_version>".
     And the argument --git-history-mode is provided as "AllParents".
     Then the returned version should be "<expected_version>".
 
