@@ -15,7 +15,7 @@ fn test_major_title_commits() {
             desired_length = number_of_variants
         );
 
-        generation::test_major_title_commits(
+        let commit_messages = generation::generate_major_title_commits(
             utilities::is_position_in_binary_string_true(&binary_string, 0),
             utilities::is_position_in_binary_string_true(&binary_string, 1),
             utilities::is_position_in_binary_string_true(&binary_string, 2),
@@ -23,6 +23,10 @@ fn test_major_title_commits() {
             utilities::is_position_in_binary_string_true(&binary_string, 4),
             utilities::is_position_in_binary_string_true(&binary_string, 5),
         );
+
+        for commit_message in commit_messages {
+            is_only_major_title_increment(&commit_message);
+        }
     }
 }
 
@@ -38,12 +42,16 @@ fn test_major_footer_commits() {
             desired_length = number_of_variants
         );
 
-        generation::test_major_footer_commits(
+        let commit_messages = generation::generate_major_footer_commits(
             utilities::is_position_in_binary_string_true(&binary_string, 0),
             utilities::is_position_in_binary_string_true(&binary_string, 1),
             utilities::is_position_in_binary_string_true(&binary_string, 2),
             utilities::is_position_in_binary_string_true(&binary_string, 3),
         );
+
+        for commit_message in commit_messages {
+            is_only_major_footer_increment(&commit_message);
+        }
     }
 }
 
@@ -59,7 +67,7 @@ fn test_minor_commits() {
             desired_length = number_of_variants
         );
 
-        generation::test_minor_commits(
+        let commit_messages = generation::generate_minor_commits(
             utilities::is_position_in_binary_string_true(&binary_string, 0),
             utilities::is_position_in_binary_string_true(&binary_string, 1),
             utilities::is_position_in_binary_string_true(&binary_string, 2),
@@ -67,6 +75,10 @@ fn test_minor_commits() {
             utilities::is_position_in_binary_string_true(&binary_string, 4),
             utilities::is_position_in_binary_string_true(&binary_string, 5),
         );
+
+        for commit_message in commit_messages {
+            is_minor_increment(&commit_message);
+        }
     }
 }
 
@@ -82,7 +94,7 @@ fn test_patch_commits() {
             desired_length = number_of_variants
         );
 
-        generation::test_patch_commits(
+        let commit_messages = generation::generate_patch_commits(
             utilities::is_position_in_binary_string_true(&binary_string, 0),
             utilities::is_position_in_binary_string_true(&binary_string, 1),
             utilities::is_position_in_binary_string_true(&binary_string, 2),
@@ -90,5 +102,9 @@ fn test_patch_commits() {
             utilities::is_position_in_binary_string_true(&binary_string, 4),
             utilities::is_position_in_binary_string_true(&binary_string, 5),
         );
+
+        for commit_message in commit_messages {
+            is_patch_increment(&commit_message);
+        }
     }
 }
