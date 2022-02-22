@@ -97,16 +97,7 @@ fn generate_commit_messages(
                 for description in description_variations {
                     for description_termination in description_termination_variations {
                         for body in body_variations {
-                            commit_messages.push(format!(
-                                "{}{}{}:{}{}{}{}",
-                                preceding_whitespace,
-                                commit_type,
-                                scope,
-                                after_type_variation,
-                                description,
-                                description_termination,
-                                body
-                            ));
+                            commit_messages.push(format!("{preceding_whitespace}{commit_type}{scope}:{after_type_variation}{description}{description_termination}{body}"));
                         }
                     }
                 }
