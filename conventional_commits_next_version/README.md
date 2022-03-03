@@ -123,7 +123,7 @@ The minor Semantic Versioning increment increases the initial semantic version f
 ```
 
 
-## Usage - Additional Arguments
+### Usage - Additional Arguments
 Additional command line flags can be passed to alter what and how the next Semantic Versioning is calculated.
 
 
