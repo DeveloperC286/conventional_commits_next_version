@@ -15,15 +15,22 @@ Feature: A Git reference can be provided as an argument to indicate where to sta
 
   Scenario Outline: You can also provide the long name and partial names not just the short name.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-reference is provided as "<from_reference>".
+    When the argument --from-reference is provided as "<from_full_reference>".
+    And the argument --from-version is provided as "<from_version>".
+    Then the returned version should be "<expected_version>".
+    Given the arguments are reset.
+    When the argument --from-reference is provided as "<from_partial_reference>".
+    And the argument --from-version is provided as "<from_version>".
+    Then the returned version should be "<expected_version>".
+    Given the arguments are reset.
+    When the argument --from-reference is provided as "<from_short_reference>".
     And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
 
 
     Examples:
-      | repository                             | checkout_commit                          | from_reference   | from_version | expected_version |
-      | https://github.com/Netflix/unleash.git | 238ce019c3a7b3302721fc1ae5b8ad2bdd50a706 | refs/tags/v2.0.0 | 2.0.0        | 2.0.1            |
-      | https://github.com/Netflix/unleash.git | 238ce019c3a7b3302721fc1ae5b8ad2bdd50a706 | tags/v2.0.0      | 2.0.0        | 2.0.1            |
+      | repository                             | checkout_commit                          | from_full_reference | from_version | expected_version | from_partial_reference | from_short_reference |
+      | https://github.com/Netflix/unleash.git | 238ce019c3a7b3302721fc1ae5b8ad2bdd50a706 | refs/tags/v2.0.0    | 2.0.0        | 2.0.1            | tags/v2.0.0            | v2.0.0               |
 
 
   Scenario Outline: When you provide an invalid reference a relevant error message is returned.
