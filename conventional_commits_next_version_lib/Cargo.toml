@@ -13,21 +13,21 @@ categories = ["text-processing", "development-tools", "data-structures", "encodi
 
 [dependencies]
 # For parsing commit messages.
-regex = "1.5.4"
+regex = "1.5.5"
 lazy_static = "1.4.0"
 
 # For logging.
-log = "0.4.14"
+log = "0.4.16"
 
 # For reading Git commits.
-git2 = { version = "0.13.25", default-features = false, features=[] }
+git2 = { version = "0.14.2", default-features = false, features=[] }
 
 # For Semantic Versioning parsing.
-semver = "1.0.5"
+semver = "1.0.6"
 
 # For enum from _str etc for CLI usage.
-strum = "0.23.0"
-strum_macros = "0.23.1"
+strum = "0.24.0"
+strum_macros = "0.24.0"
 
 
 [dev-dependencies]
