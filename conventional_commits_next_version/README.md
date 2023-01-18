@@ -154,7 +154,7 @@ See [Compiling via Cargo](#compiling-via-cargo) for more details about installin
 
 __Note - This example downloads the latest `6.*` version.__
 
-```
+```yaml
 conventional-commits-next-version-checking:
     stage: conventional-commits-next-version-checking
     image: rust
@@ -177,7 +177,7 @@ See [Downloading Binary](#downloading-binary) for more details about Binary down
 
 __Note - This example downloads version `6.0.0`.__
 
-```
+```yaml
 conventional-commits-next-version-checking:
     stage: conventional-commits-next-version-checking
     image: rust
@@ -199,7 +199,7 @@ conventional-commits-next-version-checking:
 
 An example `commit-msg` Git hook to check if a Rust projects semantic version needs increased because of the commit message.
 
-```
+```sh
 #!/usr/bin/env bash
 
 set -o errexit
@@ -228,7 +228,7 @@ If you do not trust the provided binaries another option is to compile your own 
 Checkout the code repository locally, change into the repository's directory and then build via Cargo.
 Using the `--release` flag produces an optimised binary but takes longer to compile.
 
-```
+```sh
 git clone git@gitlab.com:DeveloperC/conventional_commits_next_version.git
 cd conventional_commits_next_version/
 cargo build --release
@@ -240,7 +240,7 @@ The compiled binary is present in `target/release/conventional_commits_next_vers
 ## Compiling via Cargo
 Cargo is the Rust package manager, the `install` sub-command pulls from [crates.io](https://crates.io/crates/conventional_commits_next_version) and then compiles the binary locally, placing the compiled binary at `${HOME}/.cargo/bin/conventional_commits_next_version`.
 
-```
+```sh
 cargo install conventional_commits_next_version
 ```
 
@@ -250,7 +250,7 @@ For certain environments such as CICD etc you may want to pin the version.
 
 E.g.
 
-```
+```sh
 cargo install conventional_commits_next_version --version 6.0.0
 ```
 
@@ -258,7 +258,7 @@ Rather than pinning to a specific version you can specify the major or minor ver
 
 E.g.
 
-```
+```sh
 cargo install conventional_commits_next_version --version ^6
 ```
 
@@ -269,7 +269,7 @@ Will download the latest `6.*` release whether that is `6.0.2` or `6.2.0`.
 The unit test suite has several parameterised tests testing the Conventional Commits v1.0.0 format parsing.
 Cargo is used to set up and run all the unit tests.
 
-```
+```sh
 cargo test
 ```
 
@@ -285,7 +285,7 @@ To run the test suite you need to
 
 __Note - You can't use --release as the test suite uses `target/debug/conventional_commits_next_version`.__
 
-```
+```sh
 cargo build
 cd conventional_commits_next_version/end-to-end-tests/
 virtualenv -p python3 .venv
