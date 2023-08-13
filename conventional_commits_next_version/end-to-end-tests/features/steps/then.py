@@ -2,7 +2,7 @@ import re
 from behave import then
 
 from utilities import execute_conventional_commits_next_version
-from assertions import assert_command_successful
+from assertions import *
 
 
 @then('the returned version should be "{expected_version}".')
@@ -34,7 +34,7 @@ def current_version_assertion_fails(context):
 
     # Then
     assert context.stdout == ""
-    assert int(context.exit_code) != 0
+    assert_command_unsuccessful(context)
 
 
 @then('their is a could not find commit hash "{commit_hash}" error.')
@@ -47,7 +47,7 @@ def then_could_not_find_commit_hash_error(context, commit_hash):
 
     # Then
     assert context.stdout == ""
-    assert int(context.exit_code) != 0
+    assert_command_unsuccessful(context)
     assert context.stderr == could_not_find_commit_hash_error
 
 
