@@ -48,7 +48,7 @@ def then_could_not_find_commit_hash_error(context, commit_hash):
     # Then
     assert_no_output(context)
     assert_command_unsuccessful(context)
-    assert context.stderr == could_not_find_commit_hash_error
+    assert_error_equals(context, could_not_find_commit_hash_error)
 
 
 @then('their is a could not find reference "{reference}" error.')
@@ -60,7 +60,7 @@ def then_could_not_find_reference_error(context, reference):
     current_version_assertion_fails(context)
 
     # Then
-    assert context.stderr == could_not_find_reference_error
+    assert_error_equals(context, could_not_find_reference_error)
 
 
 @then(
@@ -74,7 +74,7 @@ def then_could_not_find_shortened_commit_hash_error(
     current_version_assertion_fails(context)
 
     # Then
-    assert context.stderr == could_not_find_shortened_commit_hash_error
+    assert_error_equals(context, could_not_find_shortened_commit_hash_error)
 
 
 @then(
@@ -107,7 +107,7 @@ def then_missing_from_argument_error(context):
     current_version_assertion_fails(context)
 
     # Then
-    assert context.stderr == missing_from_argument_error
+    assert_error_equals(context, missing_from_argument_error)
 
 
 @then('their is a conflicting from arguments error.')
