@@ -22,7 +22,7 @@ def current_version_assertion_passes(context):
     execute_conventional_commits_next_version(context)
 
     # Then
-    assert context.stdout == ""
+    assert_no_output(context)
     assert context.stderr == ""
     assert_command_successful(context)
 
@@ -33,7 +33,7 @@ def current_version_assertion_fails(context):
     execute_conventional_commits_next_version(context)
 
     # Then
-    assert context.stdout == ""
+    assert_no_output(context)
     assert_command_unsuccessful(context)
 
 
@@ -46,7 +46,7 @@ def then_could_not_find_commit_hash_error(context, commit_hash):
     execute_conventional_commits_next_version(context)
 
     # Then
-    assert context.stdout == ""
+    assert_no_output(context)
     assert_command_unsuccessful(context)
     assert context.stderr == could_not_find_commit_hash_error
 
