@@ -11,7 +11,7 @@ def compare_returned_and_expected_versions(context, expected_version):
     execute_conventional_commits_next_version(context)
 
     # Then
-    assert context.stderr == ""
+    assert_no_errors(context)
     assert_command_successful(context)
     assert context.stdout == expected_version
 
@@ -23,7 +23,7 @@ def current_version_assertion_passes(context):
 
     # Then
     assert_no_output(context)
-    assert context.stderr == ""
+    assert_no_errors(context)
     assert_command_successful(context)
 
 

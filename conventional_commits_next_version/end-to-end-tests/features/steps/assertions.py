@@ -8,3 +8,7 @@ def assert_command_unsuccessful(context):
 
 def assert_no_output(context):
     assert context.stdout == "", f"Expected standard output to be empty.\nStandard output = {context.stdout.encode()}.\n"
+
+
+def assert_no_errors(context):
+    assert context.stderr == "", f"Expected standard error to be empty.\nStandard error = {context.stderr.encode()}.\n"
