@@ -88,8 +88,7 @@ def then_ambiguous_shortened_commit_hash_error(context, shortened_commit_hash):
     current_version_assertion_fails(context)
 
     # Then
-    assert ambiguous_shortened_commit_hash_error.match(
-        context.stderr) is not None
+    assert_error_matches_regex(context, ambiguous_shortened_commit_hash_error)
 
 
 @then('their is a missing from argument error.')
