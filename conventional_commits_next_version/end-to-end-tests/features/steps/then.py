@@ -2,6 +2,7 @@ import re
 from behave import then
 
 from utilities import execute_conventional_commits_next_version
+from assertions import assert_command_successful
 
 
 @then('the returned version should be "{expected_version}".')
@@ -11,7 +12,7 @@ def compare_returned_and_expected_versions(context, expected_version):
 
     # Then
     assert context.stderr == ""
-    assert int(context.exit_code) == 0
+    assert_command_successful(context)
     assert context.stdout == expected_version
 
 
@@ -23,7 +24,7 @@ def current_version_assertion_passes(context):
     # Then
     assert context.stdout == ""
     assert context.stderr == ""
-    assert int(context.exit_code) == 0
+    assert_command_successful(context)
 
 
 @then('the current version assertion fails.')
