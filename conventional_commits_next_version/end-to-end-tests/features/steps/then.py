@@ -5,15 +5,15 @@ from utilities import execute_conventional_commits_next_version
 from assertions import *
 
 
-@then('the returned version should be "{expected_version}".')
-def compare_returned_and_expected_versions(context, expected_version):
+@then('the returned version should be "{expected_next_version}".')
+def assert_returned_and_expected_next_version(context, expected_next_version):
     # When
     execute_conventional_commits_next_version(context)
 
     # Then
     assert_no_errors(context)
     assert_command_successful(context)
-    assert context.stdout == expected_version
+    assert_next_version(context, expected_next_version)
 
 
 @then('the current version assertion passes.')

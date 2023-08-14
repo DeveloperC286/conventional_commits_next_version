@@ -26,3 +26,6 @@ def assert_error_matches_regex(context, regex):
 def assert_error_is_one_of(context, errors):
     assert context.stderr in errors, f"Expected standard error to equal one of these errors.\nStandard error = {context.stderr.encode()}.\nErrors         = {errors}.\n"
 
+
+def assert_next_version(context, expected_next_version):
+    assert context.stdout == expected_next_version, f"The next version was not what was expected.\nExpected = {expected_next_version}.\nActual   = {context.stdout}\n"
