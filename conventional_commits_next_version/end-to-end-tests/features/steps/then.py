@@ -126,7 +126,7 @@ def then_conflicting_from_arguments_error(context):
     current_version_assertion_fails(context)
 
     # Then
-    assert context.stderr in [
-        conflicting_from_commit_hash_error,
-        conflicting_from_reference_error,
-        conflicting_from_stdin_error]
+    assert_error_is_one_of(context,
+                           [conflicting_from_commit_hash_error,
+                            conflicting_from_reference_error,
+                            conflicting_from_stdin_error])
