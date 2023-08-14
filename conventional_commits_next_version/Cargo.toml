@@ -16,13 +16,13 @@ categories = ["command-line-utilities", "development-tools", "data-structures", 
 structopt = "0.3.26"
 
 # For logging.
-log = "0.4.16"
-pretty_env_logger = "0.4.0"
+log = "0.4.20"
+pretty_env_logger = "0.5.0"
 
 # For reading Git commits.
-git2 = { version = "0.14.2", default-features = false, features=[] }
+git2 = { version = "0.17.2", default-features = false, features=[] }
 
 # For Semantic Versioning parsing.
-semver = "1.0.6"
+semver = "1.0.18"
 
 conventional_commits_next_version_lib = "0.3.0"
