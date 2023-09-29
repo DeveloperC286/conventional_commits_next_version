@@ -96,13 +96,7 @@ def assert_ambiguous_shortened_commit_hash_error(
 @then('their is a missing from argument error.')
 def assert_missing_from_argument_error(context):
     # Given
-    missing_from_argument_error = "error: The following required arguments were not provided:\n" + \
-                                  "    <--from-stdin|--from-reference <from-reference>|--from-commit-hash <from-commit-hash>>\n" + \
-                                  "\n" + \
-                                  "USAGE:\n" + \
-                                  "    conventional_commits_next_version --calculation-mode <calculation-mode> --from-version <from-version> --git-history-mode <git-history-mode> <--from-stdin|--from-reference <from-reference>|--from-commit-hash <from-commit-hash>>\n" + \
-                                  "\n" + \
-                                  "For more information try --help\n"
+    missing_from_argument_error = "error: the following required arguments were not provided:\n  <--from-stdin|--from-reference <FROM_REFERENCE>|--from-commit-hash <FROM_COMMIT_HASH>>\n\nUsage: conventional_commits_next_version --from-version <FROM_VERSION> <--from-stdin|--from-reference <FROM_REFERENCE>|--from-commit-hash <FROM_COMMIT_HASH>>\n\nFor more information, try '--help'.\n"
 
     # When/Then
     result = assert_current_version_assertion_fails(context)
@@ -114,21 +108,22 @@ def assert_missing_from_argument_error(context):
 @then('their is a conflicting from arguments error.')
 def assert_conflicting_from_arguments_error(context):
     # Given
-    conflicting_arguments_end = "\n" + \
-        "USAGE:\n" + \
-        "    conventional_commits_next_version --calculation-mode <calculation-mode> --from-version <from-version> --git-history-mode <git-history-mode> <--from-stdin|--from-reference <from-reference>|--from-commit-hash <from-commit-hash>>\n" + \
-        "\n" + \
-        "For more information try --help\n"
-
-    conflicting_from_commit_hash_error = f"error: The argument '--from-commit-hash <from-commit-hash>' cannot be used with one or more of the other specified arguments\n{conflicting_arguments_end}"
-    conflicting_from_reference_error = f"error: The argument '--from-reference <from-reference>' cannot be used with one or more of the other specified arguments\n{conflicting_arguments_end}"
-    conflicting_from_stdin_error = f"error: The argument '--from-stdin' cannot be used with one or more of the other specified arguments\n{conflicting_arguments_end}"
+    conflicting_from_commit_hash_from_reference_error = "error: the argument '--from-commit-hash <FROM_COMMIT_HASH>' cannot be used with '--from-reference <FROM_REFERENCE>'\n\nUsage: conventional_commits_next_version --from-version <FROM_VERSION> <--from-stdin|--from-reference <FROM_REFERENCE>|--from-commit-hash <FROM_COMMIT_HASH>>\n\nFor more information, try '--help'.\n"
+    conflicting_from_commit_hash_from_stdin_error = "error: the argument '--from-commit-hash <FROM_COMMIT_HASH>' cannot be used with '--from-stdin'\n\nUsage: conventional_commits_next_version --from-version <FROM_VERSION> <--from-stdin|--from-reference <FROM_REFERENCE>|--from-commit-hash <FROM_COMMIT_HASH>>\n\nFor more information, try '--help'.\n"
+    conflicting_from_reference_from_commit_hash_error = "error: the argument '--from-reference <FROM_REFERENCE>' cannot be used with '--from-commit-hash <FROM_COMMIT_HASH>'\n\nUsage: conventional_commits_next_version --from-version <FROM_VERSION> <--from-stdin|--from-reference <FROM_REFERENCE>|--from-commit-hash <FROM_COMMIT_HASH>>\n\nFor more information, try '--help'.\n"
+    conflicting_from_reference_from_stdin_error = "error: the argument '--from-reference <FROM_REFERENCE>' cannot be used with '--from-stdin'\n\nUsage: conventional_commits_next_version --from-version <FROM_VERSION> <--from-stdin|--from-reference <FROM_REFERENCE>|--from-commit-hash <FROM_COMMIT_HASH>>\n\nFor more information, try '--help'.\n"
+    conflicting_from_stdin_from_commit_hash_error = "error: the argument '--from-stdin' cannot be used with '--from-commit-hash <FROM_COMMIT_HASH>'\n\nUsage: conventional_commits_next_version --from-version <FROM_VERSION> <--from-stdin|--from-reference <FROM_REFERENCE>|--from-commit-hash <FROM_COMMIT_HASH>>\n\nFor more information, try '--help'.\n"
+    conflicting_from_stdin_from_reference_error = "error: the argument '--from-stdin' cannot be used with '--from-reference <FROM_REFERENCE>'\n\nUsage: conventional_commits_next_version --from-version <FROM_VERSION> <--from-stdin|--from-reference <FROM_REFERENCE>|--from-commit-hash <FROM_COMMIT_HASH>>\n\nFor more information, try '--help'.\n"
 
     # When/Then
     result = assert_current_version_assertion_fails(context)
 
     # Then
-    assert_error_is_one_of(result,
-                           [conflicting_from_commit_hash_error,
-                            conflicting_from_reference_error,
-                            conflicting_from_stdin_error])
+    assert_error_is_one_of(result, [
+        conflicting_from_commit_hash_from_reference_error,
+        conflicting_from_commit_hash_from_stdin_error,
+        conflicting_from_reference_from_commit_hash_error,
+        conflicting_from_reference_from_stdin_error,
+        conflicting_from_stdin_from_commit_hash_error,
+        conflicting_from_stdin_from_reference_error,
+    ])
