@@ -1,12 +1,15 @@
+import tempfile
 from behave import when
 
 
-@when(
-    'the flag --from-stdin is set and the standard input is "{standard_input}".')
+@when('the flag --from-stdin is set and the standard input is "{standard_input}".')
 def set_from_stdin(context, standard_input):
     context.standard_input = standard_input.strip()
     context.pre_command = f"echo {context.standard_input} | "
     context.arguments += " --from-stdin "
+    # Testing we can use stdin when not in a Git repository.
+    # https://gitlab.com/DeveloperC/conventional_commits_linter/-/issues/3
+    context.remote_repository_cache = tempfile.mkdtemp()
 
 
 @when('the argument --from-reference is provided as "{from_reference}".')

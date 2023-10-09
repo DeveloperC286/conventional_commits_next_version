@@ -26,7 +26,6 @@ fn main() {
 }
 
 fn run(arguments: Arguments) -> Result<(), git2::Error> {
-    let repository = Repository::open_from_env()?;
     let commits = match (
         arguments.from_stdin,
         arguments.from_commit_hash,
@@ -38,18 +37,24 @@ fn run(arguments: Arguments) -> Result<(), git2::Error> {
 
             Ok(Commits::from_commit_message(commit_message))
         }
-        (false, Some(from_commit_hash), None) => Commits::from_commit_hash(
-            &repository,
-            from_commit_hash,
-            arguments.monorepo,
-            arguments.git_history_mode,
-        ),
-        (false, None, Some(from_reference)) => Commits::from_reference(
-            &repository,
-            from_reference,
-            arguments.monorepo,
-            arguments.git_history_mode,
-        ),
+        (false, Some(from_commit_hash), None) => {
+            let repository = Repository::open_from_env()?;
+            Commits::from_commit_hash(
+                &repository,
+                from_commit_hash,
+                arguments.monorepo,
+                arguments.git_history_mode,
+            )
+        }
+        (false, None, Some(from_reference)) => {
+            let repository = Repository::open_from_env()?;
+            Commits::from_reference(
+                &repository,
+                from_reference,
+                arguments.monorepo,
+                arguments.git_history_mode,
+            )
+        }
         (_, _, _) => {
             unreachable!("Invalid combination of arguments.");
         }

@@ -141,7 +141,7 @@ checksum = "acbf1af155f9b9ef647e42cdc158db4b64a1b61f743629225fde6f3e0be2a7c7"
 
 [[package]]
 name = "conventional_commits_next_version"
-version = "6.0.0"
+version = "6.0.1"
 dependencies = [
  "clap",
  "conventional_commits_next_version_lib",
