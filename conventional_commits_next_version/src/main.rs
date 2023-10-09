@@ -51,9 +51,7 @@ fn run(arguments: Arguments) -> Result<(), git2::Error> {
             arguments.git_history_mode,
         ),
         (_, _, _) => {
-            unreachable!(
-                "Invalid combination of from arguments, should have been caught by structopt."
-            );
+            unreachable!("Invalid combination of arguments.");
         }
     }?;
     let expected_version =
