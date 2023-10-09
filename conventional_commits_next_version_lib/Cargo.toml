@@ -13,7 +13,7 @@ categories = ["text-processing", "development-tools", "data-structures", "encodi
 
 [dependencies]
 # For parsing commit messages.
-regex = "1.9.5"
+regex = "1.9.6"
 lazy_static = "1.4.0"
 
 # For logging.
