@@ -41,7 +41,7 @@ def assert_current_version_assertion_fails(context):
 @then('their is a could not find commit hash "{commit_hash}" error.')
 def assert_could_not_find_commit_hash_error(context, commit_hash):
     # Given
-    could_not_find_commit_hash_error = f" ERROR conventional_commits_next_version_lib::commits > Can not find a commit with the hash '{commit_hash}'.\n"
+    could_not_find_commit_hash_error = f" ERROR conventional_commits_next_version_lib::commits > Can not find a commit with the hash '{commit_hash}'.\n"  # fmt: off
 
     # When
     result = execute_conventional_commits_next_version(context)
@@ -55,7 +55,7 @@ def assert_could_not_find_commit_hash_error(context, commit_hash):
 @then('their is a could not find reference "{reference}" error.')
 def assert_could_not_find_reference_error(context, reference):
     # Given
-    could_not_find_reference_error = f" ERROR conventional_commits_next_version_lib::commits > Could not find a reference with the name \"{reference}\".\n"
+    could_not_find_reference_error = f" ERROR conventional_commits_next_version_lib::commits > Could not find a reference with the name \"{reference}\".\n"  # fmt: off
 
     # When/Then
     result = assert_current_version_assertion_fails(context)
@@ -64,12 +64,10 @@ def assert_could_not_find_reference_error(context, reference):
     assert_error_equals(result, could_not_find_reference_error)
 
 
-@then(
-    'their is a could not find shortened commit hash "{shortened_commit_hash}" error.')
-def assert_could_not_find_shortened_commit_hash_error(
-        context, shortened_commit_hash):
+@then('their is a could not find shortened commit hash "{shortened_commit_hash}" error.')
+def assert_could_not_find_shortened_commit_hash_error(context, shortened_commit_hash):
     # Given
-    could_not_find_shortened_commit_hash_error = f" ERROR conventional_commits_next_version_lib::commits > No commit hashes start with the provided short commit hash \"{shortened_commit_hash}\".\n"
+    could_not_find_shortened_commit_hash_error = f" ERROR conventional_commits_next_version_lib::commits > No commit hashes start with the provided short commit hash \"{shortened_commit_hash}\".\n"  # fmt: off
 
     # When/Then
     result = assert_current_version_assertion_fails(context)
@@ -78,13 +76,10 @@ def assert_could_not_find_shortened_commit_hash_error(
     assert_error_equals(result, could_not_find_shortened_commit_hash_error)
 
 
-@then(
-    'their is a ambiguous shortened commit hash "{shortened_commit_hash}" error.')
-def assert_ambiguous_shortened_commit_hash_error(
-        context, shortened_commit_hash):
+@then('their is a ambiguous shortened commit hash "{shortened_commit_hash}" error.')
+def assert_ambiguous_shortened_commit_hash_error(context, shortened_commit_hash):
     # Given
-    ambiguous_shortened_commit_hash_error = re.compile(
-        f"^ ERROR conventional_commits_next_version_lib::commits > Ambiguous short commit hash, the commit hashes [[]({shortened_commit_hash}[a-f0-9]*(, )?)*[]] all start with the provided short commit hash \"{shortened_commit_hash}\".\n$")
+    ambiguous_shortened_commit_hash_error = re.compile(f"^ ERROR conventional_commits_next_version_lib::commits > Ambiguous short commit hash, the commit hashes [[]({shortened_commit_hash}[a-f0-9]*(, )?)*[]] all start with the provided short commit hash \"{shortened_commit_hash}\".\n$")  # fmt: off
 
     # When/Then
     result = assert_current_version_assertion_fails(context)
