@@ -25,4 +25,4 @@ git2 = { version = "0.17.2", default-features = false, features=[] }
 # For Semantic Versioning parsing.
 semver = "1.0.20"
 
-conventional_commits_next_version_lib = "0.3.0"
+conventional_commits_next_version_lib = "0.4.0"
