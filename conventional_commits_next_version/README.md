@@ -296,4 +296,4 @@ behave
 
 
 ## Issues/Feature Requests
-To report an issue or request a new feature use [https://gitlab.com/DeveloperC/conventional_commits_next_version/-/issues](https://gitlab.com/DeveloperC/conventional_commits_next_version/-/issues).
+To report an issue or request a new feature use [https://github.com/DeveloperC286/conventional_commits_next_version/issues](https://github.com/DeveloperC286/conventional_commits_next_version/issues).
