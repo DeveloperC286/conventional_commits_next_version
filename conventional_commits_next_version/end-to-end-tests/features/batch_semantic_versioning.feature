@@ -20,4 +20,3 @@ Feature: The increments are batched together and the largest increment determine
       | https://github.com/yargs/yargs.git         | 932cd1177e93f5cc99edfe57a4028e30717bf8fb | 6e4bc2aa0a6c5560928296f18e008a15b2aaf335 | 13.2.5       | 14.0.0           |
       | https://github.com/yargs/yargs.git         | 3af7f04cdbfcbd4b3f432aca5144d43f21958c39 | c36c571e4e15dfe26be1d919e4991fb6ab6ed9fd | 1.2.0        | 1.3.0            |
       | https://github.com/danielduarte/diffparse  | df6be23b79af66d3684fb27719020e1ce587f4b8 | 4f6bf53139fe66f61bd05893bcc9de6e96400c5c | 1.0.7        | 2.0.0            |
-      | https://gitlab.com/DeveloperC/port-scanner | cb2cd79eac4a8f82d4029a998c59757f93b69a8f | 5b74e60ff6eb2eb575c4fb7cecbf3036b89de8d8 | 0.0.1        | 0.1.0            |
