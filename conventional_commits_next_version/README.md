@@ -219,7 +219,7 @@ echo "${commit_message}" | "${HOME}/.cargo/bin/conventional_commits_next_version
 
 ## Downloading Binary
 Statically linked compiled binaries are available for download.
-Visit the releases page at [https://gitlab.com/DeveloperC/conventional_commits_next_version/-/releases](https://gitlab.com/DeveloperC/conventional_commits_next_version/-/releases) to see all the releases, the release notes contains links to binary downloads for various architectures.
+Visit the releases page at [https://github.com/DeveloperC286/conventional_commits_next_version/releases](https://github.com/DeveloperC286/conventional_commits_next_version/releases) to see all the releases, the release notes contains links to binary downloads for various architectures.
 
 If you do not trust the provided binaries another option is to compile your own and then make it available for remote download, so your CICD etc can then download it.
 
@@ -229,7 +229,7 @@ Checkout the code repository locally, change into the repository's directory and
 Using the `--release` flag produces an optimised binary but takes longer to compile.
 
 ```sh
-git clone git@gitlab.com:DeveloperC/conventional_commits_next_version.git
+git clone git@github.com:DeveloperC286/conventional_commits_next_version.git
 cd conventional_commits_next_version/
 cargo build --release
 ```
