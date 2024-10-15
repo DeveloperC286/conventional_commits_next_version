@@ -1,3 +1,7 @@
+> 🚧 Archived 🚧
+> Please use the binary version instead, it should contain all functionality you were going to implement with the library.
+> * https://github.com/DeveloperC286/conventional_commits_next_version
+
 # Conventional Commits Next Version Library
 [![Documentation](https://docs.rs/conventional_commits_next_version_lib/badge.svg)](https://docs.rs/conventional_commits_next_version_lib)
 [![crates.io](https://img.shields.io/crates/v/conventional_commits_next_version_lib)](https://crates.io/crates/conventional_commits_next_version_lib)
