@@ -17,45 +17,12 @@ pub struct Commits {
 }
 
 impl Commits {
-    /// Create a new range of commits containing a singular commit created from the commit_message.
-    ///
-    /// This functionality is intended to allow you to lint a commit message before creating the
-    /// commit, e.g. in a Git hook etc.
-    ///
-    ///```
-    ///use conventional_commits_next_version_lib::Commits;
-    ///
-    ///let commits = Commits::from_commit_message("feat: adding stdin support");
-    ///```
     pub fn from_commit_message<T: Into<String>>(commit_message: T) -> Commits {
         Commits {
             commits: VecDeque::from(vec![Commit::from_commit_message(commit_message)]),
         }
     }
 
-    /// Create a new range of commits from a reference exclusively from the commit specified by the reference till inclusively of `HEAD`.
-    ///
-    /// Supports providing either the full or short name of the reference.
-    ///
-    /// E.g. short name.
-    ///
-    /// ```
-    /// use conventional_commits_next_version_lib::{Commits, GitHistoryMode};
-    /// use git2::Repository;
-    ///
-    /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_reference(&repository, "2.5.0", vec![], GitHistoryMode::FirstParent).unwrap();
-    /// ```
-    ///
-    /// E.g. full name.
-    ///
-    /// ```
-    /// use conventional_commits_next_version_lib::{Commits, GitHistoryMode};
-    /// use git2::Repository;
-    ///
-    /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_reference(&repository, "refs/tags/2.5.0", vec![], GitHistoryMode::FirstParent).unwrap();
-    /// ```
     pub fn from_reference<T: AsRef<str>>(
         repository: &Repository,
         reference: T,
@@ -66,29 +33,6 @@ impl Commits {
         get_commits_till_head_from_oid(repository, reference_oid, commit_filters, git_history_mode)
     }
 
-    /// Create a new range of commits from a commit hash exclusively from the commit specified till inclusively of `HEAD`.
-    ///
-    /// Supports providing either the full commit hash or a shortened commit hash.
-    ///
-    /// E.g. shortened commit hash.
-    ///
-    /// ```
-    /// use conventional_commits_next_version_lib::{Commits, GitHistoryMode};
-    /// use git2::Repository;
-    ///
-    /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_commit_hash(&repository, "2c4aa4d", vec![], GitHistoryMode::FirstParent).unwrap();
-    /// ```
-    ///
-    /// E.g. full commit hash.
-    ///
-    /// ```
-    /// use conventional_commits_next_version_lib::{Commits, GitHistoryMode};
-    /// use git2::Repository;
-    ///
-    /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_commit_hash(&repository, "2e785d13a988e95658ace5bf9027aa678eb73c5f", vec![], GitHistoryMode::FirstParent).unwrap();
-    /// ```
     pub fn from_commit_hash<T: AsRef<str>>(
         repository: &Repository,
         commit_hash: T,
@@ -99,34 +43,6 @@ impl Commits {
         get_commits_till_head_from_oid(repository, commit_oid, commit_filters, git_history_mode)
     }
 
-    /// Calculate the next semantic version based upon the provided from version and the commits
-    /// conforming to the Conventional Commits v1.0.0 specification wihtin the range of commits.
-    ///
-    /// E.g. calculate the next semantic version in batch mode.
-    ///
-    /// ```
-    /// use conventional_commits_next_version_lib::{Commits, CalculationMode, GitHistoryMode};
-    /// use git2::Repository;
-    /// use semver::Version;
-    ///
-    /// let from_version = Version::parse("1.3.0").unwrap();
-    /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_commit_hash(&repository, "2e785d13a988e95658ace5bf9027aa678eb73c5f", vec![], GitHistoryMode::FirstParent).unwrap();
-    /// let returned_version = commits.get_next_version(from_version, CalculationMode::Batch);
-    /// ```
-    ///
-    /// E.g. calculate the next semantic version in consecutive mode.
-    ///
-    /// ```
-    /// use conventional_commits_next_version_lib::{Commits, CalculationMode, GitHistoryMode};
-    /// use git2::Repository;
-    /// use semver::Version;
-    ///
-    /// let from_version = Version::parse("1.3.0").unwrap();
-    /// let repository = Repository::open_from_env().unwrap();
-    /// let commits = Commits::from_commit_hash(&repository, "2e785d13a988e95658ace5bf9027aa678eb73c5f", vec![], GitHistoryMode::FirstParent).unwrap();
-    /// let returned_version = commits.get_next_version(from_version, CalculationMode::Consecutive);
-    /// ```
     pub fn get_next_version(
         &self,
         mut from_version: Version,

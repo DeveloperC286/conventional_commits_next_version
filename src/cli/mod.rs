@@ -1,6 +1,9 @@
 use clap::{ArgGroup, Parser};
 use semver::{Error, Version};
 
+pub use crate::calculation_mode::CalculationMode;
+pub use crate::git_history_mode::GitHistoryMode;
+
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 #[clap(group(
@@ -40,7 +43,7 @@ pub(crate) struct Arguments {
         default_value = "FirstParent",
         help = "The mode to use when transversing the Git commit history of the Git commit range, to collect the Git commit messages to use in calculating the next semantic version."
     )]
-    pub(crate) git_history_mode: conventional_commits_next_version_lib::GitHistoryMode,
+    pub(crate) git_history_mode: GitHistoryMode,
 
     #[arg(
         long,
@@ -54,7 +57,7 @@ pub(crate) struct Arguments {
         default_value = "Consecutive",
         help = "The mode of calculation to use on the range of Commits to calculate the next semantic version."
     )]
-    pub(crate) calculation_mode: conventional_commits_next_version_lib::CalculationMode,
+    pub(crate) calculation_mode: CalculationMode,
 
     #[arg(
         long,

@@ -1,15 +1,39 @@
-[workspace]
-resolver = "2"
-members = [
-    "conventional_commits_next_version",
-    "conventional_commits_next_version_lib",
-]
+[package]
+name = "conventional_commits_next_version"
+version = "6.0.1"
+description = "A tooling and language agnostic utility to calculate the next semantic version based on the Conventional Commits since the prior version. Supports monorepos."
+authors = ["C <DeveloperC@protonmail.com>"]
+edition = "2021"
+license = "AGPL-3.0"
+repository = "https://github.com/DeveloperC286/conventional_commits_next_version"
+readme = "README.md"
+keywords = ["conventional", "commits", "semantic", "versioning", "git"]
+categories = ["command-line-utilities", "development-tools", "data-structures", "encoding", "parser-implementations"]
 
 
-[patch.crates-io]
-conventional_commits_next_version_lib = { path = "conventional_commits_next_version_lib" }
+[dependencies]
+# For CLI parsing.
+clap = { version = "4.4.8", features = ["derive"] }
+
+# For logging.
+log = "0.4.20"
+pretty_env_logger = "0.5.0"
+
+# For reading Git commits.
+git2 = { version = "0.17.2", default-features = false, features=[] }
+
+# For Semantic Versioning parsing.
+semver = "1.0.20"
+
+# For parsing commit messages.
+regex = "1.10.2"
+lazy_static = "1.4.0"
+
+# For enum from _str etc for CLI usage.
+strum = "0.25.0"
+strum_macros = "0.25.3"
 
 
-[profile.release]
-lto = 'fat'
-codegen-units = 1
+[dev-dependencies]
+# For parameterized testing.
+rstest = "0.18.2"

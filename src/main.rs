@@ -1,16 +1,23 @@
 #[macro_use]
+extern crate lazy_static;
+#[macro_use]
 extern crate log;
 extern crate pretty_env_logger;
 
 use std::io::{stdin, Read};
 
 use clap::Parser;
-use conventional_commits_next_version_lib::Commits;
 use git2::Repository;
 
+pub use crate::calculation_mode::CalculationMode;
 use crate::cli::Arguments;
+pub use crate::commits::Commits;
+pub use crate::git_history_mode::GitHistoryMode;
 
+mod calculation_mode;
 mod cli;
+mod commits;
+mod git_history_mode;
 
 const ERROR_EXIT_CODE: i32 = 1;
 

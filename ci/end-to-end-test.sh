@@ -3,5 +3,5 @@
 set -o errexit
 set -o xtrace
 
-cd "conventional_commits_next_version/end-to-end-tests/"
+cd "end-to-end-tests/"
 behave
