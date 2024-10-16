@@ -6,13 +6,12 @@ extern crate pretty_env_logger;
 
 use std::io::{stdin, Read};
 
+use anyhow::{bail, Result};
 use clap::Parser;
 use git2::Repository;
 
-pub use crate::calculation_mode::CalculationMode;
 use crate::cli::Arguments;
-pub use crate::commits::Commits;
-pub use crate::git_history_mode::GitHistoryMode;
+use crate::commits::Commits;
 
 mod calculation_mode;
 mod cli;
@@ -27,12 +26,13 @@ fn main() {
     let arguments = Arguments::parse();
     trace!("The command line arguments provided are {arguments:?}.");
 
-    if run(arguments).is_err() {
+    if let Err(err) = run(arguments) {
+        error!("{:?}", err);
         std::process::exit(ERROR_EXIT_CODE);
     }
 }
 
-fn run(arguments: Arguments) -> Result<(), git2::Error> {
+fn run(arguments: Arguments) -> Result<()> {
     let commits = match (
         arguments.from_stdin,
         arguments.from_commit_hash,
@@ -63,7 +63,7 @@ fn run(arguments: Arguments) -> Result<(), git2::Error> {
             )
         }
         (_, _, _) => {
-            unreachable!("Invalid combination of arguments.");
+            bail!("Invalid combination of arguments.");
         }
     }?;
     let expected_version =
@@ -71,9 +71,7 @@ fn run(arguments: Arguments) -> Result<(), git2::Error> {
 
     if let Some(current_version) = arguments.current_version {
         if current_version < expected_version {
-            let error_message = format!("The current version {current_version} is not larger or equal to the expected version {expected_version}.");
-            error!("{error_message}");
-            return Err(git2::Error::from_str(&error_message));
+            bail!(format!("The current version {current_version} is not larger or equal to the expected version {expected_version}."));
         }
         info!("The current version {current_version} is larger or equal to the expected version {expected_version}.");
     } else {

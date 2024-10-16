@@ -33,6 +33,9 @@ lazy_static = "1.4.0"
 strum = "0.26.0"
 strum_macros = "0.26.0"
 
+# For error handling.
+anyhow = "1.0.89"
+
 
 [dev-dependencies]
 # For parameterized testing.
