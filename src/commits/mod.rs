@@ -11,7 +11,6 @@ use crate::git_history_mode::GitHistoryMode;
 mod commit;
 mod filters;
 
-/// A representation of a range of commits within a Git repository.
 pub struct Commits {
     commits: VecDeque<Commit>,
 }
