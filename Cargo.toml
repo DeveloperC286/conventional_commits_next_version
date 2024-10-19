@@ -1,6 +1,6 @@
 [package]
 name = "conventional_commits_next_version"
-version = "6.0.1"
+version = "6.1.0"
 description = "A tooling and language agnostic utility to calculate the next semantic version based on the Conventional Commits since the prior version. Supports monorepos."
 authors = ["C <DeveloperC@protonmail.com>"]
 edition = "2021"
