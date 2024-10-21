@@ -6,7 +6,7 @@ Feature: The current version argument supplied is asserted to be equal or greate
     When  the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --from-version is provided as "<from_version>".
     And the argument --current-version is provided as "<current_version>".
-    And the argument --calculation-mode is provided as "Batch".
+    And the argument --calculation-mode is provided as "batch".
     Then the current version assertion passes.
 
 
@@ -22,7 +22,7 @@ Feature: The current version argument supplied is asserted to be equal or greate
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --from-version is provided as "<from_version>".
     And the argument --current-version is provided as "<current_version>".
-    And the argument --calculation-mode is provided as "Batch".
+    And the argument --calculation-mode is provided as "batch".
     Then the current version assertion fails.
 
 

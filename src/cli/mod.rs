@@ -54,7 +54,7 @@ pub(crate) struct Arguments {
 
     #[arg(
         long,
-        default_value = "Consecutive",
+        default_value = "consecutive",
         help = "The mode of calculation to use on the range of Commits to calculate the next semantic version."
     )]
     pub(crate) calculation_mode: CalculationMode,
