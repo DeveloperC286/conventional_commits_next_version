@@ -5,12 +5,12 @@ Feature: A shortened Git commit hash can be provided as an argument to indicate 
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --from-version is provided as "<from_version>".
-    And the argument --calculation-mode is provided as "Batch".
+    And the argument --calculation-mode is provided as "batch".
     Then the returned version should be "<expected_version>".
     Given the arguments are reset.
     When the argument --from-commit-hash is provided as "<shortened_from_commit_hash>".
     And the argument --from-version is provided as "<from_version>".
-    And the argument --calculation-mode is provided as "Batch".
+    And the argument --calculation-mode is provided as "batch".
     Then the returned version should be "<expected_version>".
 
 

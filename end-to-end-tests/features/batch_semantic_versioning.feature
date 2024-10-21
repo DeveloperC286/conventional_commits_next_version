@@ -5,7 +5,7 @@ Feature: The increments are batched together and the largest increment determine
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
     When the argument --from-commit-hash is provided as "<from_commit_hash>".
     And the argument --from-version is provided as "<from_version>".
-    And the argument --calculation-mode is provided as "Batch".
+    And the argument --calculation-mode is provided as "batch".
     Then the returned version should be "<expected_version>".
 
 
