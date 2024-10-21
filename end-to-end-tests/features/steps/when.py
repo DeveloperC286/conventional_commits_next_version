@@ -27,9 +27,9 @@ def set_monorepo(context, monorepo):
     context.arguments += f" --monorepo {monorepo} "
 
 
-@when('the argument --git-history-mode is provided as "{git_history_mode}".')
-def set_batch_commits_flag(context, git_history_mode):
-    context.arguments += f" --git-history-mode {git_history_mode} "
+@when('the argument --history-mode is provided as "{history_mode}".')
+def set_batch_commits_flag(context, history_mode):
+    context.arguments += f" --history-mode {history_mode} "
 
 
 @when('the argument --from-version is provided as "{from_version}".')

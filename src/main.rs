@@ -16,7 +16,7 @@ use crate::commits::Commits;
 mod calculation_mode;
 mod cli;
 mod commits;
-mod git_history_mode;
+mod history_mode;
 
 const ERROR_EXIT_CODE: i32 = 1;
 
@@ -50,7 +50,7 @@ fn run(arguments: Arguments) -> Result<()> {
                 &repository,
                 from_commit_hash,
                 arguments.monorepo,
-                arguments.git_history_mode,
+                arguments.history_mode,
             )
         }
         (false, None, Some(from_reference)) => {
@@ -59,7 +59,7 @@ fn run(arguments: Arguments) -> Result<()> {
                 &repository,
                 from_reference,
                 arguments.monorepo,
-                arguments.git_history_mode,
+                arguments.history_mode,
             )
         }
         (_, _, _) => {
