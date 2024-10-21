@@ -7,7 +7,7 @@ use semver::{BuildMetadata, Prerelease, Version};
 use crate::calculation_mode::CalculationMode;
 use crate::commits::commit::Commit;
 use crate::commits::filters::Filters;
-use crate::git_history_mode::GitHistoryMode;
+use crate::history_mode::HistoryMode;
 
 mod commit;
 mod filters;
@@ -27,20 +27,20 @@ impl Commits {
         repository: &Repository,
         reference: T,
         commit_filters: Vec<String>,
-        git_history_mode: GitHistoryMode,
+        history_mode: HistoryMode,
     ) -> Result<Commits> {
         let reference_oid = get_reference_oid(repository, reference.as_ref())?;
-        get_commits_till_head_from_oid(repository, reference_oid, commit_filters, git_history_mode)
+        get_commits_till_head_from_oid(repository, reference_oid, commit_filters, history_mode)
     }
 
     pub fn from_commit_hash<T: AsRef<str>>(
         repository: &Repository,
         commit_hash: T,
         commit_filters: Vec<String>,
-        git_history_mode: GitHistoryMode,
+        history_mode: HistoryMode,
     ) -> Result<Commits> {
         let commit_oid = parse_to_oid(repository, commit_hash.as_ref())?;
-        get_commits_till_head_from_oid(repository, commit_oid, commit_filters, git_history_mode)
+        get_commits_till_head_from_oid(repository, commit_oid, commit_filters, history_mode)
     }
 
     pub fn get_next_version(
@@ -138,15 +138,15 @@ fn get_commits_till_head_from_oid(
     repository: &Repository,
     from_commit_hash: Oid,
     commit_filters: Vec<String>,
-    git_history_mode: GitHistoryMode,
+    history_mode: HistoryMode,
 ) -> Result<Commits> {
     fn get_revwalker(
         repository: &Repository,
         from_commit_hash: Oid,
-        git_history_mode: GitHistoryMode,
+        history_mode: HistoryMode,
     ) -> Result<Revwalk> {
         let mut commits = repository.revwalk()?;
-        if git_history_mode == GitHistoryMode::FirstParent {
+        if history_mode == HistoryMode::First {
             commits.simplify_first_parent()?;
         }
         commits.push_head()?;
@@ -158,7 +158,7 @@ fn get_commits_till_head_from_oid(
         Ok(commits)
     }
 
-    let revwalker = get_revwalker(repository, from_commit_hash, git_history_mode)?;
+    let revwalker = get_revwalker(repository, from_commit_hash, history_mode)?;
     let mut commits = VecDeque::new();
     let filters = Filters::from(commit_filters);
 
