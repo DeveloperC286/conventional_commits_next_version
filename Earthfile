@@ -13,7 +13,7 @@ COPY_METADATA:
 
 
 rust-base:
-    FROM rust:1.70.0-alpine3.18
+    FROM rust:1.82.0-alpine3.20
     RUN apk add --no-cache musl-dev bash
     WORKDIR "/conventional_commits_next_version"
 
