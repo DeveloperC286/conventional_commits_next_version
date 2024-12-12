@@ -15,10 +15,10 @@ Feature: A shortened Git commit hash can be provided as an argument to indicate 
 
 
     Examples:
-      | repository                                 | checkout_commit                          | from_commit_hash                         | from_version | expected_version | shortened_from_commit_hash |
-      | https://github.com/yargs/yargs.git         | 089417550ef5a5b8ce3578dd2a989191300b64cd | 262e796329f4a09083ca07e49f926ae43ac850e9 | 0.2.1        | 0.2.2            | 262e796                    |
-      | https://github.com/yargs/yargs.git         | 027a6365b737e13116811a8ef43670196e1fa00a | 1f26de809432be9cc6f4f185629f6e5d13236598 | 0.2.3        | 0.3.0            | 1f26de8                    |
-      | https://github.com/danielduarte/diffparse  | df6be23b79af66d3684fb27719020e1ce587f4b8 | 4f6bf53139fe66f61bd05893bcc9de6e96400c5c | 1.0.7        | 2.0.0            | 4f6bf53                    |
+      | repository                                | checkout_commit                          | from_commit_hash                         | from_version | expected_version | shortened_from_commit_hash |
+      | https://github.com/yargs/yargs.git        | 089417550ef5a5b8ce3578dd2a989191300b64cd | 262e796329f4a09083ca07e49f926ae43ac850e9 | 0.2.1        | 0.2.2            | 262e796                    |
+      | https://github.com/yargs/yargs.git        | 027a6365b737e13116811a8ef43670196e1fa00a | 1f26de809432be9cc6f4f185629f6e5d13236598 | 0.2.3        | 0.3.0            | 1f26de8                    |
+      | https://github.com/danielduarte/diffparse | df6be23b79af66d3684fb27719020e1ce587f4b8 | 4f6bf53139fe66f61bd05893bcc9de6e96400c5c | 1.0.7        | 2.0.0            | 4f6bf53                    |
 
 
   Scenario Outline: A shortened and full Git commit hash can be used interchangeably.
