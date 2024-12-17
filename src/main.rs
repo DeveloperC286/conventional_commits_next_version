@@ -6,7 +6,7 @@ extern crate pretty_env_logger;
 
 use std::io::{stdin, Read};
 
-use anyhow::{bail, Result};
+use anyhow::{bail, Context, Result};
 use clap::Parser;
 use git2::Repository;
 
@@ -33,39 +33,22 @@ fn main() {
 }
 
 fn run(arguments: Arguments) -> Result<()> {
-    let commits = match (
-        arguments.from_stdin,
-        arguments.from_commit_hash,
-        arguments.from_reference,
-    ) {
-        (true, None, None) => {
-            let mut commit_message = String::new();
-            stdin().read_to_string(&mut commit_message).unwrap();
+    let commits = if arguments.from == "-" {
+        let mut commit_message = String::new();
+        stdin().read_to_string(&mut commit_message).unwrap();
 
-            Ok(Commits::from_commit_message(commit_message))
-        }
-        (false, Some(from_commit_hash), None) => {
-            let repository = Repository::open_from_env()?;
-            Commits::from_commit_hash(
-                &repository,
-                from_commit_hash,
-                arguments.monorepo,
-                arguments.history_mode,
-            )
-        }
-        (false, None, Some(from_reference)) => {
-            let repository = Repository::open_from_env()?;
-            Commits::from_reference(
-                &repository,
-                from_reference,
-                arguments.monorepo,
-                arguments.history_mode,
-            )
-        }
-        (_, _, _) => {
-            bail!("Invalid combination of arguments.");
-        }
+        Ok(Commits::from_commit_message(commit_message))
+    } else {
+        let repository =
+            Repository::open_from_env().context("Unable to open the Git repository.")?;
+        Commits::from_git(
+            &repository,
+            arguments.from,
+            arguments.monorepo,
+            arguments.history_mode,
+        )
     }?;
+
     let expected_version =
         commits.get_next_version(arguments.from_version, arguments.calculation_mode);
 
