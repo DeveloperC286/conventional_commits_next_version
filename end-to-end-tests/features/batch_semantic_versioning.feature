@@ -3,14 +3,14 @@ Feature: The increments are batched together and the largest increment determine
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When the argument --from-commit-hash is provided as "<from_commit_hash>".
+    When linting from the "<commit_hash>".
     And the argument --from-version is provided as "<from_version>".
     And the argument --calculation-mode is provided as "batch".
     Then the returned version should be "<expected_version>".
 
 
     Examples:
-      | repository                                | checkout_commit                          | from_commit_hash                         | from_version | expected_version |
+      | repository                                | checkout_commit                          | commit_hash                              | from_version | expected_version |
       | https://github.com/yargs/yargs.git        | 089417550ef5a5b8ce3578dd2a989191300b64cd | 262e796329f4a09083ca07e49f926ae43ac850e9 | 0.2.1        | 0.2.2            |
       | https://github.com/yargs/yargs.git        | 027a6365b737e13116811a8ef43670196e1fa00a | 1f26de809432be9cc6f4f185629f6e5d13236598 | 0.2.3        | 0.3.0            |
       | https://github.com/yargs/yargs.git        | 18b0b752424bf560271e670ff95a0f90c8386787 | ecfc2c474575c6cdbc6d273c94c13181bd1dbaa6 | 1.0.3        | 1.1.0            |

@@ -23,24 +23,17 @@ impl Commits {
         }
     }
 
-    pub fn from_reference<T: AsRef<str>>(
+    pub fn from_git<T: AsRef<str>>(
         repository: &Repository,
-        reference: T,
+        git: T,
         commit_filters: Vec<String>,
         history_mode: HistoryMode,
     ) -> Result<Commits> {
-        let reference_oid = get_reference_oid(repository, reference.as_ref())?;
-        get_commits_till_head_from_oid(repository, reference_oid, commit_filters, history_mode)
-    }
+        let oid = parse_to_oid(repository, git.as_ref()).or_else(|error| {
+            get_reference_oid(repository, git.as_ref()).map_err(|e| error.context(e))
+        })?;
 
-    pub fn from_commit_hash<T: AsRef<str>>(
-        repository: &Repository,
-        commit_hash: T,
-        commit_filters: Vec<String>,
-        history_mode: HistoryMode,
-    ) -> Result<Commits> {
-        let commit_oid = parse_to_oid(repository, commit_hash.as_ref())?;
-        get_commits_till_head_from_oid(repository, commit_oid, commit_filters, history_mode)
+        get_commits_till_head_from_oid(repository, oid, commit_filters, history_mode)
     }
 
     pub fn get_next_version(
@@ -219,10 +212,7 @@ fn parse_to_oid(repository: &Repository, oid: &str) -> Result<Oid> {
 
                         None
                     }
-                    Err(error) => {
-                        error!("{:?}", error);
-                        None
-                    }
+                    Err(_) => None,
                 })
                 .collect();
 
