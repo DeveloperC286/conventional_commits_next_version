@@ -1,5 +1,39 @@
 # Changelog
 
+## 7.0.0 (2024-12-18)
+
+## What's Changed
+* refactor!: simplifying --git-history-mode naming/description by @DeveloperC286 in https://github.com/DeveloperC286/conventional_commits_next_version/pull/54
+* Refactor calculationmode casing agnostic by @DeveloperC286 in https://github.com/DeveloperC286/conventional_commits_next_version/pull/56
+* build: updating base Rust image by @DeveloperC286 in https://github.com/DeveloperC286/conventional_commits_next_version/pull/57
+* fix(deps): update rust crate clap to v4.5.20 by @renovate in https://github.com/DeveloperC286/conventional_commits_next_version/pull/37
+* fix(deps): update rust crate regex to v1.11.1 by @renovate in https://github.com/DeveloperC286/conventional_commits_next_version/pull/59
+* fix(deps): update rust crate anyhow to v1.0.93 by @renovate in https://github.com/DeveloperC286/conventional_commits_next_version/pull/58
+* ci: Alpine migration for pinning/updating all dependencies by @DeveloperC286 in https://github.com/DeveloperC286/conventional_commits_next_version/pull/61
+* ci: adding Renovate GitHub Workflow Earthly updating by @DeveloperC286 in https://github.com/DeveloperC286/conventional_commits_next_version/pull/67
+* chore(deps): update dependency alpine_3_20/python3 to v3.12.8-r1 by @renovate in https://github.com/DeveloperC286/conventional_commits_next_version/pull/72
+* chore(deps): update earthly/earthly docker tag to v0.8.15 by @renovate in https://github.com/DeveloperC286/conventional_commits_next_version/pull/68
+* ci: replacing missed Earthly download with action by @DeveloperC286 in https://github.com/DeveloperC286/conventional_commits_next_version/pull/73
+* build: converting to Rust's Alpine image by @DeveloperC286 in https://github.com/DeveloperC286/conventional_commits_next_version/pull/75
+* chore(deps): update dependency developerc286/conventional_commits_linter to v0.14.3 by @renovate in https://github.com/DeveloperC286/conventional_commits_next_version/pull/69
+* build: improved continuous delivery target naming by @DeveloperC286 in https://github.com/DeveloperC286/conventional_commits_next_version/pull/77
+* refactor: formatting end to end test features by @DeveloperC286 in https://github.com/DeveloperC286/conventional_commits_next_version/pull/78
+* fix(deps): update rust crate clap to v4.5.23 by @renovate in https://github.com/DeveloperC286/conventional_commits_next_version/pull/60
+* fix(deps): update rust crate semver to v1.0.24 by @renovate in https://github.com/DeveloperC286/conventional_commits_next_version/pull/79
+* fix(deps): update rust crate anyhow to v1.0.94 by @renovate in https://github.com/DeveloperC286/conventional_commits_next_version/pull/70
+* chore(deps): update dependency rhysd/actionlint to v1.7.4 by @renovate in https://github.com/DeveloperC286/conventional_commits_next_version/pull/65
+* chore(deps): update dependency google/yamlfmt to v0.14.0 by @renovate in https://github.com/DeveloperC286/conventional_commits_next_version/pull/63
+* chore(deps): update dependency mvdan/sh to v3.10.0 by @renovate in https://github.com/DeveloperC286/conventional_commits_next_version/pull/64
+* chore(deps): update dependency six to v1.17.0 by @renovate in https://github.com/DeveloperC286/conventional_commits_next_version/pull/71
+* feat!: from changed to singular positional argument by @DeveloperC286 in https://github.com/DeveloperC286/conventional_commits_next_version/pull/80
+* build: adding cargo --locked and removing --workspace by @DeveloperC286 in https://github.com/DeveloperC286/conventional_commits_next_version/pull/81
+* ci: removing Alpine Renovate version updating by @DeveloperC286 in https://github.com/DeveloperC286/conventional_commits_next_version/pull/82
+* ci: converting to publishing .tar.gz by @DeveloperC286 in https://github.com/DeveloperC286/conventional_commits_next_version/pull/83
+* docs: replacing git tag usage by @DeveloperC286 in https://github.com/DeveloperC286/conventional_commits_next_version/pull/84
+
+
+**Full Changelog**: https://github.com/DeveloperC286/conventional_commits_next_version/compare/v6.1.0...v7.0.0
+
 ## 6.1.0 (2024-10-19)
 
 ## What's Changed
