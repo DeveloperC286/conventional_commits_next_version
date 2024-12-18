@@ -150,7 +150,7 @@ conventional-commits-next-version-checking:
         # Get current version.
         - current_version=$(grep "^version = \"[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*\"$" "Cargo.toml" | cut -d '"' -f 2)
         # Get latest tag.
-        - latest_tag=$(git tag --sort=committerdate | tail -1)
+        - latest_tag=$(git describe --tags --abbrev=0)
         # Check current vs expected.
         - /usr/local/cargo/bin/conventional_commits_next_version --calculation-mode "Batch" --from-reference "${latest_tag}" --from-version "${latest_tag}" --current-version "${current_version}"
     rules:
@@ -173,7 +173,7 @@ conventional-commits-next-version-checking:
         # Get current version.
         - current_version=$(grep "^version = \"[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*\"$" "Cargo.toml" | cut -d '"' -f 2)
         # Get latest tag.
-        - latest_tag=$(git tag --sort=committerdate | tail -1)
+        - latest_tag=$(git describe --tags --abbrev=0)
         # Check current vs expected.
         - ./conventional_commits_next_version --calculation-mode "Batch" --from-reference "${latest_tag}" --from-version "${latest_tag}" --current-version "${current_version}"
     rules:
