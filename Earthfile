@@ -83,7 +83,7 @@ check-python-formatting:
 
 
 golang-base:
-    FROM golang:1.23.6@sha256:ec4ddbcdbb283410acc2073e68737daa39cbd99b7306d12e3335927c915f6c29
+    FROM golang:1.23.6@sha256:b2a6f50140dcd176e41f0033fcd0fbe0a3ac300fcbde75eaaef76e832cb02496
     WORKDIR "/conventional_commits_next_version"
 
 
