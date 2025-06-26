@@ -27,7 +27,7 @@ fn main() {
     trace!("The command line arguments provided are {arguments:?}.");
 
     if let Err(err) = run(arguments) {
-        error!("{:?}", err);
+        error!("{err:?}");
         std::process::exit(ERROR_EXIT_CODE);
     }
 }
