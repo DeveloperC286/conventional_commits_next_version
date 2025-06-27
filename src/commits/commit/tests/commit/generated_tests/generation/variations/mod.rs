@@ -1,14 +1,10 @@
 const PRECEDING_WHITESPACE_VARIATIONS: &[&str] = &["  ", " ", "\t", "\n", "\n\r"];
 const NON_PRECEDING_WHITESPACE_VARIATIONS: &[&str] = &[""];
 
-pub(super) fn get_preceding_whitespace_variations(
-    should_generate_preceding_whitespace: bool,
-) -> &'static [&'static str] {
-    match should_generate_preceding_whitespace {
-        true => PRECEDING_WHITESPACE_VARIATIONS,
-        false => NON_PRECEDING_WHITESPACE_VARIATIONS,
-    }
-}
+pub(super) const PRECEDING_VARIATIONS: &[&[&str]] = &[
+    PRECEDING_WHITESPACE_VARIATIONS,
+    NON_PRECEDING_WHITESPACE_VARIATIONS,
+];
 
 pub(super) const MAJOR_TITLE_COMMIT_TYPE_VARIATIONS: &[&str] =
     &["feat!", "fix!", "FIX!", "Build!", "Feat!"];
@@ -23,19 +19,14 @@ pub(super) const COMMIT_TYPE_VARIATIONS: &[&str] =
 const EMPTY_SCOPE_VARIATIONS: &[&str] = &["()", "(  )"];
 const NON_EMPTY_SCOPE_VARIATIONS: &[&str] = &["", "(i18n)", "(parser)", "(strict mode)"];
 
-pub(super) fn get_scope_variations(should_generate_empty_scope: bool) -> &'static [&'static str] {
-    match should_generate_empty_scope {
-        true => EMPTY_SCOPE_VARIATIONS,
-        false => NON_EMPTY_SCOPE_VARIATIONS,
-    }
-}
+pub(super) const SCOPE_VARIATIONS: &[&[&str]] =
+    &[EMPTY_SCOPE_VARIATIONS, NON_EMPTY_SCOPE_VARIATIONS];
 
-pub(super) fn get_after_type_variation(should_generate_space_after_type: bool) -> &'static str {
-    match should_generate_space_after_type {
-        true => " ",
-        false => "",
-    }
-}
+const SPACE_AFTER_TYPE_VARIATIONS: &[&str] = &[" "];
+const NO_SPACE_AFTER_TYPE_VARIATIONS: &[&str] = &[""];
+
+pub(super) const AFTER_TYPE_VARIATIONS: &[&[&str]] =
+    &[SPACE_AFTER_TYPE_VARIATIONS, NO_SPACE_AFTER_TYPE_VARIATIONS];
 
 const DESCRIPTION_VARIATIONS: &[&str] = &[
     "expose hideBin helper for CJS ",
@@ -45,26 +36,16 @@ const DESCRIPTION_VARIATIONS: &[&str] = &[
 ];
 const NON_DESCRIPTION_VARIATIONS: &[&str] = &["", "\t", "      "];
 
-pub(super) fn get_description_variations(
-    should_generate_description: bool,
-) -> &'static [&'static str] {
-    match should_generate_description {
-        true => DESCRIPTION_VARIATIONS,
-        false => NON_DESCRIPTION_VARIATIONS,
-    }
-}
+pub(super) const DESCRIPTION_VARIATIONS_LIST: &[&[&str]] =
+    &[DESCRIPTION_VARIATIONS, NON_DESCRIPTION_VARIATIONS];
 
-const DESCRIPTION_TERMINATION_VARIATIONS: &[&str] = &["\n\n"];
+pub(super) const DESCRIPTION_TERMINATION_VARIATIONS: &[&str] = &["\n\n"];
 const NON_DESCRIPTION_TERMINATION_VARIATIONS: &[&str] = &[""];
 
-pub(super) fn get_description_termination_variations(
-    should_generate_description_termination: bool,
-) -> &'static [&'static str] {
-    match should_generate_description_termination {
-        true => DESCRIPTION_TERMINATION_VARIATIONS,
-        false => NON_DESCRIPTION_TERMINATION_VARIATIONS,
-    }
-}
+pub(super) const DESCRIPTION_TERMINATION_VARIATIONS_LIST: &[&[&str]] = &[
+    DESCRIPTION_TERMINATION_VARIATIONS,
+    NON_DESCRIPTION_TERMINATION_VARIATIONS,
+];
 
 const BODY_VARIATIONS: &[&str] = &[
     "Helps license scanning tools like https://github.com/licensee/licensee\r\nto successfully detect that this is an MIT licensed project.",
@@ -75,12 +56,7 @@ const BODY_VARIATIONS: &[&str] = &[
 ];
 const NON_BODY_VARIATIONS: &[&str] = &["", "\n", "\n\n"];
 
-pub(super) fn get_body_variations(should_generate_body: bool) -> &'static [&'static str] {
-    match should_generate_body {
-        true => BODY_VARIATIONS,
-        false => NON_BODY_VARIATIONS,
-    }
-}
+pub(super) const BODY_VARIATIONS_LIST: &[&[&str]] = &[BODY_VARIATIONS, NON_BODY_VARIATIONS];
 
 pub(super) const MAJOR_FOOTER_VARIATIONS: &[&str] = &[
     "BREAKING CHANGE:\r\n\r\nremoved undocumented `defaults` alias for `default`.",
