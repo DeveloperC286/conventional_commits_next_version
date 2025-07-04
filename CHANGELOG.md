@@ -1,5 +1,13 @@
 # Changelog
 
+## 7.0.1 (2025-07-04)
+
+## What's Changed
+* build: simplifying Makefile by @DeveloperC286 in https://github.com/DeveloperC286/conventional_commits_next_version/pull/226
+
+
+**Full Changelog**: https://github.com/DeveloperC286/conventional_commits_next_version/compare/v7.0.0...v7.0.1
+
 ## 7.0.0 (2025-07-01)
 
 ## What's Changed
