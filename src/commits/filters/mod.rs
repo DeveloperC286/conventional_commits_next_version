@@ -69,7 +69,7 @@ impl Filters {
 
         if !self.commits_must_effect.is_empty() {
             let files_in_commit = get_all_files_changed_in_commit(repository, commit)?;
-            trace!(
+            debug!(
                 "Commit with the hash '{}' changes the files {files_in_commit:?}.",
                 commit.id(),
             );
@@ -83,7 +83,7 @@ impl Filters {
         for file_in_commit in files_in_commit {
             for filter in &self.commits_must_effect {
                 if file_in_commit.starts_with(filter) {
-                    trace!("The file {file_in_commit:?} affects the path {filter:?}.");
+                    debug!("The file {file_in_commit:?} affects the path {filter:?}.");
                     return true;
                 }
             }

@@ -47,7 +47,7 @@ impl Commit {
     pub(super) fn from_git(commit: &git2::Commit) -> Commit {
         let message = match commit.message().map(|m| m.to_string()) {
             Some(message) => {
-                trace!(
+                debug!(
                     "Found the commit message {message:?} for the commit with the hash '{}'.",
                     commit.id()
                 );
