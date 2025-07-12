@@ -20,7 +20,6 @@ A tooling and language agnostic utility to calculate the next semantic version b
    + [Usage - Consecutive Mode](#usage-consecutive-mode)
    + [Usage - Batch Mode](#usage-batch-mode)
    + [Usage - Git Environment Variables](#usage-git-environment-variables)
-   + [Usage - Logging](#usage-logging)
  * [CICD Examples](#cicd-examples)
    + [GitLab CI Rust Project Example](#gitlab-ci-rust-project-example)
      + [Via Cargo](#via-cargo)
@@ -125,12 +124,6 @@ The minor Semantic Versioning increment increases the initial semantic version f
 When looking for a repository the Git environment variables are respected.
 When `${GIT_DIR}` is set, it takes precedence and Conventional Commits Next Version begins searching for a repository in the directory specified in `${GIT_DIR}`.
 When `${GIT_DIR}` is not set, Conventional Commits Next Version searches for a repository beginning in the current directory.
-
-
-### Usage - Logging
-The crates `pretty_env_logger` and `log` are used to provide logging.
-The environment variable `RUST_LOG` can be used to set the logging level.
-See [https://crates.io/crates/pretty_env_logger](https://crates.io/crates/pretty_env_logger) for more detailed documentation.
 
 
 ## CICD Examples
