@@ -1,5 +1,18 @@
 # Changelog
 
+## 7.1.0 (2025-07-12)
+
+## What's Changed
+* build: simplifying Makefile by @DeveloperC286 in https://github.com/DeveloperC286/conventional_commits_next_version/pull/226
+* chore(deps): update mvdan/shfmt docker tag to v3.12.0 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/228
+* chore(deps): update dependency alpine_3_22/git to v2.49.1-r0 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/229
+* chore(deps): update dependency alpine_3_21/git to v2.47.3-r0 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/230
+* fix(deps): update rust crate clap to v4.5.41 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/231
+* feat: adding verbose CLI option by @DeveloperC286 in https://github.com/DeveloperC286/conventional_commits_next_version/pull/232
+
+
+**Full Changelog**: https://github.com/DeveloperC286/conventional_commits_next_version/compare/v7.0.0...v7.1.0
+
 ## 7.0.0 (2025-07-01)
 
 ## What's Changed
