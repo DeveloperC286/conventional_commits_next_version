@@ -15,22 +15,16 @@ A tooling and language agnostic utility to calculate the next semantic version b
  * __Flexible__ - Non-Conventional Commits are ignored when encountered, and the calculation continues.
 
 
-## Content
- * [Usage](#usage)
-   + [Usage - Consecutive Mode](#usage-consecutive-mode)
-   + [Usage - Batch Mode](#usage-batch-mode)
-   + [Usage - Git Environment Variables](#usage-git-environment-variables)
- * [CICD Examples](#cicd-examples)
-   + [GitLab CI Rust Project Example](#gitlab-ci-rust-project-example)
-     + [Via Cargo](#via-cargo)
-     + [Via Binary Download](#via-binary-download)
-   + [Git Hooks Rust Project Example](#git-hooks-rust-project-example)
- * [Downloading Binary](#downloading-binary)
- * [Compiling via Local Repository](#compiling-via-local-repository)
- * [Compiling via Cargo](#compiling-via-cargo)
- * [Unit Testing](#unit-testing)
- * [End-to-End Testing](#end-to-end-testing)
- * [Issues/Feature Requests](#issuesfeature-requests)
+- [Usage](#usage)
+  - [Usage - Consecutive Mode](#usage-consecutive-mode)
+  - [Usage - Batch Mode](#usage-batch-mode)
+- [Examples](#examples)
+  - [GitHub Actions](#github-actions)
+  - [GitLab CI](#gitlab-ci)
+- [Installation](#installation)
+  - [Binary](#binary)
+  - [Cargo](#cargo)
+  - [Docker](#docker)
 
 
 ## Usage
@@ -119,20 +113,32 @@ The minor Semantic Versioning increment increases the initial semantic version f
 15.3.0
 ```
 
+## Examples
+### GitHub Actions
+<!-- x-release-please-start-version -->
+```yaml
+conventional-commits-next-version-checking:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code.
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get current version.
+        id: current_version
+        run: echo "version=$(grep "^version = \"[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*\"$" "Cargo.toml" | cut -d '"' -f 2)" >> $GITHUB_OUTPUT
+      - name: Get latest tag.
+        id: latest_tag
+        run: echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
+      - name: Check current vs expected.
+        run: |
+          version="v1.0.4" && wget -O - "https://github.com/DeveloperC286/conventional_commits_next_version/releases/download/${version}/x86_64-unknown-linux-gnu.tar.gz" | tar xz --directory "/usr/bin/"
+          conventional_commits_next_version --calculation-mode "Batch" --from-reference "${{ steps.latest_tag.outputs.tag }}" --from-version "${{ steps.latest_tag.outputs.tag }}" --current-version "${{ steps.current_version.outputs.version }}"
+```
+<!-- x-release-please-end -->
 
-### Usage - Git Environment Variables
-When looking for a repository the Git environment variables are respected.
-When `${GIT_DIR}` is set, it takes precedence and Conventional Commits Next Version begins searching for a repository in the directory specified in `${GIT_DIR}`.
-When `${GIT_DIR}` is not set, Conventional Commits Next Version searches for a repository beginning in the current directory.
-
-
-## CICD Examples
-### GitLab CI Rust Project Example
-#### Via Cargo
-See [Compiling via Cargo](#compiling-via-cargo) for more details about installing via Cargo.
-
-__Note - This example downloads the latest `6.*` version.__
-
+### GitLab CI
+<!-- x-release-please-start-version -->
 ```yaml
 conventional-commits-next-version-checking:
     stage: conventional-commits-next-version-checking
@@ -149,74 +155,23 @@ conventional-commits-next-version-checking:
     rules:
         - if: $CI_MERGE_REQUEST_ID
 ```
+<!-- x-release-please-end -->
 
 
-#### Via Binary Download
-See [Downloading Binary](#downloading-binary) for more details about Binary downloads.
-
-__Note - This example downloads version `6.0.0`.__
-
-```yaml
-conventional-commits-next-version-checking:
-    stage: conventional-commits-next-version-checking
-    image: rust
-    before_script:
-        - wget -q -O tmp.zip "https://gitlab.com/DeveloperC/conventional_commits_next_version/-/jobs/artifacts/bin-6.0.0/download?job=release-binary-compiling-x86_64-linux-musl" && unzip tmp.zip && rm tmp.zip
-    script:
-        # Get current version.
-        - current_version=$(grep "^version = \"[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*\"$" "Cargo.toml" | cut -d '"' -f 2)
-        # Get latest tag.
-        - latest_tag=$(git describe --tags --abbrev=0)
-        # Check current vs expected.
-        - ./conventional_commits_next_version --calculation-mode "Batch" --from-reference "${latest_tag}" --from-version "${latest_tag}" --current-version "${current_version}"
-    rules:
-        - if: $CI_MERGE_REQUEST_ID
-```
-
-
-### Git Hooks Rust Project Example
-
-An example `commit-msg` Git hook to check if a Rust projects semantic version needs increased because of the commit message.
-
-```sh
-#!/usr/bin/env bash
-
-set -o errexit
-set -o pipefail
-
-commit_message=$(cat "${1}")
-
-# Get current version in the commit to be made.
-current_version=$(grep "^version = \"[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*\"$" "Cargo.toml" | cut -d '"' -f 2)
-# Get latest version on the remote HEAD.
-head_version=$(git show remotes/origin/HEAD:Cargo.toml | grep "^version = \"[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*\"$" "Cargo.toml" | cut -d '"' -f 2)
-
-# Check current commits version vs expected because of the new commit's message.
-echo "${commit_message}" | "${HOME}/.cargo/bin/conventional_commits_next_version" --from-stdin --from-version "${head_version}" --current-version "${current_version}"
-```
-
-
-## Downloading Binary
+## Installation
+### Binary
 Statically linked compiled binaries are available for download.
 Visit the releases page at [https://github.com/DeveloperC286/conventional_commits_next_version/releases](https://github.com/DeveloperC286/conventional_commits_next_version/releases) to see all the releases, the release notes contains links to binary downloads for various architectures.
 
 If you do not trust the provided binaries another option is to compile your own and then make it available for remote download, so your CICD etc can then download it.
 
-
-## Compiling via Local Repository
-Checkout the code repository locally, change into the repository's directory and then build via Cargo.
-Using the `--release` flag produces an optimised binary but takes longer to compile.
-
+<!-- x-release-please-start-version -->
 ```sh
-git clone git@github.com:DeveloperC286/conventional_commits_next_version.git
-cd conventional_commits_next_version/
-cargo build --release
+version="v1.0.4" && wget -O - "https://github.com/DeveloperC286/conventional_commits_next_version/releases/download/${version}/x86_64-unknown-linux-musl.tar.gz" | tar xz --directory "/usr/bin/"
 ```
+<!-- x-release-please-end -->
 
-The compiled binary is present in `target/release/conventional_commits_next_version`.
-
-
-## Compiling via Cargo
+### Cargo
 Cargo is the Rust package manager, the `install` sub-command pulls from [crates.io](https://crates.io/crates/conventional_commits_next_version) and then compiles the binary locally, placing the compiled binary at `${HOME}/.cargo/bin/conventional_commits_next_version`.
 
 ```sh
@@ -229,50 +184,16 @@ For certain environments such as CICD etc you may want to pin the version.
 
 E.g.
 
+<!-- x-release-please-start-version -->
 ```sh
 cargo install conventional_commits_next_version --version 6.0.0
 ```
+<!-- x-release-please-end -->
 
-Rather than pinning to a specific version you can specify the major or minor version.
+See [https://doc.rust-lang.org/cargo/commands/cargo-install.html#install-options](https://doc.rust-lang.org/cargo/commands/cargo-install.html#install-options) for more detailed documentation.
 
-E.g.
-
-```sh
-cargo install conventional_commits_next_version --version ^6
-```
-
-Will download the latest `6.*` release whether that is `6.0.2` or `6.2.0`.
-
-
-## Unit Testing
-The unit test suite has several parameterised tests testing the Conventional Commits v1.0.0 format parsing.
-Cargo is used to set up and run all the unit tests.
-
-```sh
-cargo test
-```
-
-
-## End-to-End Testing
-To ensure correctness as there are various out of process dependencies, the project has an End-to-End behaviour driven test suite using the Behave framework (https://github.com/behave/behave).
-
-To run the test suite you need to
- - Compile the Convention Commits Next Version binary.
- - Install Python3.
- - Install Behave.
- - Execute Behave.
-
-__Note - You can't use --release as the test suite uses `target/debug/conventional_commits_next_version`.__
-
-```sh
-cargo build
-cd conventional_commits_next_version/end-to-end-tests/
-virtualenv -p python3 .venv
-source .venv/bin/activate
-pip3 install -r requirements.txt
-behave
-```
-
+### Docker
+You can use the Docker image published to [ghcr.io/developerc286/conventional_commits_next_version](https://github.com/DeveloperC286/conventional_commits_next_version/pkgs/container/conventional_commits_next_version).
 
 ## Issues/Feature Requests
-To report an issue or request a new feature use [https://github.com/DeveloperC286/conventional_commits_next_version/issues](https://github.com/DeveloperC286/conventional_commits_next_version/issues).
+Report issues or request features on our [GitHub Issues](https://github.com/DeveloperC286/conventional_commits_next_version/issues).
