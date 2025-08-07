@@ -1,4 +1,4 @@
-FROM python:3.13.5-alpine3.21@sha256:763eee4b5cf4dfcfbf76a5a5f8177317ac531c635b855cdc5a95e17fe1e4a44d
+FROM python:3.13.6-alpine3.21@sha256:cff80330401ab70400dea97cb2a20c501febeb7ba4c1b6a4c374aacce27c5a7d
 RUN apk add --no-cache \
 	py3-autopep8=2.1.0-r1
 
