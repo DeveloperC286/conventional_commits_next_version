@@ -29,16 +29,16 @@ A tooling and language agnostic utility to calculate the next semantic version b
 
 ## Usage
 Conventional Commits Next Version can either operate upon a range of Git commits in the repositories' history or on a commit message provided by standard in.
-To provide a commit message by standard in simple add the flag `--from-stdin` and standard in will be read.
-Otherwise to specify the range of commits you can add either the `--from-commit-hash <commit-hash>` or `--from-reference <reference>` arguments.
+To provide a commit message by standard in, use a hyphen (`-`) as the final positional argument.
+Otherwise, to specify the range of commits, provide a commit reference (sha, tag, etc.) as the final positional argument.
 The range of commits starts exclusively from the commit specified till inclusively of `HEAD`.
 
 Any commits which conform to the Conventional Commits v1.0.0 specification are used to calculate the next Semantic Versioning, based upon the initial semantic version provided via the argument `--from-version <version>`.
 
-The only required arguments is `--from-version <version>` and any of `--from-stdin`, `--from-commit-hash <commit-hash>` or `--from-reference <reference>` arguments.
+The only required arguments are `--from-version <version>` and a final positional argument specifying either the commit reference (sha, tag, etc.) to start the calculation from, or a hyphen (`-`) to read from standard in.
 
 The next semantic version can be calculated using a variety of calculation modes.
-Currently there are two modes, consecutive and batch mode.
+Currently there are two modes: consecutive and batch mode.
 
 
 ### Usage - Consecutive Mode
@@ -52,7 +52,7 @@ E.g.
 git clone https://github.com/yargs/yargs.git
 cd yargs
 git checkout 6014e39bca3a1e8445aa0fb2a435f6181e344c45
-RUST_LOG=trace conventional_commits_next_version --from-commit-hash c36c571e4e15dfe26be1d919e4991fb6ab6ed9fd --from-version 15.2.0
+RUST_LOG=trace conventional_commits_next_version --from-version 15.2.0 c36c571e4e15dfe26be1d919e4991fb6ab6ed9fd
 ```
 
 Using the environment variable `RUST_LOG` we can enable more detailed logging, so we can see the logic of consecutive mode.
@@ -96,7 +96,7 @@ E.g.
 git clone https://github.com/yargs/yargs.git
 cd yargs
 git checkout 6014e39bca3a1e8445aa0fb2a435f6181e344c45
-RUST_LOG=trace conventional_commits_next_version --calculation-mode "Batch" --from-commit-hash c36c571e4e15dfe26be1d919e4991fb6ab6ed9fd --from-version 15.2.0
+RUST_LOG=trace conventional_commits_next_version --calculation-mode "Batch" --from-version 15.2.0 c36c571e4e15dfe26be1d919e4991fb6ab6ed9fd
 ```
 
 Using the environment variable `RUST_LOG` we can see more detailed logs, to see how batch mode behaves differently.
@@ -133,7 +133,7 @@ conventional-commits-next-version-checking:
       - name: Check current vs expected.
         run: |
           version="v1.0.4" && wget -O - "https://github.com/DeveloperC286/conventional_commits_next_version/releases/download/${version}/x86_64-unknown-linux-gnu.tar.gz" | tar xz --directory "/usr/bin/"
-          conventional_commits_next_version --calculation-mode "Batch" --from-reference "${{ steps.latest_tag.outputs.tag }}" --from-version "${{ steps.latest_tag.outputs.tag }}" --current-version "${{ steps.current_version.outputs.version }}"
+          conventional_commits_next_version --calculation-mode "Batch" --current-version "${{ steps.current_version.outputs.version }}" --from-version "${{ steps.latest_tag.outputs.tag }}" "${{ steps.latest_tag.outputs.tag }}"
 ```
 <!-- x-release-please-end -->
 
@@ -144,14 +144,14 @@ conventional-commits-next-version-checking:
     stage: conventional-commits-next-version-checking
     image: rust
     before_script:
-        - cargo install conventional_commits_next_version --version ^6
+        - cargo install conventional_commits_next_version --version ^7
     script:
         # Get current version.
         - current_version=$(grep "^version = \"[0-9][0-9]*.[0-9][0-9]*.[0-9][0-9]*\"$" "Cargo.toml" | cut -d '"' -f 2)
         # Get latest tag.
         - latest_tag=$(git describe --tags --abbrev=0)
         # Check current vs expected.
-        - /usr/local/cargo/bin/conventional_commits_next_version --calculation-mode "Batch" --from-reference "${latest_tag}" --from-version "${latest_tag}" --current-version "${current_version}"
+        - /usr/local/cargo/bin/conventional_commits_next_version --calculation-mode "Batch" --current-version "${current_version}" --from-version "${latest_tag}" "${latest_tag}"
     rules:
         - if: $CI_MERGE_REQUEST_ID
 ```
