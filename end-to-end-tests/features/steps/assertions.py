@@ -31,7 +31,7 @@ def assert_error_contains(result, error):
 
 
 def assert_error_matches_regex(result, regex):
-    assert regex.match(result.stderr) is not None, f"Expected standard error to match the regex.\n" + \
+    assert regex.match(result.stderr) is not None, "Expected standard error to match the regex.\n" + \
         f"Standard error = {result.stderr.encode()}.\n" + \
         f"Regex          = {regex.pattern.encode()}.\n"
 
@@ -43,6 +43,6 @@ def assert_error_is_one_of(result, errors):
 
 
 def assert_next_version(result, expected_next_version):
-    assert result.stdout == expected_next_version, f"The next version was not what was expected.\n" + \
+    assert result.stdout == expected_next_version, "The next version was not what was expected.\n" + \
         f"Expected = {expected_next_version}.\n" + \
         f"Actual   = {result.stdout}\n"
