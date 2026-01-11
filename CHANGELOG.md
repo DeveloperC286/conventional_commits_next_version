@@ -1,5 +1,15 @@
 # Changelog
 
+## 7.1.1 (2026-01-11)
+
+## What's Changed
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/357
+* chore(deps): update dependency https://github.com/developerc286/template to v1.6.3 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/359
+* chore(deps): update dependency https://github.com/developerc286/template to v1.6.4 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/360
+
+
+**Full Changelog**: https://github.com/DeveloperC286/conventional_commits_next_version/compare/v7.1.0...v7.1.1
+
 ## 7.1.0 (2026-01-03)
 
 ## What's Changed
