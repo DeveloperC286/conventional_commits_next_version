@@ -1,5 +1,22 @@
 # Changelog
 
+## 7.1.1 (2026-01-29)
+
+## What's Changed
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/357
+* chore(deps): update dependency https://github.com/developerc286/template to v1.6.3 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/359
+* chore(deps): update dependency https://github.com/developerc286/template to v1.6.4 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/360
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/361
+* chore(deps): update dependency https://github.com/developerc286/template to v1.7.2 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/362
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/363
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/364
+* chore(deps): update rust crate clap to v4.5.55 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/365
+* chore(deps): update alpine docker tag to v3.23.3 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/366
+* chore(deps): update rust crate clap to v4.5.56 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/367
+
+
+**Full Changelog**: https://github.com/DeveloperC286/conventional_commits_next_version/compare/v7.1.0...v7.1.1
+
 ## 7.1.0 (2026-01-03)
 
 ## What's Changed
