@@ -1,5 +1,36 @@
 # Changelog
 
+## 7.1.1 (2026-02-22)
+
+## What's Changed
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/357
+* chore(deps): update dependency https://github.com/developerc286/template to v1.6.3 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/359
+* chore(deps): update dependency https://github.com/developerc286/template to v1.6.4 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/360
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/361
+* chore(deps): update dependency https://github.com/developerc286/template to v1.7.2 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/362
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/363
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/364
+* chore(deps): update rust crate clap to v4.5.55 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/365
+* chore(deps): update alpine docker tag to v3.23.3 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/366
+* chore(deps): update rust crate clap to v4.5.56 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/367
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/368
+* chore(deps): update rust crate git2 to v0.20.4 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/369
+* chore(deps): update rust crate regex to v1.12.3 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/370
+* chore(deps): update rust crate clap to v4.5.57 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/371
+* chore(deps): update rust crate anyhow to v1.0.101 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/372
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/373
+* chore(deps): update rust crate clap to v4.5.58 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/374
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/375
+* chore(deps): update nix flake lock by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/376
+* chore(deps): update rust crate clap to v4.5.59 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/377
+* chore(deps): update rust crate clap to v4.5.60 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/378
+* chore(deps): update dependency https://github.com/developerc286/template to v1.7.5 by @DeveloperC286 in https://github.com/DeveloperC286/conventional_commits_next_version/pull/379
+* chore(deps): update rust crate anyhow to v1.0.102 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/380
+* fix(deps): update strum monorepo to 0.28.0 by @renovate[bot] in https://github.com/DeveloperC286/conventional_commits_next_version/pull/381
+
+
+**Full Changelog**: https://github.com/DeveloperC286/conventional_commits_next_version/compare/v7.1.0...v7.1.1
+
 ## 7.1.0 (2026-01-03)
 
 ## What's Changed
