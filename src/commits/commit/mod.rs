@@ -1,3 +1,4 @@
+use anyhow::{Context, Result};
 use regex::Regex;
 
 const OPTIONAL_PRECEDING_WHITESPACE: &str = "^([[:space:]])*";
@@ -44,27 +45,23 @@ impl Commit {
         }
     }
 
-    pub(super) fn from_git(commit: &git2::Commit) -> Commit {
-        let message = match commit.message().map(|m| m.to_string()) {
-            Some(message) => {
-                debug!(
-                    "Found the commit message {message:?} for the commit with the hash '{}'.",
+    pub(super) fn from_git(commit: &git2::Commit) -> Result<Commit> {
+        let message = commit
+            .message()
+            .with_context(|| {
+                format!(
+                    "Can not read the commit message for the commit with the hash '{}'.",
                     commit.id()
-                );
+                )
+            })?
+            .to_string();
 
-                message
-            }
-            None => {
-                warn!(
-                    "Can not find commit message for the commit with the hash '{}'.",
-                    commit.id()
-                );
+        trace!(
+            "Found the commit message {message:?} for the commit with the hash '{}'.",
+            commit.id()
+        );
 
-                String::new()
-            }
-        };
-
-        Commit { message }
+        Ok(Commit { message })
     }
 
     pub(super) fn is_major_increment(&self) -> bool {

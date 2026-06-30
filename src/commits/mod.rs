@@ -163,7 +163,7 @@ fn get_commits_till_head_from_oid(
         if is_commit_filtered_out {
             debug!("Commit with the hash {oid:?} is being filtered out.");
         } else {
-            let commit = Commit::from_git(&commit);
+            let commit = Commit::from_git(&commit)?;
             commits.push_front(commit);
         }
     }

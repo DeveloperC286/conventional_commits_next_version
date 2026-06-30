@@ -29,11 +29,11 @@ impl Filters {
                 // Root Commit
                 commit_tree.walk(TreeWalkMode::PostOrder, |directory, entry| {
                     match entry.name() {
-                        Some(name) => {
+                        Ok(name) => {
                             let file = format!("{directory}{name}");
                             files.insert(file);
                         }
-                        None => {
+                        Err(_) => {
                             warn!(
                                 "Commit with the hash '{}' has not valid utf-8 files.",
                                 commit.id()
