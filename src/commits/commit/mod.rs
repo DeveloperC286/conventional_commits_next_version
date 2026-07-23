@@ -1,4 +1,5 @@
 use anyhow::{Context, Result};
+use log::{debug, trace};
 use regex::Regex;
 
 const OPTIONAL_PRECEDING_WHITESPACE: &str = "^([[:space:]])*";

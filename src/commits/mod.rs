@@ -2,6 +2,7 @@ use std::collections::VecDeque;
 
 use anyhow::{bail, Context, Result};
 use git2::{Oid, Repository, Revwalk};
+use log::{debug, info};
 use semver::{BuildMetadata, Prerelease, Version};
 
 use crate::calculation_mode::CalculationMode;
