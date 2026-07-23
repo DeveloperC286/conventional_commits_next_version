@@ -1,6 +1,7 @@
 use std::collections::HashSet;
 
 use git2::{Repository, TreeWalkMode, TreeWalkResult};
+use log::{debug, warn};
 
 pub(super) struct Filters {
     commits_must_effect: Vec<String>,
