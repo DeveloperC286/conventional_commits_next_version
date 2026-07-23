@@ -3,7 +3,7 @@ use rstest::rstest;
 use super::*;
 
 macro_rules! filters {
-    ($filters:expr) => {
+    ($filters:expr_2021) => {
         Filters {
             commits_must_effect: $filters.iter().map(|filters| filters.to_string()).collect(),
         }
@@ -11,7 +11,7 @@ macro_rules! filters {
 }
 
 macro_rules! files {
-    ($files:expr) => {
+    ($files:expr_2021) => {
         $files.iter().map(|file| file.to_string()).collect()
     };
 }

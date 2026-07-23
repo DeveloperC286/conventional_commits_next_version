@@ -1,9 +1,9 @@
 #[macro_use]
 extern crate lazy_static;
 
-use std::io::{stdin, Read};
+use std::io::{Read, stdin};
 
-use anyhow::{bail, Context, Result};
+use anyhow::{Context, Result, bail};
 use clap::Parser;
 use git2::Repository;
 use log::{debug, error, info};
@@ -69,9 +69,13 @@ fn run(arguments: Arguments) -> Result<()> {
 
     if let Some(current_version) = arguments.current_version {
         if current_version < expected_version {
-            bail!(format!("The current version {current_version} is not larger or equal to the expected version {expected_version}."));
+            bail!(format!(
+                "The current version {current_version} is not larger or equal to the expected version {expected_version}."
+            ));
         }
-        info!("The current version {current_version} is larger or equal to the expected version {expected_version}.");
+        info!(
+            "The current version {current_version} is larger or equal to the expected version {expected_version}."
+        );
     } else {
         print!("{expected_version}");
     }
