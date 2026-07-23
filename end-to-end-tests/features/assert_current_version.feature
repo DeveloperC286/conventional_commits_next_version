@@ -3,7 +3,7 @@ Feature: The current version argument supplied is asserted to be equal or greate
 
   Scenario Outline: The current version assertion passes with batched together increments.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<commit_hash>".
+    When calculating from the "<commit_hash>".
     And the argument --from-version is provided as "<from_version>".
     And the argument --current-version is provided as "<current_version>".
     And the argument --calculation-mode is provided as "batch".
@@ -19,7 +19,7 @@ Feature: The current version argument supplied is asserted to be equal or greate
 
   Scenario Outline: The current version assertion fails with batched together increments.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<commit_hash>".
+    When calculating from the "<commit_hash>".
     And the argument --from-version is provided as "<from_version>".
     And the argument --current-version is provided as "<current_version>".
     And the argument --calculation-mode is provided as "batch".
@@ -34,7 +34,7 @@ Feature: The current version argument supplied is asserted to be equal or greate
 
   Scenario Outline: The current version assertion passes with consecutive increments.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<commit_hash>".
+    When calculating from the "<commit_hash>".
     And the argument --from-version is provided as "<from_version>".
     And the argument --current-version is provided as "<current_version>".
     Then the current version assertion passes.
@@ -48,7 +48,7 @@ Feature: The current version argument supplied is asserted to be equal or greate
 
   Scenario Outline: The current version assertion fails with consecutive increments.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<commit_hash>".
+    When calculating from the "<commit_hash>".
     And the argument --from-version is provided as "<from_version>".
     And the argument --current-version is provided as "<current_version>".
     Then the current version assertion fails.

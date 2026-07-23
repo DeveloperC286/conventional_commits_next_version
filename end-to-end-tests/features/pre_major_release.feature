@@ -3,12 +3,12 @@ Feature: Breaking changes for pre-major release semantic versions only increment
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<commit_hash>".
+    When calculating from the "<commit_hash>".
     And the argument --from-version is provided as "<post_major_release_from_version>".
     And the argument --calculation-mode is provided as "batch".
     Then the returned version should be "<post_major_release_expected_version>".
     Given the arguments are reset.
-    When linting from the "<commit_hash>".
+    When calculating from the "<commit_hash>".
     And the argument --from-version is provided as "<pre_major_release_from_version>".
     And the argument --calculation-mode is provided as "batch".
     Then the returned version should be "<pre_major_release_expected_version>".
@@ -21,11 +21,11 @@ Feature: Breaking changes for pre-major release semantic versions only increment
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<commit_hash>".
+    When calculating from the "<commit_hash>".
     And the argument --from-version is provided as "<post_major_release_from_version>".
     Then the returned version should be "<post_major_release_expected_version>".
     Given the arguments are reset.
-    When linting from the "<commit_hash>".
+    When calculating from the "<commit_hash>".
     And the argument --from-version is provided as "<pre_major_release_from_version>".
     Then the returned version should be "<pre_major_release_expected_version>".
 

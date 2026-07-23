@@ -3,7 +3,7 @@ Feature: Specifies how commits are parsed, acceptable values are 'first' to pars
 
   Scenario Outline: All the parents of merge commit's are parsed for their Git commit messages.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<commit_hash>".
+    When calculating from the "<commit_hash>".
     And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<default_expected_version>".
     When the argument --history-mode is provided as "all".
@@ -17,7 +17,7 @@ Feature: Specifies how commits are parsed, acceptable values are 'first' to pars
 
   Scenario Outline: Only the first parent of merge commit's are parsed for their Git commit messages.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<commit_hash>".
+    When calculating from the "<commit_hash>".
     And the argument --from-version is provided as "<from_version>".
     And the argument --history-mode is provided as "first".
     Then the returned version should be "<expected_version>".
@@ -30,7 +30,7 @@ Feature: Specifies how commits are parsed, acceptable values are 'first' to pars
 
   Scenario Outline: Only the first parent of merge commit's are parsed for their Git commit messages, by default.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<commit_hash>".
+    When calculating from the "<commit_hash>".
     And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
 

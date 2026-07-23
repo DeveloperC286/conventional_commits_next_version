@@ -3,11 +3,11 @@ Feature: The next semantic version is calculated only from commits altering file
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<commit_hash>".
+    When calculating from the "<commit_hash>".
     And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
     Given the arguments are reset.
-    When linting from the "<commit_hash>".
+    When calculating from the "<commit_hash>".
     And the argument --from-version is provided as "<from_version>".
     And the argument --monorepo is provided as "<monorepo>".
     Then the returned version should be "<monorepo_expected_version>".
@@ -20,11 +20,11 @@ Feature: The next semantic version is calculated only from commits altering file
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<commit_hash>".
+    When calculating from the "<commit_hash>".
     And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
     Given the arguments are reset.
-    When linting from the "<commit_hash>".
+    When calculating from the "<commit_hash>".
     And the argument --from-version is provided as "<from_version>".
     And the argument --monorepo is provided as "<monorepo_1>".
     And the argument --monorepo is provided as "<monorepo_2>".

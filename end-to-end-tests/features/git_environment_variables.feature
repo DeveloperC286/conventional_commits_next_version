@@ -3,7 +3,7 @@ Feature: Git environment variables are respected and used instead of using the c
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<commit_hash>".
+    When calculating from the "<commit_hash>".
     And the argument --from-version is provided as "<from_version>".
     And the argument --current-version is provided as "<current_version>".
     Then the current version assertion passes.
@@ -19,7 +19,7 @@ Feature: Git environment variables are respected and used instead of using the c
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<commit_hash>".
+    When calculating from the "<commit_hash>".
     And the argument --from-version is provided as "<from_version>".
     And the argument --current-version is provided as "<current_version>".
     Then the current version assertion fails.
@@ -35,7 +35,7 @@ Feature: Git environment variables are respected and used instead of using the c
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<reference>".
+    When calculating from the "<reference>".
     And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
     Given the GIT_DIR environment variable is set to the cloned repository.
@@ -49,7 +49,7 @@ Feature: Git environment variables are respected and used instead of using the c
 
   Scenario Outline: You can also provide the long name and partial names not just the short name.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<reference>".
+    When calculating from the "<reference>".
     And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
     Given the GIT_DIR environment variable is set to the cloned repository.

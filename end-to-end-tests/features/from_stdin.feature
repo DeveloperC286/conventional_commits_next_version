@@ -4,7 +4,7 @@ Feature: A commit message can be provided by standard input rather than from a r
   Scenario Outline:
     Given the context and environment are reset.
     When the argument --from-version is provided as "<from_version>".
-    When linting the "<commit_message>".
+    When calculating the "<commit_message>".
     Then the returned version should be "<expected_version>".
 
 

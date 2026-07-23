@@ -3,7 +3,7 @@ Feature: A Git reference can be provided as an argument to indicate where to sta
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<reference>".
+    When calculating from the "<reference>".
     And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
 
@@ -15,15 +15,15 @@ Feature: A Git reference can be provided as an argument to indicate where to sta
 
   Scenario Outline: You can also provide the long name and partial names not just the short name.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<full_reference>".
+    When calculating from the "<full_reference>".
     And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
     Given the arguments are reset.
-    When linting from the "<partial_reference>".
+    When calculating from the "<partial_reference>".
     And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
     Given the arguments are reset.
-    When linting from the "<short_reference>".
+    When calculating from the "<short_reference>".
     And the argument --from-version is provided as "<from_version>".
     Then the returned version should be "<expected_version>".
 
@@ -35,7 +35,7 @@ Feature: A Git reference can be provided as an argument to indicate where to sta
 
   Scenario Outline: When you provide an invalid reference a relevant error message is returned.
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<reference>".
+    When calculating from the "<reference>".
     And the argument --from-version is provided as "<from_version>".
     Then their is a could not find reference "<reference>" error.
 
