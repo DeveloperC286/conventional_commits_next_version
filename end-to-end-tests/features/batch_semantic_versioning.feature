@@ -3,7 +3,7 @@ Feature: The increments are batched together and the largest increment determine
 
   Scenario Outline:
     Given the repository "<repository>" is cloned and checked out at the commit "<checkout_commit>".
-    When linting from the "<commit_hash>".
+    When calculating from the "<commit_hash>".
     And the argument --from-version is provided as "<from_version>".
     And the argument --calculation-mode is provided as "batch".
     Then the returned version should be "<expected_version>".

@@ -2,18 +2,17 @@ import tempfile
 from behave import when
 
 
-@when('linting the "{commit_message}".')
-def set_linting_the(context, commit_message):
+@when('calculating the "{commit_message}".')
+def set_calculating_the(context, commit_message):
     context.commit_message = commit_message.strip()
     context.pre_command = f"echo -e {context.commit_message} | "
     context.from_ref = " \"-\""
     # Testing we can use stdin when not in a Git repository.
-    # https://gitlab.com/DeveloperC/conventional_commits_linter/-/issues/3
     context.remote_repository_cache = tempfile.mkdtemp()
 
 
-@when('linting from the "{git}".')
-def set_linting_from_the(context, git):
+@when('calculating from the "{git}".')
+def set_calculating_from_the(context, git):
     context.from_ref = f" \"{git}\""
 
 
