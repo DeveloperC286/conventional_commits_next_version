@@ -153,11 +153,13 @@ fn get_commits_till_head_from_oid(
 
     let revwalker = get_revwalker(repository, from_commit_hash, history_mode)?;
     let mut commits = VecDeque::new();
+    let mut commits_within_range = 0;
     let filters = Filters::from(commit_filters);
 
     for oid in revwalker {
         let oid = oid?;
         let commit = repository.find_commit(oid)?;
+        commits_within_range += 1;
 
         let is_commit_filtered_out = !filters.does_commit_effect(repository, &commit)?;
 
@@ -170,7 +172,14 @@ fn get_commits_till_head_from_oid(
     }
 
     if commits.is_empty() {
-        bail!("No Git commits within the provided range.");
+        if commits_within_range == 0 {
+            bail!("No Git commits within the provided range.");
+        }
+
+        bail!(
+            "All {commits_within_range} Git commits within the provided range were filtered out, none alter files starting with any of the provided --monorepo path prefixes {:?}.",
+            filters.commits_must_effect()
+        );
     }
 
     info!("Found {} commits within the provided range.", commits.len());

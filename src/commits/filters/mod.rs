@@ -14,6 +14,10 @@ impl Filters {
         }
     }
 
+    pub(super) fn commits_must_effect(&self) -> &[String] {
+        &self.commits_must_effect
+    }
+
     pub(super) fn does_commit_effect(
         &self,
         repository: &Repository,
