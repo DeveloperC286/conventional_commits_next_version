@@ -186,7 +186,7 @@ fn get_reference_oid(repository: &Repository, matching: &str) -> Result<Oid> {
     debug!(
         "Matched {:?} to the reference {:?}.",
         matching,
-        reference.name().unwrap()
+        reference.name().unwrap_or("<non-utf8>")
     );
     let commit = reference.peel_to_commit()?;
     Ok(commit.id())
