@@ -9,7 +9,7 @@ pub use crate::history_mode::HistoryMode;
 pub(crate) struct Arguments {
     #[arg(
         long,
-        help = "The the next semantic version is calculated only from commits altering files which match any of these provided regexes, enabling usage within monorepos."
+        help = "The next semantic version is calculated only from commits altering files which match any of these provided regexes, enabling usage within monorepos."
     )]
     pub(crate) monorepo: Vec<String>,
 
