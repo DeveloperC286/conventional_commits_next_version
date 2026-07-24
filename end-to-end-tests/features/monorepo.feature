@@ -1,4 +1,4 @@
-Feature: The next semantic version is calculated only from commits altering files which match any of these provided regexes, enabling usage within monorepos.
+Feature: The next semantic version is calculated only from commits altering files which start with any of these provided path prefixes, enabling usage within monorepos.
 
 
   Scenario Outline:
