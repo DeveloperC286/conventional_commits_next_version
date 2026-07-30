@@ -11,7 +11,7 @@ lazy_static! {
     static ref MAJOR_TITLE_INCREMENT_REGEX: Regex = Regex::new(
         format!(
             r"(?i){OPTIONAL_PRECEDING_WHITESPACE}({ANY_CHARACTER_REGEX})(!{}|{}!):",
-            &*OPTIONAL_SCOPE_REGEX, &*OPTIONAL_SCOPE_REGEX
+            *OPTIONAL_SCOPE_REGEX, *OPTIONAL_SCOPE_REGEX
         )
         .as_str()
     )
@@ -20,7 +20,7 @@ lazy_static! {
     static ref PATCH_INCREMENT_REGEX: Regex = Regex::new(
         format!(
             r"(?i){OPTIONAL_PRECEDING_WHITESPACE}fix{}:",
-            &*OPTIONAL_SCOPE_REGEX
+            *OPTIONAL_SCOPE_REGEX
         )
         .as_str()
     )
@@ -28,7 +28,7 @@ lazy_static! {
     static ref MINOR_INCREMENT_REGEX: Regex = Regex::new(
         format!(
             r"(?i){OPTIONAL_PRECEDING_WHITESPACE}feat{}:",
-            &*OPTIONAL_SCOPE_REGEX
+            *OPTIONAL_SCOPE_REGEX
         )
         .as_str()
     )
