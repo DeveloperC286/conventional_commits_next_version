@@ -1,7 +1,5 @@
 import re
-from behave import then
 
-from utilities import execute_conventional_commits_next_version
 from assertions import (
     assert_command_successful,
     assert_command_unsuccessful,
@@ -12,6 +10,8 @@ from assertions import (
     assert_no_errors,
     assert_no_output,
 )
+from behave import then
+from utilities import execute_conventional_commits_next_version
 
 
 @then('the returned version should be "{expected_next_version}".')
