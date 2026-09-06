@@ -39,7 +39,7 @@ anyhow = "1.0.89"
 
 [dev-dependencies]
 # For parameterized testing.
-rstest = "=0.26.1"
+rstest = "=0.27.0"
 
 [package.metadata.cargo-machete]
 ignored = ["strum"]
