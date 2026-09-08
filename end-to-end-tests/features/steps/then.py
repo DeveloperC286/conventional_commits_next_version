@@ -97,6 +97,18 @@ def assert_ambiguous_shortened_commit_hash_error(context, shortened_commit_hash)
     assert_error_matches_regex(result, ambiguous_shortened_commit_hash_error)
 
 
+@then('their is a all commits filtered out by the --monorepo path prefixes "{monorepo}" error.')
+def assert_all_commits_filtered_out_error(context, monorepo):
+    # Given
+    all_commits_filtered_out_error = re.compile(f"^ ERROR conventional_commits_next_version > All [0-9]+ Git commits within the provided range were filtered out, none alter files starting with any of the provided --monorepo path prefixes [[]\"{re.escape(monorepo)}\"[]].\n")  # fmt: off
+
+    # When/Then
+    result = assert_current_version_assertion_fails(context)
+
+    # Then
+    assert_error_matches_regex(result, all_commits_filtered_out_error)
+
+
 @then('their is a missing from argument error.')
 def assert_missing_from_argument_error(context):
     # Given
