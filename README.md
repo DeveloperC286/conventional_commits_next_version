@@ -132,7 +132,7 @@ conventional-commits-next-version-checking:
         run: echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
       - name: Check current vs expected.
         run: |
-          version="v7.1.0" && wget -O - "https://github.com/DeveloperC286/conventional_commits_next_version/releases/download/${version}/x86_64-unknown-linux-gnu.tar.gz" | tar xz --directory "/usr/bin/"
+          version="v7.1.1" && wget -O - "https://github.com/DeveloperC286/conventional_commits_next_version/releases/download/${version}/x86_64-unknown-linux-gnu.tar.gz" | tar xz --directory "/usr/bin/"
           conventional_commits_next_version --calculation-mode "Batch" --current-version "${{ steps.current_version.outputs.version }}" --from-version "${{ steps.latest_tag.outputs.tag }}" "${{ steps.latest_tag.outputs.tag }}"
 ```
 <!-- x-release-please-end -->
@@ -167,7 +167,7 @@ If you do not trust the provided binaries another option is to compile your own 
 
 <!-- x-release-please-start-version -->
 ```sh
-version="v7.1.0" && wget -O - "https://github.com/DeveloperC286/conventional_commits_next_version/releases/download/${version}/x86_64-unknown-linux-musl.tar.gz" | tar xz --directory "/usr/bin/"
+version="v7.1.1" && wget -O - "https://github.com/DeveloperC286/conventional_commits_next_version/releases/download/${version}/x86_64-unknown-linux-musl.tar.gz" | tar xz --directory "/usr/bin/"
 ```
 <!-- x-release-please-end -->
 
@@ -186,7 +186,7 @@ E.g.
 
 <!-- x-release-please-start-version -->
 ```sh
-cargo install conventional_commits_next_version --version 7.1.0
+cargo install conventional_commits_next_version --version 7.1.1
 ```
 <!-- x-release-please-end -->
 
